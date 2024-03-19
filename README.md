@@ -1,1 +1,1 @@
-# beta
+# histudy-nextjs
