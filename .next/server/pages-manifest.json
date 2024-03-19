@@ -3,5 +3,7 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/": "pages/index.js",
-  "/course-lesson": "pages/course-lesson.js"
+  "/course-lesson": "pages/course-lesson.js",
+  "/all-course": "pages/all-course.js",
+  "/404": "pages/404.js"
 }
