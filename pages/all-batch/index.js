@@ -5,12 +5,10 @@ import { Provider } from "react-redux";
 import Store from "@/redux/store";
 import MainDemo from "@/components/01-Main-Demo/01-Main-Demo";
 import HeaderStyleTen from "@/components/Header/HeaderStyle-Ten";
-// import Cart from ''
-// import Separator from
 import AllBatches from "@/components/AllBatch/allbatches";
 
-
 const AllBatch = () => {
+
     return (
         <>
             <PageHead title="Home - Online Courses & Education NEXTJS14 Template" />

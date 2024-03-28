@@ -29411,6 +29411,7 @@ blockquote.has-text-align-right cite,
 }
 
 .rbt-course-main-content .course-content-left {
+  width: 550px;
   display: flex;
   align-items: center;
 }

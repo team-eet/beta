@@ -17,9 +17,7 @@ const Home = () => {
 
       <Provider store={Store}>
         <Context>
-
-                {/*<CourseLesson />*/}
-
+            {/*<CourseLesson />*/}
           {/*<MobileMenu />*/}
           <HeaderStyleTen headerSticky="rbt-sticky" headerType="" />
           <MainDemo />

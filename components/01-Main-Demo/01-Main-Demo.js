@@ -21,6 +21,7 @@ import userImg from '../../public/images/about/eetgirl.png'
 // import userImg from '../../public/images/team/ebaaf5b9-a99a-4735-b898-bfc9e496ab78.jpeg'
 import API_KEY from '../../pages/constant'
 import Image from "next/image";
+import {EncryptData} from "@/components/services/encrypt-decrypt";
 
 const MainDemo = () => {
 
@@ -65,7 +66,7 @@ const MainDemo = () => {
     })
         .then(res => {
           if (res.data) {
-            console.log(res.data)
+            // console.log(res.data)
             if (res.data.length !== 0) {
               setbatchData(res.data)
               setbatchcount(res.data[0]['remain_batch_count'])
@@ -343,18 +344,18 @@ const MainDemo = () => {
                                  data-sal-duration="800">
                               <div className="rbt-card variation-01 rbt-hover card-list-2">
                                 <div className="rbt-card-img">
-                                  <a href="course-details.html">
+                                  <Link href={`/batch-details/${data.nCId}/${data.nTBId}`}>
                                     <img src={data.batchimg} alt="Card image"/>
-                                  </a>
+                                  </Link>
                                 </div>
                                 <div className="rbt-card-body">
                                   <div className="rbt-category">
                                     <a href="#">{data.sCategory}</a>
                                   </div>
                                   <h4 className="rbt-card-title">
-                                    <a href="course-details.html">
+                                    <Link href={`/batch-details/${data.nCId}/${data.nTBId}`}>
                                       {data.sCourseTitle}
-                                    </a>
+                                    </Link>
                                   </h4>
                                   <span className="lesson-number mb-1">By <span className={'text-dark'}><b>{data.sFName} {data.sLName}</b></span></span>
                                   <span className="lesson-number">{data.batchdays} days <span

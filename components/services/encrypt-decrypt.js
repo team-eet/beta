@@ -12,10 +12,14 @@ const EncryptData = (str) => {
     const key = Buffer.from(AesKey, bufferEncryption)
     const iv = Buffer.from(AesIV, bufferEncryption)
     const cipher = crypto.createCipheriv(encryptionType, key, iv)
+    // console.log(cipher)
+    // let a = cipher.update(val, bufferEncryption, encryptionEncoding)
     let encrypted = cipher.update(val, bufferEncryption, encryptionEncoding)
     encrypted += cipher.final(encryptionEncoding)
-    encrypted = encrypted.replace(/[/]/g, '_')
-    encrypted = encrypted.replace(/[+]/g, '-')
+    // encrypted = encrypted.replace(/[/]/g, '_')
+    // // encrypted = encrypted.replace(/[+]/g, '-')
+    encrypted = encrypted.replace(/\//g, '_').replace(/\+/g, '-');
+
     return encrypted
 }
 

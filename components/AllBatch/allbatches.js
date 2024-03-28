@@ -9,7 +9,7 @@ import { Row, Col } from 'reactstrap'
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import { useRouter } from "next/router";
-import PaginationBatch from "@/components/Common/Pagination";
+import Pagination from "@/components/Common/Pagination";
 
 const AllBatches = () => {
     const REACT_APP = API_URL
@@ -17,21 +17,19 @@ const AllBatches = () => {
     const [getbatchcount, setbatchcount] = useState(0)
     const [getcategoryData, setcategoryData] = useState([])
     const [getcategoryLevel, setcategoryLevel] = useState([])
-    const [showAllCategories, setShowAllCategories] = useState(false);
-    const maxVisibleCategories = 4
     const [gettutorList, settutorList ] = useState([])
     const [getshowFilter, setshowFilter] = useState(false)
     const [value, setValue] = useState([0, 400]);
-    const [getGridView, setGridView] = useState(false)
-    const [getListView, setListView] = useState(true)
     const [activeView, setActiveView] = useState('List');
     const router = useRouter()
-    const [page, setPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(0);
-    const [getrecordsPerPage, setrecordsPerPage] = useState(2);
 
-    const path = router.pathname;
+    const [currentPage, setCurrentPage] = useState(1);
+    const [recordsPerPage] = useState(2);
+    const indexOfLastRecord = currentPage * recordsPerPage;
+    const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
 
+    const currentRecords = getBatchData.slice(indexOfFirstRecord, indexOfLastRecord);
+    const nPages = Math.ceil(getBatchData.length / recordsPerPage)
 
     useEffect(() => {
         getCourse();
@@ -39,6 +37,7 @@ const AllBatches = () => {
         bindLevel();
         bindTutor();
     }, [])
+
     const getCourse = () => {
         Axios.get(`${REACT_APP.API_URL}/api/coursemain/GetBatchCoursesMem/0`, {
             headers: {
@@ -51,15 +50,6 @@ const AllBatches = () => {
                     if (res.data.length !== 0) {
                         setBatchData(res.data)
                         setbatchcount(res.data[0]['remain_course_count'])
-                        if(res.data.length > 5) {
-                            const indexOfFirstRecord = ((page - 1) * getrecordsPerPage) + 1
-                            const indexOfLastRecord = indexOfFirstRecord + getrecordsPerPage - 1
-                            const currentRecords = res.data.slice(indexOfFirstRecord - 1, indexOfLastRecord)
-                            setBatchData(currentRecords)
-                            setTotalPages(Math.ceil(getBatchData.length / getrecordsPerPage));
-                        }
-
-
                     }
                 }
             })
@@ -118,6 +108,7 @@ const AllBatches = () => {
                 { ErrorDefaultAlert(err) }
             })
     }
+
     const showFilter = () => {
         setshowFilter(true)
     }
@@ -127,20 +118,11 @@ const AllBatches = () => {
     const handleBatchView = (view) => {
         setActiveView(view);
     };
-    const handleClick = (num) => {
-        setPage(num);
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-        });
-    };
 
     return (
         <>
             <div className="rbt-page-banner-wrapper">
-
                 <div className="rbt-banner-image"></div>
-
                 <div className="rbt-banner-content">
                     <div className="rbt-banner-content-top">
                         <div className="container">
@@ -192,7 +174,7 @@ const AllBatches = () => {
                                             </ul>
                                         </div>
                                         <div className="rbt-short-item">
-                                            <span className="course-index">Showing 1-9 of 19 results</span>
+                                            <span className="course-index">Showing {indexOfFirstRecord + 1}-{indexOfLastRecord} of {getBatchData.length} results</span>
                                         </div>
                                     </div>
                                 </div>
@@ -244,16 +226,16 @@ const AllBatches = () => {
                                     <Col>
                                         <div className="filter-select-option">
                                             <div className="filter-select rbt-modern-select">
-                                                <span className="select-label d-block">Select Author</span>
+                                                <span className="select-label d-block">Select Tutor</span>
                                                 <select>
-                                                    <option>Janin Afsana</option>
-                                                    <option>Joe Biden</option>
-                                                    <option>Fatima Asrafy</option>
-                                                    <option>Aysha Baby</option>
-                                                    <option>Mohamad Ali</option>
-                                                    <option>Jone Li</option>
-                                                    <option>Alberd Roce</option>
-                                                    <option>Zeliski Noor</option>
+                                                    {gettutorList.map((data, index) => {
+                                                            return(
+                                                                <>
+                                                                    <option key={index} value={data.nRegId}>{data.sFName} {data.sLName}</option>
+                                                                </>
+                                                            )
+                                                        })
+                                                    }
                                                 </select>
                                             </div>
                                         </div>
@@ -263,9 +245,9 @@ const AllBatches = () => {
                                             <div className="filter-select rbt-modern-select">
                                                 <span className="select-label d-block">Short By Offer</span>
                                                 <select>
+                                                    <option>All</option>
                                                     <option>Free</option>
                                                     <option>Paid</option>
-                                                    <option>Premium</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -275,10 +257,14 @@ const AllBatches = () => {
                                             <div className="filter-select rbt-modern-select">
                                                 <span className="select-label d-block">Short By Category</span>
                                                 <select data-live-search="true">
-                                                    <option>Web Design</option>
-                                                    <option>Graphic</option>
-                                                    <option>App Development</option>
-                                                    <option>Figma Design</option>
+                                                    {getcategoryData.map((data, index) => {
+                                                        return(
+                                                            <>
+                                                                <option key={index} value={data.nCCId}>{data.sCategory}</option>
+                                                            </>
+                                                        )
+                                                        })
+                                                    }
                                                 </select>
                                             </div>
                                         </div>
@@ -347,29 +333,28 @@ const AllBatches = () => {
                 <div className="rbt-section-overlayping-top rbt-section-gapBottom">
                     <div className="container">
                         <div className="rbt-course-grid-column list-column-half active-list-view">
-                            {getBatchData && getBatchData.map((data, index) => {
+                            {currentRecords && currentRecords.map((data, index) => {
                                 const startHour = parseInt(data.sBatchStartTime[0])
                                 const endHour = parseInt(data.sBatchEndTime[0])
 
                                 // Calculate the difference in hours
                                 const hoursDifference = endHour - startHour
                                 return (
-                                    <>
-                                        <div className="col-lg-4 col-md-6 col-sm-6 col-12 mt-5">
+                                        <div className="col-lg-4 col-md-6 col-sm-6 col-12 mt-5" key={index}>
                                             <div className="rbt-card variation-01 rbt-hover" style={{ margin: '10px' }}>
                                                 <div className="rbt-card-img">
-                                                    <a href="course-details.html">
+                                                    <Link href={`/batch-details/${data.nCId}/${data.nTBId}`}>
                                                         <img src={data.batchimg} style={{ height: '300px' }} alt="Card image"/>
-                                                    </a>
+                                                    </Link>
                                                 </div>
                                                 <div className="rbt-card-body">
                                                     <div className="rbt-category">
                                                         <a href="#">{data.sCategory}</a>
                                                     </div>
                                                     <h4 className="rbt-card-title">
-                                                        <a href="course-details.html">
+                                                        <Link href={`/batch-details/${data.nCId}/${data.nTBId}`}>
                                                             {data.sCourseTitle}
-                                                        </a>
+                                                        </Link>
                                                     </h4>
 
                                                     <span className="lesson-number mb-1">By <span
@@ -433,7 +418,6 @@ const AllBatches = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                    </>
                                 )
                             })}
                         </div>
@@ -446,30 +430,29 @@ const AllBatches = () => {
 
                         <div className={`rbt-course-grid-column list-column-half active-list-view`}>
 
-                            {getBatchData && getBatchData.map((data, index) => {
+                            {currentRecords && currentRecords.map((data, index) => {
                                 const startHour = parseInt(data.sBatchStartTime[0])
                                 const endHour = parseInt(data.sBatchEndTime[0])
 
                                 // Calculate the difference in hours
                                 const hoursDifference = endHour - startHour
                                 return (
-                                    <>
-                                        <div className="course-grid-4" data-sal-delay="150" data-sal="data-up"
+                                        <div className="course-grid-4" key={index} data-sal-delay="150" data-sal="data-up"
                                              data-sal-duration="800">
                                             <div className="rbt-card variation-01 rbt-hover card-list-2">
                                                 <div className="rbt-card-img">
-                                                    <a href="course-details.html">
+                                                    <Link href={`/batch-details/${data.nCId}/${data.nTBId}`}>
                                                         <img src={data.batchimg} alt="Card image"/>
-                                                    </a>
+                                                    </Link>
                                                 </div>
                                                 <div className="rbt-card-body">
                                                     <div className="rbt-category">
                                                         <a href="#">{data.sCategory}</a>
                                                     </div>
                                                     <h4 className="rbt-card-title">
-                                                        <a href="course-details.html">
+                                                        <Link href={`/batch-details/${data.nCId}/${data.nTBId}`}>
                                                             {data.sCourseTitle}
-                                                        </a>
+                                                        </Link>
                                                     </h4>
                                                     <span className="lesson-number mb-1">By <span
                                                         className={'text-dark'}><b>{data.sFName} {data.sLName}</b></span></span>
@@ -548,7 +531,6 @@ const AllBatches = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                    </>
                                 )
                             })}
                         </div>
@@ -557,19 +539,14 @@ const AllBatches = () => {
                 </div>
             )}
 
-            {getBatchData.length > 2 ? (
-                <div className="row">
-                    <div className="col-lg-12 mt--60">
-                        <PaginationBatch
-                            nPages={totalPages}
-                            currentPage={page}
-                            handlePageChange={handleClick}
-                        />
-                    </div>
-                </div>
-            ) : (
-                ""
-            )}
+            <div>
+                <Pagination
+                    nPages={nPages}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                />
+            </div>
+
         </>
     );
 };
