@@ -1,5 +1,4 @@
 import Link from "next/link";
-
 import { useEffect, useState } from "react";
 
 import BlogData from "../../data/blog/blog.json";
@@ -22,6 +21,7 @@ const BlogGridMinimal = ({ isPagination, start, end }) => {
   };
 
   useEffect(() => {
+
     setBlogs(BlogData.blogGrid);
     setTotalPages(Math.ceil(BlogData.blogGrid.length / 9));
   }, [setTotalPages, setBlogs]);
@@ -32,9 +32,9 @@ const BlogGridMinimal = ({ isPagination, start, end }) => {
           selectedGridBlogs.slice(start, end).map((data, index) => (
             <div
               className="col-lg-4 col-md-6 col-sm-6 col-12 mt--30"
-              data-sal-delay="150"
-              data-sal="slide-up"
-              data-sal-duration="800"
+              // data-sal-delay="150"
+              // data-sal="slide-up"
+              // data-sal-duration="800"
               key={index}
             >
               <div className="rbt-card variation-02 rbt-hover card-minimal">

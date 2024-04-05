@@ -52,6 +52,7 @@ const Categories = () => {
               </div>
             </div>
           </div>
+
           <div className="row g-5 mt--30">
             <CategoryThree />
           </div>

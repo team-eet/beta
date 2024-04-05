@@ -6,7 +6,7 @@ import { Pagination } from "swiper/modules";
 
 import TestimonialData from "../../data/elements/testimonial.json";
 
-const TestimonialThree = () => {
+const TestimonialThree = ({ bgClass, designation, isStar,subTitleBg }) => {
   return (
     <>
       {TestimonialData &&
@@ -15,7 +15,7 @@ const TestimonialThree = () => {
             <div className="row">
               <div className="col-lg-12 mb--60">
                 <div className="section-title text-center">
-                  <span className="subtitle bg-primary-opacity">
+                  <span className={`subtitle ${subTitleBg}`}>
                     {data.tag}
                   </span>
                   <h2 className="title">{data.title}</h2>
@@ -76,7 +76,9 @@ const TestimonialThree = () => {
                   {data.body.map((item, innerIndex) => (
                     <SwiperSlide className="swiper-wrapper" key={innerIndex}>
                       <div className="swiper-slide">
-                        <div className="rbt-testimonial-box no-box-shadow bg-gray-light">
+                        <div
+                          className={`rbt-testimonial-box no-box-shadow ${bgClass}`}
+                        >
                           <div className="inner">
                             <div className="clint-info-wrapper">
                               <div className="thumb">
@@ -89,17 +91,37 @@ const TestimonialThree = () => {
                               </div>
                               <div className="client-info">
                                 <h5 className="title">{item.title}</h5>
-                                <span>
+                                <span className={`${designation}`}>
                                   {item.position} <i>{item.company}</i>
                                 </span>
                               </div>
                             </div>
                             <div className="description">
                               <p className="subtitle-3">{item.desc}</p>
-                              <Link className="rbt-btn-link" href="#">
-                                Read Project Case Study
-                                <i className="feather-arrow-right"></i>
-                              </Link>
+                              {isStar ? (
+                                <div className="rating mt--20">
+                                  <Link href="#">
+                                    <i className="fa fa-star"></i>
+                                  </Link>
+                                  <Link href="#">
+                                    <i className="fa fa-star"></i>
+                                  </Link>
+                                  <Link href="#">
+                                    <i className="fa fa-star"></i>
+                                  </Link>
+                                  <Link href="#">
+                                    <i className="fa fa-star"></i>
+                                  </Link>
+                                  <Link href="#">
+                                    <i className="fa fa-star"></i>
+                                  </Link>
+                                </div>
+                              ) : (
+                                <Link className="rbt-btn-link" href="#">
+                                  Read Project Case Study
+                                  <i className="feather-arrow-right"></i>
+                                </Link>
+                              )}
                             </div>
                           </div>
                         </div>

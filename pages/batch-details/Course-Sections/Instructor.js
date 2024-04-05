@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import img from '../../../public/images/testimonial/client-01.png'
+import img from '../../../public/images/client/blank-profile-picture-973460_1280.png'
 
 const Instructor = ({ checkMatchCourses, getFName, getLName }) => {
     // console.log(checkMatchCourses)
@@ -15,17 +15,20 @@ const Instructor = ({ checkMatchCourses, getFName, getLName }) => {
           <div className="media align-items-center">
             <div className="thumbnail">
               {/*<Link href={`/profile/${teacher.id}`}>*/}
-              <Link href={``}>
+
                 {/*<img src={img} width={250} height={250}></img>*/}
-                <Image
-                  src={img}
-                  width={250}
-                  height={250}
-                  alt="Author Images"
-                />
-              </Link>
+                {checkMatchCourses.tutor_image !== null ?
+                    <img src={checkMatchCourses.tutor_image} className={'rounded-circle shadow'} width={250} height={250}></img> :
+                    <Image
+                        src={img}
+                        className={'rounded-circle'}
+                        width={250}
+                        height={250}
+                        alt="Author Images"
+                    />}
+
             </div>
-            <div className="media-body">
+            <div className="media-body ms-4">
               <div className="author-info">
                 <h5 className="title text-start">
                   <Link

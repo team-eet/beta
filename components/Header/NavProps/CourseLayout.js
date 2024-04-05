@@ -1,7 +1,12 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 
 const CourseLayout = ({ MenuData, courseTitle, type, courseType, num }) => {
+  const router = useRouter();
+
+  const isActive = (href) => router.pathname === href;
+
   return (
     <>
       <div className="col-lg-12 col-xl-6 col-xxl-6 single-mega-item">
@@ -16,6 +21,7 @@ const CourseLayout = ({ MenuData, courseTitle, type, courseType, num }) => {
                       innerIndex < num && (
                         <li key={innerIndex}>
                           <Link
+                            className={isActive(value.link) ? "active" : ""}
                             href={value.coming ? "/maintenance" : value.link}
                           >
                             {value.title}
@@ -40,7 +46,10 @@ const CourseLayout = ({ MenuData, courseTitle, type, courseType, num }) => {
                   (value, innerIndex) =>
                     innerIndex > num && (
                       <li key={innerIndex}>
-                        <Link href={value.coming ? "/maintenance" : value.link}>
+                        <Link
+                          className={isActive(value.link) ? "active" : ""}
+                          href={value.coming ? "/maintenance" : value.link}
+                        >
                           {value.title}
                           {value.coming ? (
                             <span className="rbt-badge-card ms-3">

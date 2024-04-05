@@ -8,21 +8,21 @@
       "images": [
         {
           "id": 1,
-          "image": "/images/about/about-01.jpg",
+          "image": "/images/about/about-07.jpg",
           "class": "",
           "width": 366,
           "height": 490
         },
         {
           "id": 2,
-          "image": "/images/about/about-02.jpg",
+          "image": "/images/about/about-09.jpg",
           "class": "d-none d-xl-block",
           "width": 308,
           "height": 250
         },
         {
           "id": 3,
-          "image": "/images/about/about-03.jpg",
+          "image": "/images/about/about-08.jpg",
           "class": "d-none d-md-block",
           "width": 405,
           "height": 490
@@ -81,26 +81,14 @@
       ],
       "children": [
         {
-          "title": "Learn at Any time Anywhere",
+          "title": "Flexible Classes",
           "icon": "feather-heart",
           "isPrimary": false,
           "info": "It is a long established fact that a reader will be distracted by this on readable content of when looking at its layout."
         },
         {
-          "title": "Easy to Understand Content",
+          "title": "Learn From Anywhere",
           "icon": "feather-book",
-          "isPrimary": true,
-          "info": "Sed distinctio repudiandae eos recusandae laborum eaque non eius iure suscipit laborum eaque non eius iure suscipit."
-        },
-        {
-          "title": "TAT (Tutorial + Activities + Test)",
-          "icon": "feather-package",
-          "isPrimary": false,
-          "info": "Sed distinctio repudiandae eos recusandae laborum eaque non eius iure suscipit laborum eaque non eius iure suscipit."
-        },
-        {
-          "title": "Be a Certified Learner",
-          "icon": "feather-gift",
           "isPrimary": true,
           "info": "Sed distinctio repudiandae eos recusandae laborum eaque non eius iure suscipit laborum eaque non eius iure suscipit."
         }

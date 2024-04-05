@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import logo from "../../public/images/logo/logo.png";
+import logo from "../../public/images/logo/eetlogo 1.svg";
 
 import Nav from "./Nav";
 import { useAppContext } from "@/context/Context";
@@ -59,7 +59,7 @@ const MobileMenu = () => {
                 className="rbt-btn btn-border-gradient radius-round btn-sm hover-transform-none w-100 justify-content-center text-center"
                 href="#"
               >
-                <span>Enroll Now</span>
+                <span>Free Trial</span>
               </Link>
             </div>
 

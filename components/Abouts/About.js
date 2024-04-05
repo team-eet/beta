@@ -2,28 +2,54 @@ import Image from "next/image";
 import Link from "next/link";
 
 import AboutData from "../../data/elements/about.json";
+import { useParallax } from "react-scroll-parallax";
+
+import aboutImg7 from "../../public/images/about/about-07.jpg";
+import aboutImg8 from "../../public/images/about/about-08.jpg";
+import aboutImg9 from "../../public/images/about/about-09.jpg";
 
 const About = () => {
+  const { ref: ref1, style: style1 } = useParallax({
+    translateY: [0, -20],
+  });
+
+  const { ref: ref2, style: style2 } = useParallax({
+    translateY: [0, 20],
+  });
+
+  const { ref: ref3, style: style3 } = useParallax({
+    translateY: [0, 20],
+  });
   return (
     <div className="container">
       {AboutData.aboutOne.map((data, index) => (
         <div className="row g-5 align-items-center" key={index}>
           <div className="col-lg-6">
             <div className="thumbnail-wrapper">
-              {data.images.map((img) => (
-                <div
-                  className={`thumbnail image-${img.id} ${img.className}`}
-                  key={img.id}
-                >
-                  <Image
-                    data-parallax='{"x": 0, "y": -20}'
-                    src={img.image}
-                    width={img.width}
-                    height={img.height}
-                    alt="Education Images"
-                  />
-                </div>
-              ))}
+              <div className={`thumbnail image-1`} ref={ref1} style={style1}>
+                <Image
+                  src={aboutImg7}
+                  width={366}
+                  height={490}
+                  alt="Education Images"
+                />
+              </div>
+              <div className={`thumbnail image-2`} ref={ref2} style={style2}>
+                <Image
+                  src={aboutImg9}
+                  width={308}
+                  height={250}
+                  alt="Education Images"
+                />
+              </div>
+              <div className={`thumbnail image-3`} ref={ref3} style={style3}>
+                <Image
+                  src={aboutImg8}
+                  width={405}
+                  height={490}
+                  alt="Education Images"
+                />
+              </div>
             </div>
           </div>
           <div className="col-lg-6">

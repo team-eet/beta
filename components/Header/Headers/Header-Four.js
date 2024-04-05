@@ -11,7 +11,7 @@ import User from "../Offcanvas/User";
 import Search from "../Offcanvas/Search";
 
 const HeaderFour = ({ gapSpaceBetween, sticky, navigationEnd, container }) => {
-  const { mobile, setMobile, toggle, setToggle, cartToggle, setCart } =
+  const { mobile, setMobile, search, setSearch, cartToggle, setCart } =
     useAppContext();
   const [isSticky, setIsSticky] = useState(false);
   const { total_items } = useSelector((state) => state.CartReducer);
@@ -80,10 +80,10 @@ const HeaderFour = ({ gapSpaceBetween, sticky, navigationEnd, container }) => {
                 <li className="access-icon">
                   <Link
                     className={`search-trigger-active rbt-round-btn ${
-                      toggle ? "" : "open"
+                      search ? "" : "open"
                     }`}
-                    onClick={() => setToggle(!toggle)}
                     href="#"
+                    onClick={() => setSearch(!search)}
                   >
                     <i className="feather-search"></i>
                   </Link>

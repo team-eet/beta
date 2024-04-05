@@ -14,7 +14,10 @@ const CategoryOne = () => {
           const count = categoryCounts[item.category] || 0;
           return (
             <div className="col-lg-3 col-md-6 col-sm-6 col-12" key={innerIndex}>
-              <Link className="rbt-cat-box rbt-cat-box-1 text-center" href={`/course-filter-one-toggle/${item.category}`}>
+              <Link
+                className="rbt-cat-box rbt-cat-box-1 text-center"
+                href={`/course-filter-one-toggle/${item.category}`}
+              >
                 <div className="inner">
                   <div className="icons">
                     <Image

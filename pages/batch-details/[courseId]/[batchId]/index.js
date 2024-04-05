@@ -74,7 +74,7 @@ const SingleCourse = () => {
         .then(res => {
           if (res.data) {
             if (res.data.length !== 0) {
-              // console.log('Final Result', res.data)
+              console.log('Final Result', res.data)
               setbatchData(res.data)
               if (res.data[0].nTBId === null) {
                 setFirstName(res.data[0].sFName)
@@ -89,7 +89,7 @@ const SingleCourse = () => {
                 })
                     .then(res => {
                       if (res.data) {
-                        // console.log('Names', res.data)
+                        console.log('Names', res.data)
                         if (res.data.length !== 0) {
                           setFirstName(res.data[0].sFName)
                           setLastName(res.data[0].sLName)

@@ -539,8 +539,7 @@ const CourseLesson = () => {
                             </div>
                         </div>
 
-                        <div
-                            className="bg-color-extra2 ptb--15 overflow-hidden position-absolute bottom-0 start-0 end-0">
+                        <div className="bg-color-extra2 ptb--15 overflow-hidden position-absolute bottom-0 start-0 end-0">
                             <div className="rbt-button-group">
 
                                 <a className="rbt-btn icon-hover icon-hover-left btn-md bg-primary-opacity" href="#">

@@ -3264,3 +3264,48 @@ react-autosuggest__input {
 .cart-view{
     grid-template-columns: auto !important;
 }
+.otpInput{
+    width: 5rem !important;
+    height: 3rem;
+    margin: 0 5px 0 0;
+    font-size: 2rem;
+    text-align: center;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.profile-sample-photo img{
+    height: 90px !important;
+    margin-left: 20px;
+}
+.cover-sample-photo{
+    height: 300px !important;
+    width: 300px;
+}
+.thumbnail-preview img{
+    height: 300px;
+    width: 100%;
+}
+.css-clttge-MuiAutocomplete-root .MuiOutlinedInput-root {
+     padding: 0px !important;
+}
+.css-clttge-MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-input {
+     padding: 0px !important;
+     border: none !important;
+}
+.MuiAutocomplete-hasPopupIcon.css-clttge-MuiAutocomplete-root .MuiOutlinedInput-root, .MuiAutocomplete-hasClearIcon.css-clttge-MuiAutocomplete-root .MuiOutlinedInput-root {
+    padding-right: 39px;
+    height: 50px !important;
+}
+.css-p1olib-MuiAutocomplete-endAdornment {
+    position: absolute;
+    right: 0;
+    top: 50% !important;
+    transform: translate(0, -50%);
+}
+/*.custom-radio {*/
+/*    !* Define your custom size *!*/
+/*    width: 50px !important;*/
+/*    height: 50px !important;*/
+/*    !* You can also add additional styling such as border, background color, etc. *!*/
+/*}*/

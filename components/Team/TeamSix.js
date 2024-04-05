@@ -4,11 +4,15 @@ import Link from "next/link";
 import TeamData from "../../data/elements/team.json";
 import TeamHead from "./TeamHead";
 
-const TeamSix = () => {
+const TeamSix = ({ isHead }) => {
   return (
     <>
       <div className="container">
-        <TeamHead title="Team (Hover Style)." desc="Awesome Hover Style." />
+        {isHead === undefined ? (
+          <TeamHead title="Team (Hover Style)." desc="Awesome Hover Style." />
+        ) : (
+          ""
+        )}
         <div className="row row--15 mt_dec--30">
           {TeamData &&
             TeamData.team.slice(6, 10).map((data, index) => (

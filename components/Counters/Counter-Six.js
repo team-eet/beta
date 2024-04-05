@@ -9,21 +9,25 @@ const Odometer = dynamic(() => import("react-odometerjs"), {
   loading: () => <span>00</span>,
 });
 
-const CounterSix = () => {
+const CounterSix = ({ head }) => {
   const { values } = useFetch(CounterData, "counterSix");
   return (
     <>
       {CounterData &&
         CounterData.counterSix.map((data, index) => (
           <div className="container" key={index}>
-            <CounterHead
-              bgClass="bg-primary-opacity"
-              mb="mb--40"
-              tag={data.tag}
-              title={data.title}
-              subTitle={data.subTitle}
-              desc={data.desc}
-            />
+            {head == undefined ? (
+              <CounterHead
+                bgClass="bg-primary-opacity"
+                mb="mb--40"
+                tag={data.tag}
+                title={data.title}
+                subTitle={data.subTitle}
+                desc={data.desc}
+              />
+            ) : (
+              ""
+            )}
 
             <div className="row g-5">
               {data.body.map((item, innerIndex) => (
