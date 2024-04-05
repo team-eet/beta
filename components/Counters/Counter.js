@@ -11,7 +11,7 @@ const Odometer = dynamic(() => import("react-odometerjs"), {
   loading: () => <span>00</span>,
 });
 
-const Counter = ({ isDesc }) => {
+const Counter = ({ isDesc, head }) => {
   const { values } = useFetch(CounterData, "counterOne");
 
   return (
@@ -19,14 +19,18 @@ const Counter = ({ isDesc }) => {
       {CounterData &&
         CounterData.counterOne.map((data, index) => (
           <div className="container" key={index}>
-            <CounterHead
-              bgClass="bg-primary-opacity"
-              mb="mb--40"
-              tag={data.tag}
-              title={data.title}
-              subTitle={data.subTitle}
-              desc={isDesc ? data.desc : ""}
-            />
+            {head === undefined ? (
+              <CounterHead
+                bgClass="bg-primary-opacity"
+                mb="mb--40"
+                tag={data.tag}
+                title={data.title}
+                subTitle={data.subTitle}
+                desc={isDesc ? data.desc : ""}
+              />
+            ) : (
+              ""
+            )}
             <div className="row g-5 hanger-line">
               {data.body.map((item, innerIndex) => (
                 <div

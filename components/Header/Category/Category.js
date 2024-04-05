@@ -12,7 +12,7 @@ const Category = () => {
           </span>
           <i title="Category" className="feather-grid d-block d-xl-none"></i>
         </div>
-        <span className="category-text d-none d-xl-block">Course</span>
+        <span className="category-text d-none d-xl-block">Category</span>
       </div>
 
       <div className="update-category-dropdown">

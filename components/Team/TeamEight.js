@@ -8,14 +8,18 @@ import { Navigation, Pagination } from "swiper/modules";
 import TeamData from "../../data/elements/team.json";
 import TeamHead from "./TeamHead";
 
-const TeamEight = () => {
+const TeamEight = ({ head }) => {
   return (
     <>
       <div className="container">
-        <TeamHead
-          title="Team (Carousel Style)."
-          desc="Awesome Carousel Style."
-        />
+        {head === undefined ? (
+          <TeamHead
+            title="Team (Carousel Style)."
+            desc="Awesome Carousel Style."
+          />
+        ) : (
+          ""
+        )}
 
         <div className="row row--15">
           <div className="col-lg-12">
@@ -41,7 +45,7 @@ const TeamEight = () => {
                   slidesPerView: 2,
                 },
                 992: {
-                  slidesPerView: 3,
+                  slidesPerView: 4,
                 },
               }}
             >

@@ -1,27 +1,22 @@
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import sal from "sal.js";
 import CategoryOne from "../Category/CategoryOne";
 import MainDemoBanner from "./MainDemoBanner";
 import Card from "../Cards/Card";
 import AboutTwo from "../Abouts/About-Two";
-import CallToAction from "../Call-To-Action/CallToAction";
-import Counter from "../Counters/Counter";
+
 import TestimonialSeven from "../Testimonials/Testimonial-Seven";
 import EventCarouse from "../Events/EventCarouse";
-import TeamTwo from "../Team/TeamTwo";
-import BlogGridTop from "../Blogs/Blog-Sections/BlogGrid-Top";
 
-import BlogData from "../../data/blog/blog.json";
-import NewsletterTwo from "../Newsletters/Newsletter-Two";
 import API_URL from "@/pages/constant";
-import {useEffect, useState} from "react";
 import Axios from "axios";
 import { SuccessAlert, SuccessAlert2, ErrorDefaultAlert } from "@/components/services/SweetAlert";
-// import userImg from '../../public/images/course/course-single-01.jpg'
 import userImg from '../../public/images/about/eetgirl.png'
-// import userImg from '../../public/images/team/ebaaf5b9-a99a-4735-b898-bfc9e496ab78.jpeg'
 import API_KEY from '../../pages/constant'
 import Image from "next/image";
-import {EncryptData} from "@/components/services/encrypt-decrypt";
+
+import NewsletterTwo from "../Newsletters/Newsletter-Two";
 
 const MainDemo = () => {
 
@@ -30,13 +25,14 @@ const MainDemo = () => {
   const [getcoursecount, setcoursecount] = useState(0)
   const [getbatchData, setbatchData] = useState([])
   const [getbatchcount, setbatchcount] = useState(0)
-
-
   useEffect(() => {
+    sal({
+      threshold: 0.01,
+      once: true,
+    });
     getCourse();
     getBatch();
-    // console.log(REACT_APP.API_URL)
-  }, [])
+  }, []);
 
   const getCourse = () => {
     Axios.get(`${REACT_APP.API_URL}/api/coursemain/GetCoursesMem/1`, {
@@ -101,7 +97,7 @@ const MainDemo = () => {
 
               <div className="col-lg-6 col-xl-7">
                 <div className="section-title">
-                  <h2 className="title">What you'll learn</h2>
+                  <h2 className="title">What you will learn</h2>
                   <p className="b1 mt--15">Far far away, behind the word mountains, far from the
                     countries Vokalia and Consonantia.</p>
                 </div>
@@ -312,7 +308,6 @@ const MainDemo = () => {
           </div>
         </div>
 
-
         <div className="rbt-course-area bg-color-extra2 p-5">
           <div className="container">
             <div className="row mb--60">
@@ -332,14 +327,14 @@ const MainDemo = () => {
               <div className="">
                 <div className="container">
                   <div className="rbt-course-grid-column list-column-half active-list-view">
-                  {getbatchData && getbatchData.map((data, index) => {
-                    const startHour = parseInt(data.sBatchStartTime[0])
-                    const endHour = parseInt(data.sBatchEndTime[0])
+                    {getbatchData && getbatchData.map((data, index) => {
+                      const startHour = parseInt(data.sBatchStartTime[0])
+                      const endHour = parseInt(data.sBatchEndTime[0])
 
-                    // Calculate the difference in hours
-                    const hoursDifference = endHour - startHour
-                return (
-                    <>
+                      // Calculate the difference in hours
+                      const hoursDifference = endHour - startHour
+                      return (
+                          <>
                             <div className="course-grid-4" data-sal-delay="150" data-sal="data-up"
                                  data-sal-duration="800">
                               <div className="rbt-card variation-01 rbt-hover card-list-2">
@@ -357,11 +352,13 @@ const MainDemo = () => {
                                       {data.sCourseTitle}
                                     </Link>
                                   </h4>
-                                  <span className="lesson-number mb-1">By <span className={'text-dark'}><b>{data.sFName} {data.sLName}</b></span></span>
+                                  <span className="lesson-number mb-1">By <span
+                                      className={'text-dark'}><b>{data.sFName} {data.sLName}</b></span></span>
                                   <span className="lesson-number">{data.batchdays} days <span
                                       className="lesson-time">({data.batchdays * hoursDifference} hrs)</span></span>
                                   <p className="rbt-card-text m-0">
-                                    <span className={'mr-2'}>{new Date(data.batchstartdatenew).getDate()} {new Date(data.batchstartdatenew).toLocaleString('default', {month: 'short'})} - {new Date(data.dBatchEndDate).getDate()} {new Date(data.dBatchEndDate).toLocaleString('default', {month: 'short'})}</span>                                    |
+                                    <span
+                                        className={'mr-2'}>{new Date(data.batchstartdatenew).getDate()} {new Date(data.batchstartdatenew).toLocaleString('default', {month: 'short'})} - {new Date(data.dBatchEndDate).getDate()} {new Date(data.dBatchEndDate).toLocaleString('default', {month: 'short'})}</span> |
                                     <span className={'ms-2'}>{data.sBatchStartTime} to {data.sBatchEndTime}</span>
                                   </p>
                                   <p className="rbt-card-text font-14 m-0">
@@ -432,20 +429,21 @@ const MainDemo = () => {
                               </div>
                             </div>
 
-                    </>
-                )
-                  })}
+                          </>
+                      )
+                    })}
                   </div>
                 </div>
               </div>
             </div>
-            <div className="row mb-5">
-              <div className="col-lg-12">
-                <div className="load-more-btn mt--60 text-center">
-                  <Link
-                      className="rbt-btn btn-gradient btn-lg hover-icon-reverse"
-                      href="/all-batch"
-                  >
+            {getbatchcount > 3 ? <>
+              <div className="row mb-5">
+                <div className="col-lg-12">
+                  <div className="load-more-btn mt--60 text-center">
+                    <Link
+                        className="rbt-btn btn-gradient btn-lg hover-icon-reverse"
+                        href="/all-batch"
+                    >
                     <span className="icon-reverse-wrapper">
                       <span className="btn-text">Load More Batch ({getbatchcount})</span>
                       <span className="btn-icon">
@@ -455,13 +453,16 @@ const MainDemo = () => {
                         <i className="feather-arrow-right"></i>
                       </span>
                     </span>
-                  </Link>
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
+            </> : <>
+
+            </>}
+
           </div>
         </div>
-
 
         <div className={'container mt-5'}>
           <div className={'row'}>
@@ -490,7 +491,7 @@ const MainDemo = () => {
             </div>
             <div className={'col-lg-4 mt-3'}>
               <div className="rbt-service rbt-service-2 rbt-hover-02 bg-no-shadow card-bg-2">
-              <div className="inner">
+                <div className="inner">
                   <div className="content">
                     <h4 className="title"><a href="#">Be a Tutor</a></h4>
                     <p>Make your English proficiency a career.</p>
@@ -539,39 +540,7 @@ const MainDemo = () => {
             <AboutTwo/>
           </div>
         </div>
-
-        {/*<div className="rbt-callto-action-area mt_dec--half">*/}
-        {/*  <CallToAction/>*/}
-        {/*</div>*/}
-
-        {/*<div className="rbt-counterup-area bg-color-extra2 rbt-section-gapBottom default-callto-action-overlap">*/}
-        {/*  <div className="container">*/}
-        {/*    <Counter isDesc={false}/>*/}
-        {/*  </div>*/}
-        {/*</div>*/}
-
-        {/*<div className="rbt-testimonial-area bg-color-white rbt-section-gap overflow-hidden">*/}
-        {/*  <div className="wrapper">*/}
-        {/*    <div className="container">*/}
-        {/*      <div className="row">*/}
-        {/*        <div className="col-lg-12">*/}
-        {/*          <div className="section-title text-center mb--10">*/}
-        {/*            <span className="subtitle bg-primary-opacity">*/}
-        {/*              EDUCATION FOR EVERYONE*/}
-        {/*            </span>*/}
-        {/*            <h2 className="title">*/}
-        {/*              People like histudy education. <br/> No joking - here’s*/}
-        {/*              the proof!*/}
-        {/*            </h2>*/}
-        {/*          </div>*/}
-        {/*        </div>*/}
-        {/*      </div>*/}
-        {/*    </div>*/}
-        {/*  </div>*/}
-        {/*  <TestimonialSeven/>*/}
-        {/*</div>*/}
-
-        <div className="rbt-event-area rbt-section-gap bg-gradient-3 mt-5">
+        <div className="rbt-event-area rbt-section-gap bg-gradient-3">
           <div className="container">
             <div className="row mb--55">
               <div className="section-title text-center">
@@ -589,53 +558,6 @@ const MainDemo = () => {
           </div>
         </div>
 
-        {/*<div className="rbt-team-area bg-color-white rbt-section-gap">*/}
-        {/*  <div className="container">*/}
-        {/*    <div className="row mb--60">*/}
-        {/*      <div className="col-lg-12">*/}
-        {/*        <div className="section-title text-center">*/}
-        {/*          <span className="subtitle bg-primary-opacity">*/}
-        {/*            Our Teacher*/}
-        {/*          </span>*/}
-        {/*          <h2 className="title">Whose Inspirations You</h2>*/}
-        {/*        </div>*/}
-        {/*      </div>*/}
-        {/*    </div>*/}
-        {/*    <TeamTwo/>*/}
-        {/*  </div>*/}
-        {/*</div>*/}
-        
-        {/*<div className="rbt-rbt-blog-area rbt-section-gap bg-color-extra2">*/}
-        {/*  <div className="container">*/}
-        {/*    <div className="row g-5 align-items-center mb--30">*/}
-        {/*      <div className="col-lg-6 col-md-6 col-12">*/}
-        {/*        <div className="section-title">*/}
-        {/*          <span className="subtitle bg-pink-opacity">Blog Post</span>*/}
-        {/*          <h2 className="title">Post Popular Post.</h2>*/}
-        {/*        </div>*/}
-        {/*      </div>*/}
-        {/*      <div className="col-lg-6 col-md-6 col-12">*/}
-        {/*        <div className="read-more-btn text-start text-md-end">*/}
-        {/*          <Link*/}
-        {/*              className="rbt-btn btn-gradient hover-icon-reverse"*/}
-        {/*              href="/blog"*/}
-        {/*          >*/}
-        {/*            <div className="icon-reverse-wrapper">*/}
-        {/*              <span className="btn-text">See All Articles</span>*/}
-        {/*              <span className="btn-icon">*/}
-        {/*                <i className="feather-arrow-right"></i>*/}
-        {/*              </span>*/}
-        {/*              <span className="btn-icon">*/}
-        {/*                <i className="feather-arrow-right"></i>*/}
-        {/*              </span>*/}
-        {/*            </div>*/}
-        {/*          </Link>*/}
-        {/*        </div>*/}
-        {/*      </div>*/}
-        {/*    </div>*/}
-        {/*    <BlogGridTop BlogData={BlogData}/>*/}
-        {/*  </div>*/}
-        {/*</div>*/}
 
         <div className="rbt-newsletter-area newsletter-style-2 bg-color-primary rbt-section-gap">
           <NewsletterTwo/>

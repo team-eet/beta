@@ -1,6 +1,11 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const PageLayout = ({ MenuData, menuGrid, title, gridNumber }) => {
+  const router = useRouter();
+
+  const isActive = (href) => router.pathname === href;
+
   return (
     <div className="col-lg-12 col-xl-3 col-xxl-3 single-mega-item">
       <h3 className="rbt-short-title">{title}</h3>
@@ -12,10 +17,15 @@ const PageLayout = ({ MenuData, menuGrid, title, gridNumber }) => {
                 const elements = data.gridMenuItems1?.map(
                   (value, innerIndex) => (
                     <li key={innerIndex}>
-                      <Link href={value.coming ? "/maintenance" : value.link}>
+                      <Link
+                        className={isActive(value.link) ? "active" : ""}
+                        href={value.coming ? "/maintenance" : value.link}
+                      >
                         {value.title}
                         {value.coming ? (
-                          <span className="rbt-badge-card ms-3">{value.coming}</span>
+                          <span className="rbt-badge-card ms-3">
+                            {value.coming}
+                          </span>
                         ) : value.subTitle ? (
                           <span className="rbt-badge-card">
                             {value.subTitle}
@@ -35,7 +45,9 @@ const PageLayout = ({ MenuData, menuGrid, title, gridNumber }) => {
                       <Link href={value.coming ? "/maintenance" : value.link}>
                         {value.title}
                         {value.coming ? (
-                          <span className="rbt-badge-card ms-3">{value.coming}</span>
+                          <span className="rbt-badge-card ms-3">
+                            {value.coming}
+                          </span>
                         ) : value.subTitle ? (
                           <span className="rbt-badge-card">
                             {value.subTitle}
@@ -51,10 +63,15 @@ const PageLayout = ({ MenuData, menuGrid, title, gridNumber }) => {
               }
               const elements = data.gridMenuItems3?.map((value, innerIndex) => (
                 <li key={innerIndex}>
-                  <Link href={value.coming ? "/maintenance" : value.link}>
+                  <Link
+                    className={isActive(value.link) ? "active" : ""}
+                    href={value.coming ? "/maintenance" : value.link}
+                  >
                     {value.title}
                     {value.coming ? (
-                      <span className="rbt-badge-card ms-3">{value.coming}</span>
+                      <span className="rbt-badge-card ms-3">
+                        {value.coming}
+                      </span>
                     ) : value.subTitle ? (
                       <span className="rbt-badge-card">{value.subTitle}</span>
                     ) : (

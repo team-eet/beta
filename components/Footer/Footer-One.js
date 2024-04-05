@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import logo from "../../public/images/logo/logo.png";
+import logo from "../../public/images/logo/eetlogo 1.svg";
 
 import CopyRight from "./CopyRight";
 
@@ -97,8 +97,12 @@ const FooterOne = ({ bgColor }) => {
                         <p className="description">{footer.descriptionTwo}</p>
 
                         <div className="form-group right-icon icon-email mb--20">
-                          <label htmlFor="email">Enter Your Email Here</label>
-                          <input id="email" type="email" />
+                          {/* <label htmlFor="email">Enter Your Email Here</label> */}
+                          <input
+                            id="email"
+                            type="email"
+                            placeholder="Enter Your Email Here"
+                          />
                         </div>
 
                         <div className="form-group mb--0">

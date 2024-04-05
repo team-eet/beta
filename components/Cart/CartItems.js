@@ -19,7 +19,11 @@ const CartItems = ({ id, product, amount }) => {
       <td className="pro-thumbnail">
         <Link
           href={
-            product.title ? `/event-details/${id}` : `/course-details/${id}`
+            product.productType
+              ? `/single-product/${id}`
+              : product.title
+              ? `/event-details/${id}`
+              : `/course-details/${id}`
           }
         >
           <Image
@@ -33,7 +37,11 @@ const CartItems = ({ id, product, amount }) => {
       <td className="pro-title">
         <Link
           href={
-            product.title ? `/event-details/${id}` : `/course-details/${id}`
+            product.productType
+              ? `/single-product/${id}`
+              : product.title
+              ? `/event-details/${id}`
+              : `/course-details/${id}`
           }
         >
           {product.courseTitle || product.title}

@@ -414,100 +414,195 @@ const AllCourses = () => {
                                         return (
                                             <>
                                                 <div className="course-grid-3">
-                                                    <Link href={`/course-details/${data.nCId}`}>
+                                                    {data.bIsAccosiateModule === "no" ? <Link href={`/course-details/${data.nCId}`}>
                                                         <div className="rbt-card variation-01 rbt-hover">
-                                                        <div className="rbt-card-img">
-                                                            {/*<a href="course-details.html">*/}
+                                                            <div className="rbt-card-img">
+                                                                {/*<a href="course-details.html">*/}
                                                                 <img src={data.sImagePath}
                                                                      alt="Card image"/>
                                                                 {/*<div className="rbt-badge-3 bg-white">*/}
                                                                 {/*    <span>-40%</span>*/}
                                                                 {/*    <span>Off</span>*/}
                                                                 {/*</div>*/}
-                                                            {/*</a>*/}
-                                                        </div>
-                                                        <div className="rbt-card-body">
-                                                            <div className="rbt-card-top">
-                                                                <div className="rbt-review">
-                                                                    <div className="rating">
-                                                                        <i className="fas fa-star"></i>
-                                                                        <i className="fas fa-star"></i>
-                                                                        <i className="fas fa-star"></i>
-                                                                        <i className="fas fa-star"></i>
-                                                                        <i className="fas fa-star"></i>
-                                                                    </div>
-                                                                    ({data.user_rate_cnt} Reviews)
-                                                                </div>
-                                                                <div className="rbt-bookmark-btn">
-                                                                    <a className="rbt-round-btn" title="Bookmark"
-                                                                       href="#"><i
-                                                                        className="feather-bookmark"></i></a>
-                                                                </div>
-                                                            </div>
-
-                                                            <h4 className="rbt-card-title">
-                                                                {/*<a href="course-details.html">*/}
-                                                                    {data.sCourseTitle}
                                                                 {/*</a>*/}
-                                                            </h4>
-
-                                                            <ul className="rbt-meta">
-                                                                <li>
-                                                                    <i className="feather-book"></i>
-                                                                    {data.lesson_cnt} Lessons
-                                                                </li>
-                                                                <li>
-                                                                    <i className="feather-book"></i>
-                                                                    {data.section_cnt} Sections
-                                                                </li>
-                                                                <li>
-                                                                    <i className="feather-users"></i>
-                                                                    {data.enroll_cnt} Students
-                                                                </li>
-                                                            </ul>
-
-                                                            {data.sShortDesc.length > 165 ?
-                                                                <p className="rbt-card-text">{data.sShortDesc.substring(0, 110)}...</p> :
-                                                                <p className="rbt-card-text">{data.sShortDesc}</p>
-                                                            }
-                                                            <div className="rbt-author-meta mb--10">
-                                                                {/*<div className="rbt-avater">*/}
-                                                                {/*    <a href="#">*/}
-                                                                {/*        <img src="assets/images/client/avatar-02.png"*/}
-                                                                {/*             alt="Sophia Jaymes"/>*/}
-                                                                {/*    </a>*/}
-                                                                {/*</div>*/}
-                                                                <div className="rbt-author-info">
-                                                                    By <a
-                                                                    href="profile.html">{data.sFName} {data.sLName}</a> In <a
-                                                                    href="#">{data.sCategory}</a>
-                                                                </div>
                                                             </div>
-                                                            <div className="rbt-card-bottom">
-                                                                {data.bIsAccosiateModule === 'no' ? <>
-                                                                    <div className="rbt-price">
+                                                            <div className="rbt-card-body">
+                                                                <div className="rbt-card-top">
+                                                                    <div className="rbt-review">
+                                                                        <div className="rating">
+                                                                            <i className="fas fa-star"></i>
+                                                                            <i className="fas fa-star"></i>
+                                                                            <i className="fas fa-star"></i>
+                                                                            <i className="fas fa-star"></i>
+                                                                            <i className="fas fa-star"></i>
+                                                                        </div>
+                                                                        ({data.user_rate_cnt} Reviews)
+                                                                    </div>
+                                                                    <div className="rbt-bookmark-btn">
+                                                                        <a className="rbt-round-btn" title="Bookmark"
+                                                                           href="#"><i
+                                                                            className="feather-bookmark"></i></a>
+                                                                    </div>
+                                                                </div>
+
+                                                                <h4 className="rbt-card-title">
+                                                                    {/*<a href="course-details.html">*/}
+                                                                    {data.sCourseTitle}
+                                                                    {/*</a>*/}
+                                                                </h4>
+
+                                                                <ul className="rbt-meta">
+                                                                    <li>
+                                                                        <i className="feather-book"></i>
+                                                                        {data.lesson_cnt} Lessons
+                                                                    </li>
+                                                                    <li>
+                                                                        <i className="feather-book"></i>
+                                                                        {data.section_cnt} Sections
+                                                                    </li>
+                                                                    <li>
+                                                                        <i className="feather-users"></i>
+                                                                        {data.enroll_cnt} Students
+                                                                    </li>
+                                                                </ul>
+
+                                                                {data.sShortDesc.length > 165 ?
+                                                                    <p className="rbt-card-text">{data.sShortDesc.substring(0, 110)}...</p> :
+                                                                    <p className="rbt-card-text">{data.sShortDesc}</p>
+                                                                }
+                                                                <div className="rbt-author-meta mb--10">
+                                                                    {/*<div className="rbt-avater">*/}
+                                                                    {/*    <a href="#">*/}
+                                                                    {/*        <img src="assets/images/client/avatar-02.png"*/}
+                                                                    {/*             alt="Sophia Jaymes"/>*/}
+                                                                    {/*    </a>*/}
+                                                                    {/*</div>*/}
+                                                                    <div className="rbt-author-info">
+                                                                        By <a
+                                                                        href="profile.html">{data.sFName} {data.sLName}</a> In <a
+                                                                        href="#">{data.sCategory}</a>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="rbt-card-bottom">
+                                                                    {data.bIsAccosiateModule === 'no' ? <>
+                                                                        <div className="rbt-price">
                                                                     <span
                                                                         className="current-price">₹{data.dAmount}</span>
-                                                                        <span
-                                                                            className="off-price">₹{data.nCourseAmount}</span>
-                                                                    </div>
-                                                                    <a className="rbt-btn-link"
-                                                                       href="course-details.html">Learn More<i
-                                                                        className="feather-arrow-right"></i></a>
-                                                                </> : <>
-                                                                    <div className="read-more-btn m-auto">
-                                                                        <a className="rbt-moderbt-btn" href="#">
-                                                                            <span className="moderbt-btn-text">View Packages</span>
-                                                                            <i className="feather-arrow-right"></i>
-                                                                        </a>
-                                                                    </div>
-                                                                </>}
+                                                                            <span
+                                                                                className="off-price">₹{data.nCourseAmount}</span>
+                                                                        </div>
+                                                                        <a className="rbt-btn-link"
+                                                                           href="course-details.html">Learn More<i
+                                                                            className="feather-arrow-right"></i></a>
+                                                                    </> : <>
+                                                                        <div className="read-more-btn m-auto">
+                                                                            <a className="rbt-moderbt-btn" href="#">
+                                                                                <span className="moderbt-btn-text">View Packages</span>
+                                                                                <i className="feather-arrow-right"></i>
+                                                                            </a>
+                                                                        </div>
+                                                                    </>}
 
 
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    </Link>
+                                                    </Link> : <>
+                                                        <Link href={`/course-details-module/${data.nCId}`}>
+                                                            <div className="rbt-card variation-01 rbt-hover">
+                                                                <div className="rbt-card-img">
+                                                                    {/*<a href="course-details.html">*/}
+                                                                    <img src={data.sImagePath}
+                                                                         alt="Card image"/>
+                                                                    {/*<div className="rbt-badge-3 bg-white">*/}
+                                                                    {/*    <span>-40%</span>*/}
+                                                                    {/*    <span>Off</span>*/}
+                                                                    {/*</div>*/}
+                                                                    {/*</a>*/}
+                                                                </div>
+                                                                <div className="rbt-card-body">
+                                                                    <div className="rbt-card-top">
+                                                                        <div className="rbt-review">
+                                                                            <div className="rating">
+                                                                                <i className="fas fa-star"></i>
+                                                                                <i className="fas fa-star"></i>
+                                                                                <i className="fas fa-star"></i>
+                                                                                <i className="fas fa-star"></i>
+                                                                                <i className="fas fa-star"></i>
+                                                                            </div>
+                                                                            ({data.user_rate_cnt} Reviews)
+                                                                        </div>
+                                                                        <div className="rbt-bookmark-btn">
+                                                                            <a className="rbt-round-btn" title="Bookmark"
+                                                                               href="#"><i
+                                                                                className="feather-bookmark"></i></a>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <h4 className="rbt-card-title">
+                                                                        {/*<a href="course-details.html">*/}
+                                                                        {data.sCourseTitle}
+                                                                        {/*</a>*/}
+                                                                    </h4>
+
+                                                                    <ul className="rbt-meta">
+                                                                        <li>
+                                                                            <i className="feather-book"></i>
+                                                                            {data.lesson_cnt} Lessons
+                                                                        </li>
+                                                                        <li>
+                                                                            <i className="feather-book"></i>
+                                                                            {data.section_cnt} Sections
+                                                                        </li>
+                                                                        <li>
+                                                                            <i className="feather-users"></i>
+                                                                            {data.enroll_cnt} Students
+                                                                        </li>
+                                                                    </ul>
+
+                                                                    {data.sShortDesc.length > 165 ?
+                                                                        <p className="rbt-card-text">{data.sShortDesc.substring(0, 110)}...</p> :
+                                                                        <p className="rbt-card-text">{data.sShortDesc}</p>
+                                                                    }
+                                                                    <div className="rbt-author-meta mb--10">
+                                                                        {/*<div className="rbt-avater">*/}
+                                                                        {/*    <a href="#">*/}
+                                                                        {/*        <img src="assets/images/client/avatar-02.png"*/}
+                                                                        {/*             alt="Sophia Jaymes"/>*/}
+                                                                        {/*    </a>*/}
+                                                                        {/*</div>*/}
+                                                                        <div className="rbt-author-info">
+                                                                            By <a
+                                                                            href="profile.html">{data.sFName} {data.sLName}</a> In <a
+                                                                            href="#">{data.sCategory}</a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="rbt-card-bottom">
+                                                                        {data.bIsAccosiateModule === 'no' ? <>
+                                                                            <div className="rbt-price">
+                                                                    <span
+                                                                        className="current-price">₹{data.dAmount}</span>
+                                                                                <span
+                                                                                    className="off-price">₹{data.nCourseAmount}</span>
+                                                                            </div>
+                                                                            <a className="rbt-btn-link"
+                                                                               href="course-details.html">Learn More<i
+                                                                                className="feather-arrow-right"></i></a>
+                                                                        </> : <>
+                                                                            <div className="read-more-btn m-auto">
+                                                                                <a className="rbt-moderbt-btn" href="#">
+                                                                                    <span className="moderbt-btn-text">View Packages</span>
+                                                                                    <i className="feather-arrow-right"></i>
+                                                                                </a>
+                                                                            </div>
+                                                                        </>}
+
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </Link>
+                                                    </>}
                                                 </div>
                                             </>
                                         )

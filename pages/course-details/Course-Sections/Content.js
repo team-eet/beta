@@ -84,9 +84,7 @@ const Content = () => {
                         <li>
                           <Link href="/lesson">
                             <div className="course-content-left">
-
                                 <i className="feather-play-circle"></i>
-
                               <span className="text">{list.sLessionTitle}</span>
                             </div>
                             {/*{list.status ? (*/}

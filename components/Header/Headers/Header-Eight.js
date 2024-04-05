@@ -49,32 +49,28 @@ const HeaderEight = ({
                 <div className="logo">
                   <Link href="/">
                     <Image
-                        src={logo}
-                        width={152}
-                        height={50}
-                        priority={true}
-                        alt="Education Logo Images"
+                      src={logo}
+                      width={152}
+                      height={50}
+                      priority={true}
+                      alt="Education Logo Images"
                     />
                   </Link>
                 </div>
               </div>
 
-              <div className="header-info d-none d-lg-block">
-                <Category/>
-              </div>
-              <div className="header-info d-none d-lg-block">
-                <Category/>
-              </div>
+              {/*<div className="header-info d-none d-lg-block">*/}
+              {/*  <Category />*/}
+              {/*</div>*/}
             </div>
 
             <div className="rbt-main-navigation d-none d-xl-block">
-              <Nav/>
+              <Nav />
             </div>
-
             <HeaderRightTwo
-              userType="Admin"
-              btnText="Enroll Now"
-              btnClass="rbt-marquee-btn marquee-auto btn-border-gradient radius-round btn-sm hover-transform-none"
+              userType="Login"
+              btnText="Free Trial"
+              btnClass="radius-round btn-sm hover-transform-none"
             />
           </div>
         </div>

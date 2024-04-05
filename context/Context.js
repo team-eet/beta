@@ -14,6 +14,10 @@ const Context = ({ children }) => {
   const [search, setSearch] = useState(true);
   const [mobile, setMobile] = useState(true);
   const [smallMobileMenu, setsmallMobileMenu] = useState(true);
+  const [pricing, setPricing] = useState(true);
+  const [pricingTwo, setPricingTwo] = useState(true);
+  const [pricingThree, setPricingThree] = useState(true);
+  const [pricingFour, setPricingFour] = useState(true);
 
   useEffect(() => {
     dispatch({ type: "COUNT_CART_TOTALS" });
@@ -32,6 +36,14 @@ const Context = ({ children }) => {
         setCart,
         search,
         setSearch,
+        pricing,
+        setPricing,
+        pricingTwo,
+        setPricingTwo,
+        pricingThree,
+        setPricingThree,
+        pricingFour,
+        setPricingFour,
       }}
     >
       {children}

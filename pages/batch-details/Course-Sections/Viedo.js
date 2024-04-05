@@ -165,25 +165,31 @@ const Viedo = ({ checkMatchCourses }) => {
 
   return (
     <>
-      <Link
-        className={`video-popup-with-text video-popup-wrapper text-center popup-video sidebar-video-hidden mb--15 ${
-          hideOnScroll ? "d-none" : ""
-        }`}
-        data-vbtype="video"
-        href={`${checkMatchCourses.sVideoURL !== "" ? checkMatchCourses.sVideoURL : ""}`}
+
+      {checkMatchCourses.sVideoPath !== null ? <Link
+          className={`video-popup-with-text video-popup-wrapper text-center popup-video sidebar-video-hidden mb--15 ${
+              hideOnScroll ? "d-none" : ""
+          }`}
+          data-vbtype="video"
+          href={`${checkMatchCourses.sVideoURL}`}
       >
         <div className="video-content">
           <img src={checkMatchCourses.sImagePath} height={255} width={355}></img>
-        <div className="position-to-top">
+          <div className="position-to-top">
             <span className="rbt-btn rounded-player-2 with-animation">
               <span className="play-icon"></span>
             </span>
-        </div>
-        <span className="play-view-text d-block color-white">
+          </div>
+
+          <span className="play-view-text d-block color-white">
             <i className="feather-eye"></i> Preview this course
           </span>
         </div>
-      </Link>
+      </Link> : <div className={`video-content ${
+          hideOnScroll ? "d-none" : ""}`}>
+        <img src={checkMatchCourses.sImagePath} height={255} width={355}></img>
+      </div>}
+
       <div className="content-item-content">
         <div className="rbt-price-wrapper d-flex flex-wrap align-items-center justify-content-between">
           <div className="rbt-price">

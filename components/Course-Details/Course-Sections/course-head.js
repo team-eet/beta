@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import CourseBreadcrumbTwo from "./CourseBreadcrumb-Two";
 
 const CourseHead = ({ checkMatch, getFname, getLname, getstdcnt }) => {
+  console.log(checkMatch)
   const router = useRouter();
   const path = router.pathname;
 

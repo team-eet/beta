@@ -20,7 +20,7 @@ input {
 
 select {
     transition: 0.3s;
-    height: 60px;
+    height: 50px;
     line-height: 28px;
     padding: 10px 20px;
     outline: none;
@@ -257,7 +257,7 @@ input[type="radio"] {
 
 
 .form-group {
-    margin-bottom: 20px;
+    //margin-bottom: 20px;
     display: inline-block;
 
     input {

@@ -1,9 +1,10 @@
 import Link from "next/link";
+import Separator from "../Common/Separator";
 
 const CopyRight = () => {
   return (
     <>
-      {/*<Separator />*/}
+      <Separator />
       <div className="copyright-area copyright-style-1 ptb--20">
         <div className="container">
           <div className="row align-items-center">

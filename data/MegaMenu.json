@@ -51,8 +51,7 @@
           "id": 5,
           "link": "/14-home-elegant",
           "title": "Home Elegant",
-          "img": "/images/splash/demo/h14.jpg",
-          "badget": "Coming Soon"
+          "img": "/images/splash/demo/h14.jpg"
         },
         {
           "id": 6,
@@ -65,58 +64,50 @@
           "id": 7,
           "link": "/03-online-school",
           "title": "Online School",
-          "img": "/images/splash/demo/h3.jpg",
-          "badget": "Coming Soon"
+          "img": "/images/splash/demo/h3.jpg"
         },
         {
           "id": 8,
           "link": "/06-university-status",
           "title": "University Status",
-          "img": "/images/splash/demo/h6.jpg",
-          "badget": "Coming Soon"
+          "img": "/images/splash/demo/h6.jpg"
         },
         {
           "id": 9,
           "link": "/15-home-technology",
           "title": "Home Technology",
-          "img": "/images/splash/demo/h15.jpg",
-          "badget": "Coming Soon"
+          "img": "/images/splash/demo/h15.jpg"
         },
         {
           "id": 10,
           "link": "/07-instructor-portfolio",
           "title": "Instructor Portfolio",
-          "img": "/images/splash/demo/h7.jpg",
-          "badget": "Coming Soon"
+          "img": "/images/splash/demo/h7.jpg"
         },
         {
           "id": 11,
           "link": "/08-language-academy",
           "title": "Language Academy",
-          "img": "/images/splash/demo/h8.jpg",
-          "badget": "Coming Soon"
+          "img": "/images/splash/demo/h8.jpg"
         },
         {
           "id": 12,
           "link": "/11-single-course",
           "title": "Single Course",
-          "img": "/images/splash/demo/h11.jpg",
-          "badget": "Coming Soon"
+          "img": "/images/splash/demo/h11.jpg"
         },
         {
           "id": 13,
           "link": "/10-online-course",
           "title": "Online Course",
-          "img": "/images/splash/demo/h10.jpg",
-          "badget": "Coming Soon"
+          "img": "/images/splash/demo/h10.jpg"
         },
 
         {
           "id": 15,
           "link": "/02-course-school",
           "title": "Course School",
-          "img": "/images/splash/demo/h2.jpg",
-          "badget": "Coming Soon"
+          "img": "/images/splash/demo/h2.jpg"
         },
 
         {
@@ -183,33 +174,27 @@
         },
         {
           "title": "Course With Tab",
-          "link": "/course-with-tab",
-          "coming": "Coming"
+          "link": "/course-with-tab"
         },
         {
           "title": "Course With Tab Two",
-          "link": "/course-with-tab-two",
-          "coming": "Coming"
+          "link": "/course-with-tab-two"
         },
         {
           "title": "Course Card Two",
-          "link": "/course-card-2",
-          "coming": "Coming"
+          "link": "/course-card-2"
         },
         {
           "title": "Course Card Three",
-          "link": "/course-card-3",
-          "coming": "Coming"
+          "link": "/course-card-3"
         },
         {
           "title": "Course Masonry",
-          "link": "/course-masonry",
-          "coming": "Coming"
+          "link": "/course-masonry"
         },
         {
           "title": "Course With Sidebar",
-          "link": "/course-with-sidebar",
-          "coming": "Coming"
+          "link": "/course-with-sidebar"
         },
         {
           "title": "Course Details",
@@ -217,18 +202,17 @@
         },
         {
           "title": "Course Details Two",
-          "link": "/course-details-2",
-          "coming": "Coming"
+          "link": "/course-details-2"
         },
         {
           "title": "Course Lesson",
-          "link": "/course-lesson"
+          "link": "/lesson",
+          "subTitle": "New"
         },
         {
-          "title": "Course Lesson",
+          "title": "Create Course",
           "link": "/create-course",
-          "subTitle": "New",
-          "coming": "Coming"
+          "subTitle": "New"
         }
       ]
     },
@@ -343,8 +327,7 @@
         },
         {
           "title": "About Us 02",
-          "link": "/pages/about-us-02",
-          "coming": "Coming"
+          "link": "/pages/about-us-02"
         },
         {
           "title": "Event Grid",
@@ -356,8 +339,7 @@
         },
         {
           "title": "Event Sidebar",
-          "link": "/pages/event-sidebar",
-          "coming": "Coming"
+          "link": "/pages/event-sidebar"
         },
         {
           "title": "Event Details",
@@ -365,13 +347,11 @@
         },
         {
           "title": "Academy Gallery",
-          "link": "/pages/academy-gallery",
-          "coming": "Coming"
+          "link": "/pages/academy-gallery"
         },
         {
           "title": "Admission Guide",
-          "link": "/pages/admission-guide",
-          "coming": "Coming"
+          "link": "/pages/admission-guide"
         }
       ],
       "gridMenuItems2": [
@@ -412,13 +392,11 @@
         {
           "title": "Shop",
           "link": "/shop",
-          "badgeText": "Sale Anything",
-          "coming": "Coming"
+          "badgeText": "Sale Anything"
         },
         {
           "title": "Single Product",
-          "link": "/single-product",
-          "coming": "Coming"
+          "link": "/single-product"
         },
         {
           "title": "Cart Page",
@@ -430,23 +408,19 @@
         },
         {
           "title": "Wishlist Page",
-          "link": "/wishlist",
-          "coming": "Coming"
+          "link": "/wishlist"
         },
         {
           "title": "My Account",
-          "link": "/my-account",
-          "coming": "Coming"
+          "link": "/my-account"
         },
         {
           "title": "Login & Register",
-          "link": "/login",
-          "coming": "Coming"
+          "link": "/login"
         },
         {
           "title": "Subscription",
-          "link": "/subscription",
-          "coming": "Coming"
+          "link": "/subscription"
         }
       ],
       "gridMenuItems4": [
