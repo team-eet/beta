@@ -1,0 +1,83 @@
+{
+  "siderbar": [
+    {
+      "link": "/become-a-tutor/basics",
+      "text": "Basics",
+      "icon": "feather-home",
+      "pending": "feather-clock",
+      "approved": "feather-check-circle",
+      "disapproved": "feather-x-circle"
+    },
+    {
+      "link": "/become-a-tutor/profile-photo",
+      "text": "Profile Photo",
+      "icon": "feather-user",
+      "pending": "feather-clock",
+      "approved": "feather-check-circle",
+      "disapproved": "feather-x-circle"    },
+    {
+      "link": "/become-a-tutor/cover-photo",
+      "text": "Cover Photo",
+      "icon": "feather-user",
+      "pending": "feather-clock",
+      "approved": "feather-check-circle",
+      "disapproved": "feather-x-circle"
+    },
+    {
+      "link": "/become-a-tutor/education",
+      "text": "Education",
+      "icon": "feather-book-open",
+      "pending": "feather-clock",
+      "approved": "feather-check-circle",
+      "disapproved": "feather-x-circle"
+    },
+    {
+      "link": "/become-a-tutor/certification",
+      "text": "Certification",
+      "icon": "feather-bookmark",
+      "pending": "feather-clock",
+      "approved": "feather-check-circle",
+      "disapproved": "feather-x-circle"
+    },
+    {
+      "link": "/become-a-tutor/teaching-experience",
+      "text": "Teaching Experience",
+      "icon": "feather-star",
+      "pending": "feather-clock",
+      "approved": "feather-check-circle",
+      "disapproved": "feather-x-circle"
+    },
+    {
+      "link": "/become-a-tutor/description",
+      "text": "Description",
+      "icon": "feather-help-circle",
+      "pending": "feather-clock",
+      "approved": "feather-check-circle",
+      "disapproved": "feather-x-circle"
+    },
+    {
+      "link": "/become-a-tutor/intro-video",
+      "text": "Intro Video",
+      "icon": "feather-shopping-bag",
+      "pending": "feather-clock",
+      "approved": "feather-check-circle",
+      "disapproved": "feather-x-circle"
+    },
+    {
+      "link": "/become-a-tutor/interest",
+      "text": "Interests",
+      "icon": "feather-monitor",
+      "pending": "feather-clock",
+      "approved": "feather-check-circle",
+      "disapproved": "feather-x-circle"
+    },
+    {
+      "link": "/become-a-tutor/time-availability",
+      "text": "Time Availability",
+      "icon": "feather-volume-2",
+      "pending": "feather-clock",
+      "approved": "feather-check-circle",
+      "disapproved": "feather-x-circle"
+    }
+  ]
+}
