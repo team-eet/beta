@@ -72,7 +72,7 @@ const Search = () => {
     })
         .then(res => {
           if (res.data.length !== 0) {
-            console.log(res.data)
+            // console.log(res.data)
             // this.setState({ batchresult: res.data })
             setbatchresult(res.data)
             // console.log(this.state.batchresult)

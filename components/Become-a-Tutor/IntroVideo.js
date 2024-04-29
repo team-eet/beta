@@ -1,10 +1,27 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import img from "@/public/images/others/thumbnail-placeholder.svg";
 import Link from "next/link";
 import ReactPlayer from 'react-player'
+import * as Yup from 'yup'
+import {Formik, ErrorMessage, Form} from 'formik'
+import Axios from 'axios'
+import {ErrorDefaultAlert} from "@/components/services/SweetAlert";
+import {useRouter} from "next/router";
+import {Alert, FormGroup} from "reactstrap";
+import API_URL from "@/pages/constant";
 
+
+const UserValidationSchema = Yup.object().shape({
+  // sIntroVideoPath: Yup.string()
+  //     .required('This field is required')
+  // sIntroVideoUrl: Yup.string()
+  //     .required('This field is required')
+})
 const IntroVideo = () => {
-  const [file, setFile] = useState();
+  const REACT_APP = API_URL
+  const router = useRouter();
+  const [IntroVideo, setIntroVideo] = useState('');
+  const [videoUrl, setvideoUrl] = useState('')
 
   const [thumbnail, setthumbnail] = useState();
   function handleChangeThumbnail(e) {
@@ -29,21 +46,19 @@ const IntroVideo = () => {
       }
     })
   }
+  const [video, setVideo] = useState('')
   const handleChange = (event) => {
     const fileext = ['video/mp4']
     if (event.target.files[0].size < 1000000000) {
       if (fileext.includes(event.target.files[0].type)) {
         getBase64(event.target.files[0])
             .then(result => {
-              // promovideo = result
+              setVideo(result)
             })
             .catch(err => {
 
             })
-          setFile(URL.createObjectURL(event.target.files[0]))
-        // this.setState({
-        //   videofile: URL.createObjectURL(event.target.files[0])
-        // })
+        setIntroVideo(URL.createObjectURL(event.target.files[0]))
       } else {
         alert("Only select video file type")
       }
@@ -51,95 +66,197 @@ const IntroVideo = () => {
       alert("Please upload file less than 100MB")
     }
   };
+  const [regId, setregId] = useState('')
+  const [verifySts, setverifySts] = useState()
+
+  useEffect(() => {
+    if (localStorage.getItem('userData')) {
+      setregId(JSON.parse(localStorage.getItem('userData')).regid)
+    }
+
+    Axios.get(`${REACT_APP.API_URL}/api/TutorVerify/GetTutorVerify/${JSON.parse(localStorage.getItem('userData')).regid}`, {
+      headers: {
+        ApiKey: `${REACT_APP.API_KEY}`
+      }
+    })
+        .then(res => {
+          // console.log("GetTutorVerify",res.data)
+          if (res.data.length !== 0) {
+            setverifySts(res.data[0].sIntroVideo_verify)
+          }
+        })
+        .catch(err => {
+          { ErrorDefaultAlert(err) }
+        })
+
+    Axios.get(`${REACT_APP.API_URL}/api/TutorBasics/GetTutorDetails/${JSON.parse(localStorage.getItem('userData')).regid}`, {
+      headers: {
+        ApiKey: `${REACT_APP.API_KEY}`
+      }
+    })
+        .then(res => {
+          console.log(res.data)
+          setVideo(res.data[0]['sIntroVideoPath'])
+          setvideoUrl(res.data[0]['sIntroVideoUrl'])
+        })
+        .catch(err => {
+          { ErrorDefaultAlert(err) }
+        })
+  }, []);
+
+  const handleChangeURL = (e) => {
+    setvideoUrl(e.target.value)
+  }
   return (
     <>
       <div className="rbt-dashboard-content bg-color-white rbt-shadow-box">
         <div className="content">
           <div className="section-title">
             <h4 className="rbt-title-style-3">Introduction video</h4>
+            {verifySts === 2 ? <>
+              <Alert color='success'>
+                <h6 className='alert-heading m-0 text-center'>
+                  Introduction video verification has been approved by admin
+                </h6>
+              </Alert>
+
+            </> : <>
+              {verifySts === 1 ? <>
+                <Alert color='warning'>
+                  <h6 className='alert-heading m-0 text-center'>
+                    Introduction video verification is in pending state
+                  </h6>
+                </Alert>
+              </> : <>
+                <Alert color='danger'>
+                  <h6 className='alert-heading m-0 text-center'>
+                    Introduction video verification has been disapproved by admin
+                  </h6>
+                </Alert>
+              </>}
+            </>}
             {/*<h3>Your profile photo is your first impression</h3>*/}
             <p>Add a landscape video of maximum 2 minutes</p>
           </div>
 
-          <div className={'row mt-5 p-0'}>
-            <div className={'col-lg-6'}>
-              <input type="file" id="videofile" name="videofile"
-                     onChange={handleChange}
-                     accept="video/*"/>
-              {/*<input type="file" className={'p-0'} onChange={handleChange}/>*/}
-              {/*<small>JPG or PNG format, maximum 2 MB</small>*/}
-              {file ? <ReactPlayer
-                  // playing={this.state.videoplay}
-                  controls
-                  width="100%"
-                  height="200px"
-                  url={file}></ReactPlayer> : ''}
-              <p className={'mt-5 m-0'}>Or</p>
-              <p className={'m-0 mb-3'}>Paste a link of video</p>
-              <div className="form-group">
-                <input name="con_name" type="text" placeholder="Video Url"/>
-                <span className="focus-border"></span>
-              </div>
-            </div>
-            <div className={'col-lg-6 thumbnail-preview'}>
-              <h6>Guidelines for capturing an exceptional video</h6>
-              {/*<img src={'/images/client/img1.png'}></img>*/}
-              {/*<img src={'/images/client/img2.png'}></img>*/}
-              {/*<img src={'/images/client/img3.png'}></img>*/}
-              <ul className="rbt-list-style-1 mt-5">
-                <li>
-                  <i className="feather-check"></i>
-                  Look straight at camera and smile
-                </li>
-                <li>
-                  <i className="feather-check"></i>
-                  Maintain genuine and engaging facial expression
-                </li>
-                <li>
-                  <i className="feather-check"></i>
-                  Make sure your head and shoulders are covered
-                </li>
-                <li>
-                  <i className="feather-check"></i>
-                  Use natural lighting
-                </li>
-                <li>
-                  <i className="feather-check"></i>
-                  Simple, uncluttered and white background
-                </li>
-              </ul>
+          <Formik
+              // validationSchema={UserValidationSchema}
+              initialValues={{
+                nRegId: regId,
+                sIntroVideoPath: video ? video : '',
+                sIntroVideoUrl : videoUrl ? videoUrl : ''
+              }}
+              enableReinitialize={true}
+              onSubmit={async (values, {resetForm}) => {
+                // console.log(values)
+                if(verifySts === 2) {
+                  router.push('/become-a-tutor/interest')
+                } else {
+                  await Axios.put(`${REACT_APP.API_URL}/api/TutorBasics/UpdateTutorProfile`, values, {
+                    headers: {
+                      ApiKey: `${REACT_APP.API_KEY}`
+                    }
+                  }).then(res => {
+                    // console.log(values)
+                    const retData = JSON.parse(res.data)
+                    // console.log(retData)
+                    resetForm({})
+                    if(retData.success === '1') {
+                      router.push('/become-a-tutor/interest')
+                    }
+                  })
+                      .catch(err => {
+                        {
+                          ErrorDefaultAlert(JSON.stringify(err.response))
+                        }
+                      })
+                }
+
+              }}
+          >
+            {({errors, touched}) => {
+              return (
+                  <>
+                    <Form>
+                      <div className={'row mt-5 p-0'}>
+                        <div className={'col-lg-6'}>
+                          <input type="file" id="videofile" name="sIntroVideoPath" onChange={handleChange}
+                                 accept="video/*"/>
+                          {video ? <ReactPlayer
+                              // playing={this.state.videoplay}
+                              controls
+                              width="100%"
+                              height="200px"
+                              url={video}></ReactPlayer> : ''}
+                          <p className={'mt-5 m-0'}>Or</p>
+                          <p className={'m-0 mb-3'}>Paste a link of video</p>
+                          <div className="form-group">
+                            <input required={verifySts === 2} onChange={handleChangeURL} name="" type="text" placeholder="Video Url"/>
+                            <span className="focus-border"></span>
+                          </div>
+                        </div>
+                        <div className={'col-lg-6 thumbnail-preview'}>
+                          <h6>Guidelines for capturing an exceptional video</h6>
+                          <ul className="rbt-list-style-1 mt-5">
+                            <li>
+                              <i className="feather-check"></i>
+                              Look straight at camera and smile
+                            </li>
+                            <li>
+                              <i className="feather-check"></i>
+                              Maintain genuine and engaging facial expression
+                            </li>
+                            <li>
+                              <i className="feather-check"></i>
+                              Make sure your head and shoulders are covered
+                            </li>
+                            <li>
+                              <i className="feather-check"></i>
+                              Use natural lighting
+                            </li>
+                            <li>
+                              <i className="feather-check"></i>
+                              Simple, uncluttered and white background
+                            </li>
+                          </ul>
+
+                          <label className={'mt-5 ms-5'}>Add a thumbnail</label>
+                          <input type="file" className={'p-0 mt-5 ms-5'} onChange={handleChangeThumbnail}/>
+                          <small className={'p-0 mt-5 ms-5'}>JPG or PNG format, maximum 2 MB</small>
+                          {thumbnail ? <img className={'mt-5 ms-5'} src={thumbnail}/> : ''}
+                        </div>
+
+                        <div className="col-lg-12 mt-5">
+                          <div className="form-submit-group">
+                            <button
+                                type="submit"
+                                className="rbt-btn btn-md btn-gradient hover-icon-reverse w-100"
+                            >
+                              {/*<Link href={"/become-a-tutor/interest"} className={'text-white'}>*/}
+                               <span className="icon-reverse-wrapper">
+                                <span className="btn-text">Continue</span>
+                                <span className="btn-icon">
+                                  <i className="feather-arrow-right"></i>
+                                </span>
+                                <span className="btn-icon">
+                                  <i className="feather-arrow-right"></i>
+                                </span>
+                              </span>
+                              {/*</Link>*/}
+
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </Form>
+
+                  </>
+              )
+            }}
 
 
-                <label className={'mt-5 ms-5'}>Add a thumbnail</label>
-                <input type="file" className={'p-0 mt-5 ms-5'} onChange={handleChangeThumbnail}/>
-                <small className={'p-0 mt-5 ms-5'}>JPG or PNG format, maximum 2 MB</small>
-                {thumbnail ? <img className={'mt-5 ms-5'} src={thumbnail} /> : ''}
-            </div>
+          </Formik>
 
-
-            <div className="col-lg-12 mt-5">
-              <div className="form-submit-group">
-                <button
-                    type="submit"
-                    className="rbt-btn btn-md btn-gradient hover-icon-reverse w-100"
-                >
-                <Link href={"/become-a-tutor/interest"} className={'text-white'}>
-
-                     <span className="icon-reverse-wrapper">
-                      <span className="btn-text">Continue</span>
-                      <span className="btn-icon">
-                        <i className="feather-arrow-right"></i>
-                      </span>
-                      <span className="btn-icon">
-                        <i className="feather-arrow-right"></i>
-                      </span>
-                    </span>
-                  </Link>
-
-                </button>
-              </div>
-            </div>
-          </div>
 
         </div>
       </div>

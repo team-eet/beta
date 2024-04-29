@@ -1,6 +1,37 @@
 import Link from "next/link";
-
+import {useEffect, useState} from "react";
+import Axios from "axios";
+import API_URL from "@/pages/constant";
+import {useRouter} from "next/router";
+import {ErrorDefaultAlert} from "@/components/services/SweetAlert";
 const BreadCrumb = ({ title, text }) => {
+  const router = useRouter()
+  const REACT_APP = API_URL
+
+  const [regId, setregId] = useState('')
+  const [showContinue, setshowContinue] = useState(false)
+  useEffect(() => {
+    if(localStorage.getItem('userData')) {
+      setregId(JSON.parse(localStorage.getItem('userData')).regid)
+    }
+    Axios.get(`${REACT_APP.API_URL}/api/TutorBasics/GetTutorProfile/${JSON.parse(localStorage.getItem('userData')).regid}`, {
+      headers: {
+        ApiKey: `${REACT_APP.API_KEY}`
+      }
+    })
+        .then(res => {
+         // console.log(res.data)
+          // if(res.data.)
+          if(res.data[0].cnt !== 0) {
+            setshowContinue(true)
+          } else {
+            setshowContinue(false)
+          }
+        })
+        .catch(err => {
+          { ErrorDefaultAlert(err) }
+        })
+  }, [])
   return (
 
       // linear-gradient(270deg, var(--color-secondary) 0, var(--color-primary) 100%) !important
@@ -22,6 +53,23 @@ const BreadCrumb = ({ title, text }) => {
                 </li>
                 <li className="rbt-breadcrumb-item active">{text}</li>
               </ul>
+              {showContinue ? <>
+                <Link
+                    className="rbt-btn btn-gradient hover-icon-reverse radius-round mt-3 ms-3"
+                    href="/become-a-tutor/basics"
+                >
+                    <span className="icon-reverse-wrapper">
+                      <span className="btn-text">Continue</span>
+                      <span className="btn-icon">
+                        <i className="feather-arrow-right"></i>
+                      </span>
+                      <span className="btn-icon">
+                        <i className="feather-arrow-right"></i>
+                      </span>
+                    </span>
+                </Link>
+              </> : <></>}
+
             </div>
           </div>
         </div>

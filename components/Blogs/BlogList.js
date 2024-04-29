@@ -2,11 +2,32 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import BlogData from "../../data/blog/blog.json";
+// import BlogData from "../../data/blog/blog.json";
 import BlogListItems from "./Blog-Sections/BlogList-Items";
 import Pagination from "../Common/Pagination";
+import Axios from "axios";
+import {ErrorDefaultAlert} from "@/components/services/SweetAlert";
+import API_URL from "@/pages/constant";
 
 const BlogList = ({ isPagination }) => {
+  const [BlogData, setBlogData] = useState([])
+  const REACT_APP = API_URL
+  const getBlog = () => {
+    Axios.get(`${REACT_APP.API_URL}/api/blog/GetAllBlog/0`, {
+      headers: {
+        ApiKey: `${REACT_APP.API_KEY}`
+      }
+    })
+        .then(res => {
+          // console.log(res.data)
+          setBlogData(res.data)
+          // setBlogs(res.data)
+        })
+        .catch(err => {
+          { ErrorDefaultAlert(err) }
+
+        })
+  }
   const [blogs, setBlogs] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -24,10 +45,10 @@ const BlogList = ({ isPagination }) => {
 
   useEffect(() => {
     const getBlogs = () => {
-      setBlogs(BlogData.blogList);
-      setTotalPages(Math.ceil(BlogData.blogList.length / 7));
+      setBlogs(BlogData);
+      setTotalPages(Math.ceil(BlogData.length / 7));
     };
-
+    getBlog()
     getBlogs();
   }, [BlogData, setBlogs, setTotalPages, 7]);
 
@@ -41,27 +62,24 @@ const BlogList = ({ isPagination }) => {
                 <div className="col-12 mt--30" key={index}>
                   <div className="rbt-card variation-02 height-auto rbt-hover">
                     <div className="rbt-card-img">
-                      <Link href={`/blog-details/${data.id}`}>
-                        <Image
-                          src={data.img}
+                      <Link href={`/blog-details/${data.nBId}`}>
+                        <img
+                          src={data.sImagePath}
                           width={1085}
                           height={645}
-                          priority
                           alt="Card image"
                         />
                       </Link>
                     </div>
                     <div className="rbt-card-body">
                       <h3 className="rbt-card-title">
-                        <Link href={`/blog-details/${data.id}`}>
-                          {data.title}
-                        </Link>
+                        <Link href={`/blog-details/${data.nBId}`}>{data.sBlogTitle}</Link>
                       </h3>
-                      <p className="rbt-card-text">{data.desc}</p>
+                      {/*<p className="rbt-card-text">{data.desc}</p>*/}
                       <div className="rbt-card-bottom">
                         <Link
                           className="transparent-button"
-                          href={`/blog-details/${data.id}`}
+                          href={`/blog-details/${data.nBId}`}
                         >
                           Learn More
                           <i>
@@ -90,7 +108,7 @@ const BlogList = ({ isPagination }) => {
                 </div>
               ))}
 
-            <BlogListItems selectedBlogs={selectedBlogs} start={1} end={6} />
+            <BlogListItems selectedBlogs={selectedBlogs} start={1} end={5} />
           </div>
         </div>
 

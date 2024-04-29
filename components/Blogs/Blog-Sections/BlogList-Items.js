@@ -11,22 +11,21 @@ const BlogListItems = ({ start, end, selectedBlogs }) => {
             key={index}
           >
             <div className="rbt-card-img">
-              <Link href={`/blog-details/${item.id}`}>
-                <Image
-                  src={item.img}
+              <Link href={`/blog-details/${item.nBId}`}>
+                <img
+                  src={item.sImagePath}
                   width={580}
                   height={300}
-                  priority
                   alt="Card image"
                 />{" "}
               </Link>
             </div>
             <div className="rbt-card-body">
               <h5 className="rbt-card-title">
-                <Link href={`/blog-details/${item.id}`}>{item.title}</Link>
+                <Link href={`/blog-details/${item.nBId}`}>{item.sBlogTitle}</Link>
               </h5>
               <div className="rbt-card-bottom">
-                <Link className="transparent-button" href={`/blog-details/${item.id}`}>
+                <Link className="transparent-button" href={`/blog-details/${item.nBId}`}>
                   Read Article
                   <i>
                     <svg

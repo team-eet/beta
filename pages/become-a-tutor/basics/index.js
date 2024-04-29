@@ -9,11 +9,22 @@ import Context from "@/context/Context";
 import PageHead from "@/pages/Head";
 import BackToTop from "@/pages/backToTop";
 import Store from "@/redux/store";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Provider } from "react-redux";
 import Basics from "@/components/Become-a-Tutor/Basics";
 
 const BasicsDashboard = () => {
+  const [url, setUrl] = useState('')
+  useEffect(() => {
+    const url = window.location.href
+    const parts = url.split("/");
+    const postId = parts[parts.length - 1];
+    // console.log(postId)
+    setUrl(postId)
+    // if(postId === 'basics') {
+    //   alert('basics')
+    // }
+  }, []);
   return (
     <>
       <PageHead title="Become a tutor - Basics" />
@@ -31,10 +42,9 @@ const BasicsDashboard = () => {
               <div className="row">
                 <div className="col-lg-12">
                   <InstructorDashboardHeader />
-
                   <div className="row g-5">
                     <div className="col-lg-3">
-                      <InstructorDashboardSidebar />
+                      <InstructorDashboardSidebar url={url}/>
                     </div>
 
                     <div className="col-lg-9">

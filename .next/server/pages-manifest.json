@@ -2,8 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/become-a-tutor/profile-photo": "pages/become-a-tutor/profile-photo.js",
   "/": "pages/index.js",
-  "/become-a-teacher": "pages/become-a-teacher.js",
-  "/become-a-tutor/basics": "pages/become-a-tutor/basics.js"
+  "/become-a-teacher": "pages/become-a-teacher.js"
 }

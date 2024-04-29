@@ -173,9 +173,10 @@ const AllBatches = () => {
                                                 </li>
                                             </ul>
                                         </div>
-                                        <div className="rbt-short-item">
-                                            <span className="course-index">Showing {indexOfFirstRecord + 1}-{indexOfLastRecord} of {getBatchData.length} results</span>
-                                        </div>
+                                        {getBatchData.length !== 0 ? <div className="rbt-short-item">
+                                            <span
+                                                className="course-index">Showing {indexOfFirstRecord + 1}-{indexOfLastRecord} of {getBatchData.length} results</span>
+                                        </div> : ''}
                                     </div>
                                 </div>
 
@@ -328,18 +329,18 @@ const AllBatches = () => {
                 </div>
             </div>
 
+            {getBatchData.length !== 0 ? <>
+                {activeView === 'Grid' ? (
+                    <div className="rbt-section-overlayping-top rbt-section-gapBottom">
+                        <div className="container">
+                            <div className="rbt-course-grid-column list-column-half active-list-view">
+                                {currentRecords && currentRecords.map((data, index) => {
+                                    const startHour = parseInt(data.sBatchStartTime[0])
+                                    const endHour = parseInt(data.sBatchEndTime[0])
 
-            {activeView === 'Grid' ? (
-                <div className="rbt-section-overlayping-top rbt-section-gapBottom">
-                    <div className="container">
-                        <div className="rbt-course-grid-column list-column-half active-list-view">
-                            {currentRecords && currentRecords.map((data, index) => {
-                                const startHour = parseInt(data.sBatchStartTime[0])
-                                const endHour = parseInt(data.sBatchEndTime[0])
-
-                                // Calculate the difference in hours
-                                const hoursDifference = endHour - startHour
-                                return (
+                                    // Calculate the difference in hours
+                                    const hoursDifference = endHour - startHour
+                                    return (
                                         <div className="col-lg-4 col-md-6 col-sm-6 col-12 mt-5" key={index}>
                                             <div className="rbt-card variation-01 rbt-hover" style={{ margin: '10px' }}>
                                                 <div className="rbt-card-img">
@@ -418,25 +419,25 @@ const AllBatches = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                )
-                            })}
+                                    )
+                                })}
+                            </div>
                         </div>
                     </div>
-                </div>
 
-            ) : (
-                <div className="rbt-section-overlayping-top rbt-section-gapBottom">
-                    <div className="container">
+                ) : (
+                    <div className="rbt-section-overlayping-top rbt-section-gapBottom">
+                        <div className="container">
 
-                        <div className={`rbt-course-grid-column list-column-half active-list-view`}>
+                            <div className={`rbt-course-grid-column list-column-half active-list-view`}>
 
-                            {currentRecords && currentRecords.map((data, index) => {
-                                const startHour = parseInt(data.sBatchStartTime[0])
-                                const endHour = parseInt(data.sBatchEndTime[0])
+                                {currentRecords && currentRecords.map((data, index) => {
+                                    const startHour = parseInt(data.sBatchStartTime[0])
+                                    const endHour = parseInt(data.sBatchEndTime[0])
 
-                                // Calculate the difference in hours
-                                const hoursDifference = endHour - startHour
-                                return (
+                                    // Calculate the difference in hours
+                                    const hoursDifference = endHour - startHour
+                                    return (
                                         <div className="course-grid-4" key={index} data-sal-delay="150" data-sal="data-up"
                                              data-sal-duration="800">
                                             <div className="rbt-card variation-01 rbt-hover card-list-2">
@@ -531,21 +532,25 @@ const AllBatches = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                )
-                            })}
+                                    )
+                                })}
+                            </div>
+
                         </div>
-
                     </div>
-                </div>
-            )}
+                )}
+            </> : <>
+                <h3 className={'text-center'}>No Batches available</h3>
+            </>}
 
-            <div>
+
+            {getBatchData.length !== 0 ? <div>
                 <Pagination
                     nPages={nPages}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                 />
-            </div>
+            </div> : ''}
 
         </>
     );

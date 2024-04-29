@@ -79,7 +79,7 @@ const handleLogout = () =>{
                 </Link>
               </li>
               <li>
-                <Link href="/" onClick={handleLogout}>
+                <Link href="/login" onClick={handleLogout}>
                   <i className="feather-log-out"></i>
                   <span>Logout</span>
                 </Link>
