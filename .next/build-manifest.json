@@ -22,6 +22,7 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
+<<<<<<< HEAD
     "/become-a-tutor/interest": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -31,6 +32,22 @@
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/become-a-tutor/time-availability.js"
+=======
+    "/become-a-teacher": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/become-a-teacher.js"
+    ],
+    "/become-a-tutor/basics": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/become-a-tutor/basics.js"
+    ],
+    "/become-a-tutor/profile-photo": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/become-a-tutor/profile-photo.js"
+>>>>>>> main
     ]
   },
   "ampFirstPages": []

@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, {useEffect, useState} from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+<<<<<<< HEAD
 import Axios from "axios";
 import {ErrorDefaultAlert} from "@/components/services/SweetAlert";
 import API_URL from "@/pages/constant";
@@ -53,6 +54,17 @@ const InstructorDashboardSidebar = ({ url }) => {
           .catch(err => {
             { ErrorDefaultAlert(err) }
           })
+=======
+
+const InstructorDashboardSidebar = () => {
+  const router = useRouter();
+  const path = router.pathname;
+  const [fname, setfname] = useState('')
+  useEffect(() => {
+    if(localStorage.getItem('userData')) {
+      const fname = JSON.parse(localStorage.getItem('userData')).fname
+      setfname(fname)
+>>>>>>> main
     }
 
       const interval = setInterval(() => {
@@ -69,7 +81,10 @@ const InstructorDashboardSidebar = ({ url }) => {
 
       return () => clearInterval(interval);
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
   }, [])
 
   const [percentage, setPercentages] = useState({
@@ -108,10 +123,16 @@ const InstructorDashboardSidebar = ({ url }) => {
                   </div>
                 </div>
 
+<<<<<<< HEAD
+=======
+                {/*<div className="col-lg-3 col-md-6 col-sm-6 mt--30 col-12">*/}
+                {/*</div>*/}
+>>>>>>> main
               </div>
               <nav className="mainmenu-nav">
                 <ul className="dashboard-mainmenu rbt-default-sidebar-list nav-tabs">
                   {SidebarData &&
+<<<<<<< HEAD
                       SidebarData.siderbar.map((data, index) => {
                           return (
                               <>
@@ -155,6 +176,20 @@ const InstructorDashboardSidebar = ({ url }) => {
                           )
 
                       })}
+=======
+                      SidebarData.siderbar.map((data, index) => (
+                          <li className="nav-item" key={index} role="presentation">
+                            <Link
+                                className={`${path === data.link ? "active" : ""}`}
+                                href={data.link}
+                            >
+                              <i className={data.icon}/>
+                              <span>{data.text}</span>
+                            </Link>
+                            {/*<i className={data.icon2}/>*/}
+                          </li>
+                      ))}
+>>>>>>> main
                 </ul>
               </nav>
             </div>

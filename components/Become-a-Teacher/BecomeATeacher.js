@@ -3,17 +3,25 @@ import Link from "next/link";
 import Teacher from "../../data/pages/become-A-Teacher.json";
 import InstructorRegistration from "./InstructorRegis";
 import dynamic from "next/dynamic";
+<<<<<<< HEAD
 import { useState } from 'react'
 import Axios from "axios";
+=======
+>>>>>>> main
 const Odometer = dynamic(() => import("react-odometerjs"), {
     ssr: false,
     loading: () => <span>00</span>,
 });
+<<<<<<< HEAD
 import React, {useEffect} from "react";
+=======
+import React from "react";
+>>>>>>> main
 import Image from "next/image";
 import useFetch from "@/context/useFetch";
 import CounterData from "@/data/elements/counter.json";
 import AccordionData from "@/data/elements/accordion.json";
+<<<<<<< HEAD
 import API_URL from "@/pages/constant";
 import {ErrorDefaultAlert} from "@/components/services/SweetAlert";
 
@@ -79,6 +87,11 @@ const BecomeATeacher = () => {
                 { ErrorDefaultAlert(err) }
             })
     }, []);
+=======
+
+const BecomeATeacher = () => {
+    const { values } = useFetch(CounterData, "counterTwo");
+>>>>>>> main
 
     return (
       <>
@@ -88,6 +101,7 @@ const BecomeATeacher = () => {
                       <div className="row g-5 align-items-center">
                           <div className="col-lg-6 order-2 order-lg-1">
                               <div className="row row--30">
+<<<<<<< HEAD
                                   {/*{data.body.map((item, innerIndex) => (*/}
                                   <div
                                       className={`col-lg-6 col-md-6 col-sm-6 col-12`}
@@ -194,6 +208,41 @@ const BecomeATeacher = () => {
                                       </div>
                                   </div>
                                   {/*))}*/}
+=======
+                                  {data.body.map((item, innerIndex) => (
+                                      <div
+                                          className={`col-lg-6 col-md-6 col-sm-6 col-12 ${item.mt}`}
+                                          key={innerIndex}
+                                      >
+                                          <div className="rbt-counterup rbt-hover-03">
+                                              <div className="inner">
+                                                  <div className="icon">
+                                                      <Image
+                                                          src={item.img}
+                                                          width={100}
+                                                          height={100}
+                                                          alt="Icons Images"
+                                                      />
+                                                  </div>
+                                                  <div className="content">
+                                                      <h3 className="counter">
+                              <span className="odometer">
+                                <Odometer
+                                    value={
+                                        values[
+                                        index * data.body.length + innerIndex
+                                            ]
+                                    }
+                                />
+                              </span>
+                                                      </h3>
+                                                      <span className="subtitle">{item.text}</span>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  ))}
+>>>>>>> main
                               </div>
                           </div>
                           <div className="col-lg-6 order-1 order-lg-2">
@@ -280,6 +329,7 @@ const BecomeATeacher = () => {
                                           </div>
                                       ))}
                                   </div>
+<<<<<<< HEAD
                                   {showContinue ? <>
                                       <div className="read-more-btn mt--40">
                                           <a className="rbt-moderbt-btn" href="/become-a-tutor/basics">
@@ -296,6 +346,14 @@ const BecomeATeacher = () => {
                                       </div>
                                   </>}
 
+=======
+                                  <div className="read-more-btn mt--40">
+                                      <a className="rbt-moderbt-btn" href="/become-a-tutor/basics">
+                                          <span className="moderbt-btn-text">Apply Now</span>
+                                          <i className="feather-arrow-right"></i>
+                                      </a>
+                                  </div>
+>>>>>>> main
                                   {/*<span className="subtitle bg-pink-opacity">Apply Now</span>*/}
                               </div>
                           </div>

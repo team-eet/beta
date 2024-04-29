@@ -1,10 +1,15 @@
 import Image from "next/image";
+<<<<<<< HEAD
 import React, {useEffect, useState} from "react";
+=======
+import React, {useState} from "react";
+>>>>>>> main
 import img from "@/public/images/others/thumbnail-placeholder.svg";
 import img1 from '../../public/images/client/pexels-daniel-xavier-1239288.jpg'
 import img2 from '../../public/images/client/pexels-justin-shaifer-1222271.jpg'
 import img3 from '../../public/images/client/blank-profile-picture-973460_1280.png'
 import Link from "next/link";
+<<<<<<< HEAD
 import * as Yup from 'yup'
 import {Formik, ErrorMessage, Form} from 'formik'
 import Axios from 'axios'
@@ -134,6 +139,25 @@ const Cover = () => {
             setregId(JSON.parse(localStorage.getItem('userData')).regid)
         }
     }, []);
+=======
+
+const Cover = () => {
+    const [file, setFile] = useState();
+    const [file2, setFile2] = useState();
+    const [file3, setFile3] = useState();
+    function handleChange(e) {
+        // console.log(e.target.files);
+        setFile(URL.createObjectURL(e.target.files[0]));
+    }
+    function handleChange2(e) {
+        // console.log(e.target.files);
+        setFile2(URL.createObjectURL(e.target.files[0]));
+    }
+    function handleChange3(e) {
+        // console.log(e.target.files);
+        setFile3(URL.createObjectURL(e.target.files[0]));
+    }
+>>>>>>> main
     return (
         <>
             <div className="rbt-dashboard-content bg-color-white rbt-shadow-box">
@@ -187,6 +211,7 @@ const Cover = () => {
                     </div>
 
 
+<<<<<<< HEAD
                     <Formik
                         validationSchema={UserValidationSchema}
                         initialValues={{
@@ -306,6 +331,64 @@ const Cover = () => {
 
                     </Formik>
 
+=======
+                    <div className={'row mt-5 p-0'}>
+                        <div className={'col-lg-6 '}>
+                            <div className={'cover-sample-photo border'}>
+                                <img src={'/images/client/ML1.png'}></img>
+                            </div>
+                        </div>
+                        <div className={'col-lg-6'}>
+                            <input type="file" className={'p-0'} onChange={handleChange}/>
+                            <small>JPG or PNG format, maximum 2 MB</small>
+                            {file ? <img src={file} height={200} width={200}/> : ''}
+                        </div>
+                        <div className={'col-lg-6 mt-5'}>
+                            <div className={'cover-sample-photo border'}>
+                                <img src={'/images/client/MC1.png'}></img>
+                            </div>
+                        </div>
+                        <div className={'col-lg-6 mt-5'}>
+                            <input type="file" className={'p-0'} onChange={handleChange2}/>
+                            <small>JPG or PNG format, maximum 2 MB</small>
+                            {file2 ? <img src={file2} height={200} width={200}/> : ''}
+                        </div>
+                        <div className={'col-lg-6 mt-5 mt-5'}>
+                            <div className={'cover-sample-photo border'}>
+                                <img src={'/images/client/MR1.png'}></img>
+                            </div>
+                        </div>
+                        <div className={'col-lg-6 mt-5'}>
+                            <input type="file" className={'p-0'} onChange={handleChange3}/>
+                            <small>JPG or PNG format, maximum 2 MB</small>
+                            {file3 ? <img src={file3} height={200} width={200}/> : ''}
+                        </div>
+
+
+                        <div className="col-lg-12 mt-5">
+                            <div className="form-submit-group">
+                                <button
+                                    type="submit"
+                                    className="rbt-btn btn-md btn-gradient hover-icon-reverse w-100"
+                                >
+                                    <Link href={"/become-a-tutor/education"} className={'text-white'}>
+
+                     <span className="icon-reverse-wrapper">
+                      <span className="btn-text">Continue</span>
+                      <span className="btn-icon">
+                        <i className="feather-arrow-right"></i>
+                      </span>
+                      <span className="btn-icon">
+                        <i className="feather-arrow-right"></i>
+                      </span>
+                    </span>
+                                    </Link>
+
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+>>>>>>> main
 
                     {/*<div>*/}
                     {/*  <div className="rbt-profile-row row row--15">*/}

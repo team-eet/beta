@@ -25,8 +25,11 @@ const MainDemo = () => {
   const [getcoursecount, setcoursecount] = useState(0)
   const [getbatchData, setbatchData] = useState([])
   const [getbatchcount, setbatchcount] = useState(0)
+<<<<<<< HEAD
   const [BlogData, setBlogData] = useState([])
 
+=======
+>>>>>>> main
   useEffect(() => {
     sal({
       threshold: 0.01,
@@ -34,7 +37,10 @@ const MainDemo = () => {
     });
     getCourse();
     getBatch();
+<<<<<<< HEAD
     getBlog();
+=======
+>>>>>>> main
   }, []);
 
   const getBlog = () => {
@@ -561,6 +567,7 @@ const MainDemo = () => {
             <AboutTwo/>
           </div>
         </div>
+<<<<<<< HEAD
 
         <div className="rbt-rbt-blog-area bg-color-white rbt-section-gapBottom">
           <div className="container">
@@ -703,6 +710,8 @@ const MainDemo = () => {
             </div>
           </div>
         </div>
+=======
+>>>>>>> main
         <div className="rbt-event-area rbt-section-gap bg-gradient-3">
           <div className="container">
             <div className="row mb--55">

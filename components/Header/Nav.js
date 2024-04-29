@@ -15,7 +15,10 @@ import addImage from "../../public/images/service/mobile-cat.jpg";
 const Nav = () => {
   const [activeMenuItem, setActiveMenuItem] = useState(null);
   const router = useRouter();
+<<<<<<< HEAD
   const [showDashboard, setshowDashboard] = useState(false)
+=======
+>>>>>>> main
 
   const isActive = (href) => router.pathname === href;
 
@@ -62,11 +65,26 @@ const Nav = () => {
         </li>
         <li className="">
           <Link
+<<<<<<< HEAD
             href="/blog-list"
+=======
+            href="#"
+>>>>>>> main
             className={`${activeMenuItem === "blog" ? "open" : ""}`}
           >
             Blog
           </Link>
+<<<<<<< HEAD
+=======
+        </li>
+        <li className="">
+          <Link
+            href="#"
+            className={`${activeMenuItem === "about" ? "open" : ""}`}
+          >
+            About
+          </Link>
+>>>>>>> main
         </li>
         <li className="">
           <Link

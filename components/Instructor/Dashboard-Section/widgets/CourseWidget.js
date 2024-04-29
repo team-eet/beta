@@ -21,6 +21,7 @@ const CourseWidget = ({
   };
 
   const getTotalReviews = () => {
+<<<<<<< HEAD
     // let reviews =
     //   data.reviews.oneStar +
     //   data.reviews.twoStar +
@@ -33,6 +34,20 @@ const CourseWidget = ({
   const getTotalRating = () => {
     // let ratingStar = data.rating.average;
     // setRating(ratingStar.toFixed(0));
+=======
+    let reviews =
+      data.reviews.oneStar +
+      data.reviews.twoStar +
+      data.reviews.threeStar +
+      data.reviews.fourStar +
+      data.reviews.fiveStar;
+    setTotalReviews(reviews);
+  };
+
+  const getTotalRating = () => {
+    let ratingStar = data.rating.average;
+    setRating(ratingStar.toFixed(0));
+>>>>>>> main
   };
 
   useEffect(() => {
@@ -45,6 +60,7 @@ const CourseWidget = ({
     <>
       <div className="rbt-card variation-01 rbt-hover">
         <div className="rbt-card-img">
+<<<<<<< HEAD
           <Link href={`/course-details/${data.nCId}`}>
             <img
               width={330}
@@ -56,6 +72,19 @@ const CourseWidget = ({
             {/*  <span>{`-${discountPercentage}%`}</span>*/}
             {/*  <span>Off</span>*/}
             {/*</div>*/}
+=======
+          <Link href={`/course-details/${data.id}`}>
+            <Image
+              width={330}
+              height={227}
+              src={data.courseThumbnail}
+              alt={data.title}
+            />
+            <div className="rbt-badge-3 bg-white">
+              <span>{`-${discountPercentage}%`}</span>
+              <span>Off</span>
+            </div>
+>>>>>>> main
           </Link>
         </div>
         <div className="rbt-card-body">
@@ -63,7 +92,16 @@ const CourseWidget = ({
             <>
               <div className="rbt-card-top">
                 <div className="rbt-review">
+<<<<<<< HEAD
                   <span className="rating-count">({data.user_rate_cnt} Reviews)</span>
+=======
+                  <div className="rating">
+                    {Array.from({ length: rating }, (_, i) => (
+                      <i className="fas fa-star" key={i} />
+                    ))}
+                  </div>
+                  <span className="rating-count">({totalReviews} Reviews)</span>
+>>>>>>> main
                 </div>
                 <div className="rbt-bookmark-btn">
                   <Link className="rbt-round-btn" title="Bookmark" href="#">
@@ -72,18 +110,30 @@ const CourseWidget = ({
                 </div>
               </div>
               <h4 className="rbt-card-title">
+<<<<<<< HEAD
                 <Link href={`/course-details/${data.nCId}`}>{data.sCourseTitle}</Link>
+=======
+                <Link href={`/course-details/${data.id}`}>{data.title}</Link>
+>>>>>>> main
               </h4>
             </>
           )}
           <ul className="rbt-meta">
             <li>
               <i className="feather-book" />
+<<<<<<< HEAD
               {data.lesson_cnt} Lessons
             </li>
             <li>
               <i className="feather-users" />
               {data.enroll_cnt} Students
+=======
+              {data.lectures} Lessons
+            </li>
+            <li>
+              <i className="feather-users" />
+              {data.enrolledStudent} Students
+>>>>>>> main
             </li>
           </ul>
 
@@ -141,7 +191,73 @@ const CourseWidget = ({
             ""
           )}
 
+<<<<<<< HEAD
 
+=======
+          {courseStyle === "one" && (
+            <h4 className="rbt-card-title">
+              <Link href="#">{data.title}</Link>
+            </h4>
+          )}
+
+          {showDescription ? (
+            <p className="rbt-card-text">{data.shortDescription}</p>
+          ) : (
+            ""
+          )}
+
+          {courseStyle === "two" && showAuthor && (
+            <div className="rbt-author-meta mb--20">
+              <div className="rbt-avater">
+                <Link href="components/widgets#">
+                  <Image
+                    width={40}
+                    height={40}
+                    src="/images/client/avater-01.png"
+                    alt="Sophia Jaymes"
+                  />
+                </Link>
+              </div>
+              <div className="rbt-author-info">
+                By <Link href="#">Patrick</Link> In{" "}
+                <Link href="#">Languages</Link>
+              </div>
+            </div>
+          )}
+
+          {courseStyle === "one" && (
+            <div className="rbt-review">
+              <div className="rating">
+                {Array.from({ length: rating }, (_, i) => (
+                  <i className="fas fa-star" key={i} />
+                ))}
+              </div>
+              <span className="rating-count"> ({totalReviews} Reviews)</span>
+            </div>
+          )}
+
+          {!isProgress ? (
+            <div className="rbt-card-bottom">
+              <div className="rbt-price">
+                <span className="current-price">${data.offerPrice}</span>
+                <span className="off-price">${data.coursePrice}</span>
+              </div>
+
+              {isEdit ? (
+                <Link className="rbt-btn-link left-icon" href="#">
+                  <i className="feather-edit"></i> Edit
+                </Link>
+              ) : (
+                <Link className="rbt-btn-link" href="#">
+                  Learn More
+                  <i className="feather-arrow-right" />
+                </Link>
+              )}
+            </div>
+          ) : (
+            ""
+          )}
+>>>>>>> main
         </div>
       </div>
     </>

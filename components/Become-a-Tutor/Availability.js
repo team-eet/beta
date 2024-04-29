@@ -59,6 +59,7 @@ const Availability = () => {
                 })}
               </select>
             </div>
+<<<<<<< HEAD
             <div className={'col-lg-6'}>
               <label style={{ whiteSpace: 'nowrap' }}>
                 How much time can you spend for teaching in a day?
@@ -76,6 +77,8 @@ const Availability = () => {
                 <option value={'10'}>10 hours</option>
               </select>
             </div>
+=======
+>>>>>>> main
             <div className="col-lg-6">
               <label>
                 Most preferable time slot
@@ -131,6 +134,26 @@ const Availability = () => {
                 <span className="focus-border"></span>
               </div>
             </div>
+<<<<<<< HEAD
+=======
+            <div className={'col-lg-6 mt-4'}>
+              <label>
+                How much time can you spend for teaching in a day?
+              </label>
+              <select className="w-100">
+                <option value={'1'}>1 hour</option>
+                <option value={'2'}>2 hours</option>
+                <option value={'3'}>3 hours</option>
+                <option value={'4'}>4 hours</option>
+                <option value={'5'}>5 hours</option>
+                <option value={'6'}>2 hours</option>
+                <option value={'7'}>7 hours</option>
+                <option value={'8'}>2 hours</option>
+                <option value={'9'}>2 hours</option>
+                <option value={'10'}>10 hours</option>
+              </select>
+            </div>
+>>>>>>> main
             <div className={'col-lg-12 mt-4'}>
               <label>
                 Most preferable days of teaching
@@ -142,32 +165,56 @@ const Availability = () => {
                 </div>
 
                 <div className='mb-0 mt-0 ms-3'>
+<<<<<<< HEAD
                   <input type='checkbox' name='sDays' id='sDays2' value='Tuesday'/>
+=======
+                  <input type='checkbox' name='sDays' id='sDays2' value='Tuesday' />
+>>>>>>> main
                   <label htmlFor={'sDays2'}>Tuesday</label>
                 </div>
 
                 <div className='mb-0 mt-0 ms-3'>
+<<<<<<< HEAD
                   <input type='checkbox' name='sDays' id='sDays3' value='Wednesday'/>
+=======
+                  <input type='checkbox' name='sDays' id='sDays3' value='Wednesday' />
+>>>>>>> main
                   <label htmlFor={'sDays3'}>Wednesday</label>
                 </div>
 
                 <div className='mb-0 mt-0 ms-3'>
+<<<<<<< HEAD
                   <input type='checkbox' name='sDays' id='sDays4' value='Thursday'/>
+=======
+                  <input type='checkbox' name='sDays' id='sDays4' value='Thursday' />
+>>>>>>> main
                   <label htmlFor={'sDays4'}>Thursday</label>
                 </div>
 
                 <div className='mb-0 mt-0 ms-3'>
+<<<<<<< HEAD
                   <input type='checkbox' name='sDays' id='sDays5' value='Friday'/>
+=======
+                  <input type='checkbox' name='sDays' id='sDays5' value='Friday' />
+>>>>>>> main
                   <label htmlFor={'sDays5'}>Friday</label>
                 </div>
 
                 <div className='mb-0 mt-0 ms-3'>
+<<<<<<< HEAD
                   <input type='checkbox' name='sDays' id='sDays6' value='Saturday'/>
+=======
+                  <input type='checkbox' name='sDays' id='sDays6' value='Saturday' />
+>>>>>>> main
                   <label htmlFor={'sDays6'}>Saturday</label>
                 </div>
 
                 <div className='mb-0 mt-0 ms-3'>
+<<<<<<< HEAD
                   <input type='checkbox' name='sDays' id='sDays7' value='Sunday'/>
+=======
+                  <input type='checkbox' name='sDays' id='sDays7' value='Sunday' />
+>>>>>>> main
                   <label htmlFor={'sDays7'}>Sunday</label>
                 </div>
 

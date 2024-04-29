@@ -1,7 +1,10 @@
 import { useRouter } from "next/router";
 import SidebarData from "../../data/dashboard/instructor/siderbar.json";
 import Link from "next/link";
+<<<<<<< HEAD
 import {useEffect} from "react";
+=======
+>>>>>>> main
 
 
 const InstructorDashboardSidebar = () => {

@@ -5,6 +5,7 @@ import React, {useState, useCallback, useEffect} from "react";
 import { ReactTags } from 'react-tag-autocomplete'
 import API_URL from '@/pages/constant'
 import Axios from "axios";
+<<<<<<< HEAD
 import {ErrorDefaultAlert} from "@/components/services/SweetAlert";
 import { useRouter } from "next/router";
 import {DecryptData} from "@/components/services/encrypt-decrypt";
@@ -24,10 +25,17 @@ const UserValidationSchema = Yup.object().shape({
     sMobile: Yup.string()
         .required('This field is required')
 })
+=======
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+
+
+>>>>>>> main
 const Interest = () => {
     const REACT_APP = API_URL
     const [category, setCategory] = useState([])
 
+<<<<<<< HEAD
     const [Interest, setInterest] = useState([])
     const [selfCourse, setselfCourse] = useState('')
     const [content, setContent] = useState('')
@@ -44,6 +52,45 @@ const Interest = () => {
     const handleChangeContent = (e) => {
         setContent(e.target.value)
     }
+=======
+
+    const data = [
+        { label: "Java language" },
+        { label: "Python language" },
+        { label: "C++ language" },
+        { label: "C language" },
+        { label: "Go language" },
+        { label: "JavaScript language" },
+        { label: "SQL" },
+        { label: "MySQL" },
+        { label: "HTML" },
+        { label: "CSS" },
+        { label: "Nextjs " },
+        { label: "ReactJS " },
+        { label: "VueJS " },
+        { label: "Angular " },
+        { label: "Angular JS " },
+        { label: "PHP language" },
+        { label: "R language" },
+        { label: "Objective C language" },
+        { label: "Cobol language" },
+        { label: "Perl language" },
+        { label: "Pascal language" },
+        { label: "LISP language" },
+        { label: "Fortran language" },
+        { label: "Swift language" },
+        { label: "Ruby language" },
+        { label: "Algol language" },
+        { label: "Scala language" },
+        { label: "Rust language" },
+        { label: "TypeScript language" },
+        { label: "Dart language" },
+        { label: "Matlab language" },
+        { label: "Ada language" },
+        { label: ".NET language" },
+        { label: "Bash language" },
+    ];
+>>>>>>> main
 
 
     const getCategory = () => {
@@ -53,7 +100,11 @@ const Interest = () => {
             }
         })
             .then(res => {
+<<<<<<< HEAD
                 // console.log(res.data)
+=======
+                console.log(res.data)
+>>>>>>> main
                 if (res.data.length !== 0) {
                     setCategory(res.data)
                 }
@@ -73,6 +124,7 @@ const Interest = () => {
           <div className="section-title">
             <h4 className="rbt-title-style-3">Interests</h4>
           </div>
+<<<<<<< HEAD
                 <Formik
                     validationSchema={UserValidationSchema}
                     initialValues={{
@@ -195,6 +247,90 @@ const Interest = () => {
                                                 >
                                                     <Link href={"/become-a-tutor/time-availability"}
                                                           className={'text-white'}>
+=======
+            <div className={'row'}>
+
+                <div className={'col-lg-6'}>
+                    <label>
+                        Select the field of interest for teaching
+                    </label>
+
+                    <div className={'mt-3'}
+                         style={{
+                             // display: "flex",
+                             // marginTop: 30,
+                             flexDirection: "column",
+                             alignItems: "center",
+                             justifyContent: "center"
+                         }}>
+                        <Autocomplete
+                            multiple
+                            limitTags={3} // displays only 3 max tags of autocomplete when not in focus
+                            options={category}
+                            getOptionLabel={(option) => option.sCategory}
+                            renderInput={(params) => (
+                                <TextField
+                                    classes={'border-transparent'}
+                                    {...params}
+                                    // label="Select language"
+                                    // placeholder="Programming languages"
+                                />
+                            )}
+                        />
+                    </div>
+                </div>
+
+                <div className="col-lg-6">
+                    <label>
+                        Are you interested in creating your own course?
+                    </label>
+                    <div className="form-group d-flex">
+                        <div>
+                            <input id="cat-radio-1" type="radio" name="rbt-radio"/>
+                            <label htmlFor="cat-radio-1">
+                                Yes
+                            </label>
+                        </div>
+                        <div className={"ms-3"}>
+                            <input id="cat-radio-2" type="radio" name="rbt-radio"/>
+                            <label htmlFor="cat-radio-2">
+                                No
+                            </label>
+                        </div>
+
+                        <span className="focus-border"></span>
+                    </div>
+                </div>
+                <div className="col-lg-6 mt-3">
+                    <label>
+                        Do you have content to create a course?
+                    </label>
+                    <div className="form-group d-flex">
+                        <div>
+                            <input id="cat-radio-2" type="radio" name="rbt-radio"/>
+                            <label htmlFor="cat-radio-2">
+                                Yes
+                            </label>
+                        </div>
+                        <div className={"ms-3"}>
+                            <input id="cat-radio-3" type="radio" name="rbt-radio"/>
+                            <label htmlFor="cat-radio-3">
+                                No
+                            </label>
+                        </div>
+
+                        <span className="focus-border"></span>
+                    </div>
+                </div>
+
+                <div className="col-lg-12 mt-5">
+                    <div className="form-submit-group">
+                        <button
+                            type="submit"
+                            className="rbt-btn btn-md btn-gradient hover-icon-reverse w-100"
+                        >
+                            <Link href={"/become-a-tutor/time-availability"} className={'text-white'}>
+>>>>>>> main
 
                      <span className="icon-reverse-wrapper">
                       <span className="btn-text">Continue</span>
@@ -205,6 +341,7 @@ const Interest = () => {
                         <i className="feather-arrow-right"></i>
                       </span>
                     </span>
+<<<<<<< HEAD
                                                     </Link>
 
                                                 </button>
@@ -219,6 +356,15 @@ const Interest = () => {
 
 
                 </Formik>
+=======
+                            </Link>
+
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+>>>>>>> main
 
         </div>
       </div>
