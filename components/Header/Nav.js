@@ -3,40 +3,30 @@ import Link from "next/link";
 import Image from "next/image";
 
 import {useEffect, useState} from "react";
-import Axios from "axios";
-import {ErrorDefaultAlert} from "@/components/services/SweetAlert";
-import API_URL from "@/pages/constant";
 
+import MenuData from "../../data/MegaMenu";
 
-const  Nav = () => {
+import CourseLayout from "./NavProps/CourseLayout";
+import PageLayout from "./NavProps/PageLayout";
+import ElementsLayout from "./NavProps/ElementsLayout";
+
+import addImage from "../../public/images/service/mobile-cat.jpg";
+
+const Nav = () => {
   const [activeMenuItem, setActiveMenuItem] = useState(null);
   const router = useRouter();
   const [showDashboard, setshowDashboard] = useState(false)
-  const [verifySts, setverifySts] = useState(0)
+
   const isActive = (href) => router.pathname === href;
 
   const toggleMenuItem = (item) => {
     setActiveMenuItem(activeMenuItem === item ? null : item);
   };
-  const REACT_APP = API_URL
+
   useEffect(() => {
     if (localStorage.getItem('userData')) {
       setshowDashboard(true)
     }
-    Axios.get(`${REACT_APP.API_URL}/api/TutorBasics/GetTutorDetails/${JSON.parse(localStorage.getItem('userData')).regid}`, {
-      headers: {
-        ApiKey: `${REACT_APP.API_KEY}`
-      }
-    })
-        .then(res => {
-          // console.log(res.data)
-          setverifySts(res.data[0].bVerifyStatus)
-
-        })
-        .catch(err => {
-          { ErrorDefaultAlert(err) }
-        })
-
   }, []);
 
   return (
@@ -63,24 +53,12 @@ const  Nav = () => {
 
         </li>
         <li className="">
-          {/*{console.log(verifySts)}*/}
-          {verifySts === 2 ? <>
-            <a
-                className={`${activeMenuItem === "tutor" ? "open" : ""}`}
-                href="https://eet-frontend.azurewebsites.net/tutorbatch/dashboard"
-                target={'_blank'}
-            >
-              Tutor
-            </a>
-          </> : <>
-            <Link
-                className={`${activeMenuItem === "tutor" ? "open" : ""}`}
-                href="/become-a-teacher"
-            >
-              Become a Tutor
-            </Link>
-          </>}
-
+          <Link
+            className={`${activeMenuItem === "tutor" ? "open" : ""}`}
+            href="/become-a-teacher"
+          >
+            Become a Tutor
+          </Link>
         </li>
         <li className="">
           <Link

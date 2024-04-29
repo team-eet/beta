@@ -8,7 +8,7 @@ import * as Yup from 'yup'
 import { Formik, ErrorMessage, Form } from 'formik'
 import {ErrorDefaultAlert} from "@/components/services/SweetAlert";
 import { useRouter } from "next/router";
-import {Alert, Button, CardText} from "reactstrap";
+import {Button, CardText} from "reactstrap";
 import {DecryptData, EncryptData} from "@/components/services/encrypt-decrypt";
 import img from "@/public/images/others/thumbnail-placeholder.svg";
 
@@ -169,7 +169,7 @@ const Education = () => {
         const deletedarray = deletedFields.map((item) => {
             return item.nTEId
         })
-        // console.log('deletedArray', deletedarray)
+        console.log('deletedArray', deletedarray)
         setdeletedArray(deletedarray)
 
         const originalArray = updateArray;
@@ -187,8 +187,7 @@ const Education = () => {
             }
         })
             .then(res => {
-               // console.log(res.data)
-                window.location.reload()
+               console.log(res.data)
             })
             .catch(err => {
                 { ErrorDefaultAlert(err) }
@@ -211,6 +210,8 @@ const Education = () => {
                 { ErrorDefaultAlert(err) }
             })
     }
+
+
 
     const options = [];
     const defaultValue = new Date().getFullYear();
@@ -280,6 +281,7 @@ const Education = () => {
                 // console.log(array)
                 setUpdatearray(array)
 
+                // console.log(array)
                 // ---------------------
                     if(res.data.length !== 0) {
                         setEducationFields(res.data)
@@ -310,11 +312,8 @@ const Education = () => {
                         onSubmit={async (values, {resetForm}) => {
                             // console.log([values])
 
-                            if(verifySts === 2) {
+                            if(verifySts === 0 || verifySts === 2) {
 
-                                router.push('/become-a-tutor/certification')
-
-                            } else {
                                 if(tutorcnt !== 0) {
                                     //if tutorcnt is not equal to 0 the call update tutor education api
 
@@ -364,11 +363,10 @@ const Education = () => {
                                             // console.log(retData)
                                             resetForm({})
                                             if(retData.success === '1') {
-                                                router.push('/become-a-tutor/certification')
+                                                // router.push('/become-a-tutor/certification')
                                             }
                                         })
                                             .catch(err => {
-                                                console.log(err)
                                                 {
                                                     ErrorDefaultAlert(JSON.stringify(err.response))
                                                 }
@@ -423,9 +421,12 @@ const Education = () => {
                                                     ErrorDefaultAlert(JSON.stringify(err.response))
                                                 }
                                             })
-                                    }}
-
+                                    }
+                                }
+                            } else {
+                                router.push('/become-a-tutor/certification')
                             }
+
 
 
                         }}
@@ -436,29 +437,6 @@ const Education = () => {
                                     <Form>
                                         <div className="section-title mb-3">
                                             <h4 className="rbt-title-style-3">Education</h4>
-                                            {verifySts === 2 ? <>
-                                                <Alert color='success'>
-                                                    <h6 className='alert-heading m-0 text-center'>
-                                                        Education information verification has been approved by admin
-                                                    </h6>
-                                                </Alert>
-
-                                            </> : <>
-                                                {verifySts === 1 ? <>
-                                                    <Alert color='warning'>
-                                                        <h6 className='alert-heading m-0 text-center'>
-                                                            Education verification is pending state
-                                                        </h6>
-                                                    </Alert>
-
-                                                </> : <>
-                                                    <Alert color='warning'>
-                                                        <h6 className='alert-heading m-0 text-center'>
-                                                            Education verification has been disapproved by admin
-                                                        </h6>
-                                                    </Alert>
-                                                </>}
-                                            </>}
                                             <p>Let us know about the highest education or ongoing degree</p>
                                             <input id="education" type="checkbox" value={isEducation} name="isEducation" onChange={handleIsEducation}/>
                                             <label htmlFor="education">
@@ -476,7 +454,7 @@ const Education = () => {
                                                                 <input type={'hidden'} value={education.nTEId} />
                                                                 <label>Country of Education</label>
                                                                 <select
-                                                                    disabled={verifySts === 2}
+                                                                    readOnly={verifySts === 1}
                                                                     value={education.nCountryId}
                                                                     onChange={(e) => handleChangeCountry(e, index)}
                                                                 >
@@ -494,7 +472,7 @@ const Education = () => {
                                                                 <label>University</label>
                                                                 <input
                                                                     // Disable if verifycount is 1
-                                                                    readOnly={verifySts === 2} // Make readonly if verifycount is
+                                                                    readOnly={verifySts === 1} // Make readonly if verifycount is
                                                                     type="text"
                                                                     value={education.sUniversity}
                                                                     onChange={(e) => handleChangeUniversity(e, index)}
@@ -504,7 +482,7 @@ const Education = () => {
                                                                 <label>Degree</label>
                                                                 <input
                                                                     type="text"
-                                                                    readOnly={verifySts === 2}
+                                                                    readOnly={verifySts === 1}
                                                                     value={education.sDegree}
                                                                     onChange={(e) => handleChangeDegree(e, index)}
                                                                 />
@@ -513,7 +491,7 @@ const Education = () => {
                                                                 <label>Specialization</label>
                                                                 <input
                                                                     type="text"
-                                                                    readOnly={verifySts === 2}
+                                                                    readOnly={verifySts === 1}
                                                                     value={education.sSpecialization}
                                                                     onChange={(e) => handleChangeSpecialization(e, index)}
                                                                 />
@@ -521,14 +499,14 @@ const Education = () => {
                                                             <div className={'col-lg-6'}>
                                                                 <label>Year of study from</label>
                                                                 <select value={education.sFrom_year}
-                                                                        disabled={verifySts === 2}
+                                                                        readOnly={verifySts === 1}
                                                                         onChange={(e) => handleYearFromChange(e, index)}>
                                                                     {options}
                                                                 </select>
                                                             </div>
                                                             <div className={'col-lg-6'}>
                                                                 <label>Year of study to</label>
-                                                                <select disabled={verifySts === 2} value={education.sTo_year}
+                                                                <select readOnly={verifySts === 1} value={education.sTo_year}
                                                                         onChange={(e) => handleYearToChange(e, index)}>
                                                                     <option value="Present">Present</option>
                                                                     {options}
@@ -536,7 +514,8 @@ const Education = () => {
 
                                                             </div>
                                                             <div className={'col-lg-12 mt-5 mb-3'}>
-                                                                <div className={'rounded-2 p-3'} style={{background: "#f4f4f8"}}>
+                                                                <div className={'rounded-2 p-3'}
+                                                                     style={{background: "#f4f4f8"}}>
                                                                     <h5>Get a qualification verified badge</h5>
                                                                     <small>Upload your diploma to boost your
                                                                         credibility! Our team will review it and add the badge to
@@ -562,7 +541,7 @@ const Education = () => {
                                                                 {/*)}*/}
                                                             </div>
 
-                                                            {verifySts == 2 ? <>
+                                                            {verifySts === 0 || verifySts == 2 ? <>
                                                                 <div className="col-lg-12 text-end mt-2">
                                                                     <button type={'button'} className="btn btn-danger"
                                                                             onClick={() => handleRemoveEducation(education.nTEId)}>Remove
@@ -574,7 +553,7 @@ const Education = () => {
                                                         </div>
                                                     </div>
                                                 ))}
-                                                {verifySts == 2 ? <>
+                                                {verifySts === 0 || verifySts == 2 ? <>
                                                     <div className={'col-lg-5 mt-5 mb-5'}>
                                                         <button type={'button'}
                                                                 className="rbt-btn-link left-icon border-0 bg-white"

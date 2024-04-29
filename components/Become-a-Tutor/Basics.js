@@ -8,7 +8,7 @@ import { Formik, ErrorMessage, Form } from 'formik'
 import Axios from 'axios'
 import {ErrorDefaultAlert} from "@/components/services/SweetAlert";
 import { useRouter } from "next/router";
-import {Button, CardText, Alert} from 'reactstrap'
+import {Button, CardText} from 'reactstrap'
 import {DecryptData} from "@/components/services/encrypt-decrypt";
 import {RecaptchaVerifier, sendSignInLinkToEmail, signInWithPhoneNumber} from "firebase/auth";
 import {auth} from "@/context/firebase";
@@ -295,30 +295,15 @@ const Basics = () => {
     };
 
     const [showContinue, setshowContinue] = useState(false)
-    const [tutorcnt, setTutorcnt] = useState('')
     const [isAdded, setisAdded] = useState(true)
     const [tutorDetail, setTutorDetail] = useState([])
-    const [verifysts, setverifySts] = useState([])
   useEffect(() => {
-      Axios.get(`${REACT_APP.API_URL}/api/TutorVerify/GetTutorVerify/${JSON.parse(localStorage.getItem('userData')).regid}`, {
-          headers: {
-              ApiKey: `${REACT_APP.API_KEY}`
-          }
-      })
-          .then(res => {
-              // console.log(res.data)
-              setverifySts(res.data[0])
-          })
-          .catch(err => {
-              { ErrorDefaultAlert(err) }
-          })
-
       if(localStorage.getItem('userData')) {
-          // setsFname(JSON.parse(localStorage.getItem('userData')).fname)
-          // setsLname(JSON.parse(localStorage.getItem('userData')).lname)
+          setsFname(JSON.parse(localStorage.getItem('userData')).fname)
+          setsLname(JSON.parse(localStorage.getItem('userData')).lname)
           setregId(JSON.parse(localStorage.getItem('userData')).regid)
           setUsername(DecryptData(JSON.parse(localStorage.getItem('userData')).username))
-          // setsMobile(JSON.parse(localStorage.getItem('verify_mobile')))
+          setsMobile(JSON.parse(localStorage.getItem('verify_mobile')))
       }
 
       Axios.get(`${REACT_APP.API_URL}/api/TutorBasics/GetTutorProfile/${JSON.parse(localStorage.getItem('userData')).regid}`, {
@@ -330,7 +315,6 @@ const Basics = () => {
               // console.log(res.data)
               // if(res.data.)
               if(res.data[0].cnt !== 0) {
-                  setTutorcnt(res.data[0].cnt)
                   setisAdded(false)
                   setshowContinue(true)
               } else {
@@ -342,7 +326,7 @@ const Basics = () => {
               { ErrorDefaultAlert(err) }
           })
 
-         const formatDate = (dateTimeString) => {
+      const formatDate = (dateTimeString) => {
           const date = new Date(dateTimeString); // Create a Date object from the dateTimeString
           const day = date.getDate(); // Get the day of the month (1-31)
           const monthNames = [
@@ -357,15 +341,14 @@ const Basics = () => {
           const formattedDate = `${paddedDay}-${month}-${year}`;
           return formattedDate;
       };
-
           Axios.get(`${REACT_APP.API_URL}/api/TutorBasics/GetTutorDetails/${JSON.parse(localStorage.getItem('userData')).regid}`, {
           headers: {
               ApiKey: `${REACT_APP.API_KEY}`
           }
-         })
+      })
           .then(res => {
               console.log(res.data)
-              // setTutorDetail(res.data[0])
+              setTutorDetail(res.data[0])
               setsFname(res.data[0].sFName)
               setsLname(res.data[0].sLName)
               setsMobile(res.data[0].sMobile)
@@ -374,12 +357,14 @@ const Basics = () => {
               setcountryId(res.data[0].nCountryId)
               setcityId(res.data[0].nCityId)
               setstateId(res.data[0].nStateId)
-              setdDOB(res.data[0].dDOB)
+              // setdDOB(res.data[0].dDOB)
 
               const dateTimeString = res.data[0].dDOB; // Example input date and time string
 
               const formattedDate = formatDate(res.data[0].dDOB);
-
+              console.log(formattedDate)
+              setdDOB(formattedDate);
+              // setdDOB(formattedDate);
               Axios.get(`${REACT_APP.API_URL}/api/registration/BindState/${res.data[0].nCountryId}`, {
                   headers: {
                       ApiKey: `${REACT_APP.API_KEY}`
@@ -420,7 +405,12 @@ const Basics = () => {
                   .catch(err => {
                       { ErrorDefaultAlert(err) }
                   })
-
+              // if(res.data.)
+              // if(res.data[0].cnt !== 0) {
+              //     setshowContinue(true)
+              // } else {
+              //     setshowContinue(false)
+              // }
           })
           .catch(err => {
               { ErrorDefaultAlert(err) }
@@ -441,101 +431,59 @@ const Basics = () => {
               validationSchema={UserValidationSchema}
               initialValues={{
                   nRegId : regId,
-                  sFName: sFname ? sFname : '',
-                  sLName: sLname ? sLname : '',
-                  sEmail: sEmail ? sEmail : '',
-                  sMobile: sMobile ? sMobile : '',
+                  sFName: sFname ? sFname : tutorDetail.sFName,
+                  sLName: sLname ? sLname : tutorDetail.sLName,
+                  sEmail: sEmail ? sEmail : tutorDetail.sEmail,
+                  sMobile: sMobile ? sMobile : tutorDetail.sMobile,
                   dDOB : dDOB ? dDOB : '',
-                  sGender: sGender ? sGender: '',
-                  nCountryId: countryId ? countryId : '',
-                  nStateId: stateId ? stateId : '',
-                  nCityId: cityId ? cityId : '',
+                  sGender: sGender ? sGender : tutorDetail.sGender,
+                  nCountryId: countryId ? countryId : tutorDetail.nCountryId,
+                  nStateId: stateId ? stateId : tutorDetail.nStateId,
+                  nCityId: cityId ? cityId : tutorDetail.nCityId,
                   IsAdded: isAdded
               }}
               enableReinitialize={true}
               onSubmit={async (values, {resetForm}) => {
                 // console.log(values)
-                  if(verifysts.sBasic_verify === 2) {
-                    router.push('/become-a-tutor/profile-photo')
-                  } else {
-                      await Axios.post(`${REACT_APP.API_URL}/api/TutorBasics/AddTutor`, values, {
-                          headers: {
-                              ApiKey: `${REACT_APP.API_KEY}`
-                          }
-                      }).then(res => {
-                          // console.log(res.data)
-                          const retData = JSON.parse(res.data)
-                          localStorage.removeItem('verify_uname')
-                          // console.log(retData)
-                          resetForm({})
-                          if(retData.success === '1') {
-                              router.push('/become-a-tutor/profile-photo')
+                  await Axios.post(`${REACT_APP.API_URL}/api/TutorBasics/AddTutor`, values, {
+                      headers: {
+                          ApiKey: `${REACT_APP.API_KEY}`
+                      }
+                  }).then(res => {
+                        console.log(res.data)
+                        const retData = JSON.parse(res.data)
+                      localStorage.removeItem('verify_uname')
+                        // console.log(retData)
+                      resetForm({})
+                      if(retData.success === '1') {
+                          router.push('/become-a-tutor/profile-photo')
+                      }
+                  })
+                      .catch(err => {
+                          {
+                              ErrorDefaultAlert(JSON.stringify(err.response))
                           }
                       })
-                          .catch(err => {
-                              {
-                                  ErrorDefaultAlert(JSON.stringify(err.response))
-                              }
-                          })
-                  }
-
               }}
           >
             {({errors, touched}) => {
               return (
                   <>
                       <Form>
-                          {verifysts.sBasic_verify === 2 ? <>
-                              <Alert color='success'>
-                                  <h6 className='alert-heading m-0 text-center'>
-                                      Basic information verification has been approved by admin
-                                  </h6>
-                              </Alert>
-
-                          </> : <>
-                          {verifysts.sBasic_verify === 1 ? <>
-                              <Alert color='warning'>
-                                  <h6 className='alert-heading m-0 text-center'>
-                                      Basic information verification is pending state
-                                  </h6>
-                              </Alert>
-
-                          </> : <>
-                              <Alert color='danger'>
-                                  <h6 className='alert-heading m-0 text-center'>
-                                      Basic information verification has been disapproved by admin
-                                  </h6>
-                              </Alert>
-                          </>}
-                              </>}
-
-                          <div className={'row row--15 mt-5'}>
+                          <div className={'row row--15'}>
                               <div className="col-lg-6">
                                   <label>
                                       First Name
                                   </label>
                                   <div className="form-group">
-                                      {verifysts.sBasic_verify === 2 ? <>
-                                          <input
-                                              onChange={handleFname}
-                                              value={sFname}
-                                              className={`form-control bg-secondary-opacity ${errors.sFName && touched.sFName && 'is-invalid'}`}
-                                              name="sFName"
-                                              type="text"
-                                              readOnly
-                                              placeholder="First Name"
-                                          />
-                                      </> : <>
-                                          <input
-                                              onChange={handleFname}
-                                              value={sFname}
-                                              className={`form-control ${errors.sFName && touched.sFName && 'is-invalid'}`}
-                                              name="sFName"
-                                              type="text"
-                                              placeholder="First Name"
-                                          />
-                                      </>}
-
+                                      <input
+                                          onChange={handleFname}
+                                          value={sFname}
+                                          className={`form-control ${errors.sFName && touched.sFName && 'is-invalid'}`}
+                                          name="sFName"
+                                          type="text"
+                                          placeholder="First Name"
+                                      />
                                       <ErrorMessage name='sFName' component='div'
                                                     className='field-error text-danger'/>
                                       <span className="focus-border"></span>
@@ -544,31 +492,17 @@ const Basics = () => {
 
                               <div className="col-lg-6">
                                   <label>
-                                  Last Name
+                                      Last Name
                                   </label>
-
                                   <div className="form-group">
-                                      {verifysts.sBasic_verify === 2 ? <>
-                                          <input
-                                              onChange={handleLname}
-                                              value={sLname}
-                                              className={`form-control bg-secondary-opacity ${errors.sLName && touched.sLName && 'is-invalid'}`}
-                                              name="sLName"
-                                              readOnly
-                                              type="text"
-                                              placeholder="Last Name"
-                                          />
-                                      </> : <>
-                                          <input
-                                              onChange={handleLname}
-                                              value={sLname}
-                                              className={`form-control ${errors.sLName && touched.sLName && 'is-invalid'}`}
-                                              name="sLName"
-                                              type="text"
-                                              placeholder="Last Name"
-                                          />
-                                      </>}
-
+                                      <input
+                                          onChange={handleLname}
+                                          value={sLname}
+                                          className={`form-control ${errors.sLName && touched.sLName && 'is-invalid'}`}
+                                          name="sLName"
+                                          type="text"
+                                          placeholder="Last Name"
+                                      />
                                       <ErrorMessage name='sLName' component='div'
                                                     className='field-error text-danger'/>
                                       <span className="focus-border"></span>
@@ -577,107 +511,56 @@ const Basics = () => {
 
                               <div className="col-lg-6 mt-3">
                                   <label>
-                                  Phone number
+                                      Phone number
                                   </label>
                                   <div className="form-group">
                                       <div className={'d-flex'}>
 
-                                          {verifysts.sBasic_verify === 2 ? <>
-                                              {username.EM !== 'mobile' ?
-                                                  <>
-                                                      {verified ? <>
-                                                          <input
-                                                              // onChange={handleMobile}
-                                                              value={sMobile}
-                                                              className={`form-control bg-secondary-opacity ${errors.sMobile && touched.sMobile && 'is-invalid'}`}
-                                                              name="sMobile"
-                                                              type="text"
-                                                              readOnly
-                                                              placeholder="Phone Number"
-                                                          />
-                                                          <Button className={'btn-email-verified btn-success p-4'}><i
-                                                              className={'feather-check'}></i></Button>
+                                          {username.EM !== 'mobile' ?
+                                              <>
+                                                  {verified ? <>
+                                                      <input
+                                                          // onChange={handleMobile}
+                                                          value={sMobile}
+                                                          className={`form-control bg-secondary-opacity ${errors.sMobile && touched.sMobile && 'is-invalid'}`}
+                                                          name="sMobile"
+                                                          type="text"
+                                                          placeholder="Phone Number"
+                                                      />
+                                                      <Button className={'btn-email-verified btn-success p-4'}><i
+                                                          className={'feather-check'}></i></Button>
+                                                  </> : <>
+                                                      <input
+                                                          onChange={handleMobile}
+                                                          value={sMobile}
+                                                          className={`form-control ${errors.sMobile && touched.sMobile && 'is-invalid'}`}
+                                                          name="sMobile"
+                                                          type="text"
+                                                          placeholder="Phone Number"
+                                                      />
+                                                      {sMobile !== null ? <>
+                                                          <Button className={'btn-email-verified btn-success p-4'}>
+                                                              <i className={'feather-check'}></i></Button>
                                                       </> : <>
-                                                          <input
-                                                              onChange={handleMobile}
-                                                              value={sMobile}
-                                                              className={`form-control bg-secondary-opacity ${errors.sMobile && touched.sMobile && 'is-invalid'}`}
-                                                              name="sMobile"
-                                                              readOnly
-                                                              type="text"
-                                                              placeholder="Phone Number"
-                                                          />
-                                                          {sMobile !== null ? <>
-                                                              <Button className={'btn-email-verified btn-success p-4'}>
-                                                                  <i className={'feather-check'}></i></Button>
-                                                          </> : <>
-                                                              <Button onClick={verifyMobile}
-                                                                      className={'btn-mob-verify'}>Verify</Button>
-                                                          </>}
-
+                                                          <Button onClick={verifyMobile}
+                                                                  className={'btn-mob-verify'}>Verify</Button>
                                                       </>}
 
-                                                  </> : <>
-                                                      <>
-                                                          <input
-                                                              // onChange={handleEmail}
-                                                              value={sMobile}
-                                                              className={`form-control bg-secondary-opacity ${errors.sMobile && touched.sMobile && 'is-invalid'}`}
-                                                              name="sMobile"
-                                                              type="text"
-                                                              placeholder="Phone Number"
-                                                          /> <Button className={'btn-email-verified btn-success p-4'}>
-                                                          <i className={'feather-check'}></i></Button>
-                                                      </>
                                                   </>}
-                                          </> : <>
-                                              {username.EM !== 'mobile' ?
+
+                                              </> : <>
                                                   <>
-                                                      {verified ? <>
-                                                          <input
-                                                              // onChange={handleMobile}
-                                                              value={sMobile}
-                                                              className={`form-control bg-secondary-opacity ${errors.sMobile && touched.sMobile && 'is-invalid'}`}
-                                                              name="sMobile"
-                                                              type="text"
-                                                              placeholder="Phone Number"
-                                                          />
-                                                          <Button className={'btn-email-verified btn-success p-4'}><i
-                                                              className={'feather-check'}></i></Button>
-                                                      </> : <>
-                                                          <input
-                                                              onChange={handleMobile}
-                                                              value={sMobile}
-                                                              className={`form-control ${errors.sMobile && touched.sMobile && 'is-invalid'}`}
-                                                              name="sMobile"
-                                                              type="text"
-                                                              placeholder="Phone Number"
-                                                          />
-                                                          {sMobile !== null ? <>
-                                                              <Button className={'btn-email-verified btn-success p-4'}>
-                                                                  <i className={'feather-check'}></i></Button>
-                                                          </> : <>
-                                                              <Button onClick={verifyMobile}
-                                                                      className={'btn-mob-verify'}>Verify</Button>
-                                                          </>}
-
-                                                      </>}
-
-                                                  </> : <>
-                                                      <>
-                                                          <input
-                                                              // onChange={handleEmail}
-                                                              value={sMobile}
-                                                              className={`form-control bg-secondary-opacity ${errors.sMobile && touched.sMobile && 'is-invalid'}`}
-                                                              name="sMobile"
-                                                              type="text"
-                                                              placeholder="Phone Number"
-                                                          /> <Button className={'btn-email-verified btn-success p-4'}>
-                                                          <i className={'feather-check'}></i></Button>
-                                                      </>
-                                                  </>}
-                                          </>}
-
+                                                      <input
+                                                          // onChange={handleEmail}
+                                                          value={username.Username}
+                                                          className={`form-control bg-secondary-opacity ${errors.sMobile && touched.sMobile && 'is-invalid'}`}
+                                                          name="sMobile"
+                                                          type="text"
+                                                          placeholder="Phone Number"
+                                                      /> <Button className={'btn-email-verified btn-success p-4'}>
+                                                      <i className={'feather-check'}></i></Button>
+                                                  </>
+                                              </>}
                                       </div>
 
                                       <ErrorMessage name='sMobile' component='div'
@@ -696,57 +579,30 @@ const Basics = () => {
                                   </label>
                                   <div className="form-group">
                                       <div className={'d-flex'}>
-                                          {verifysts.sBasic_verify === 2 ? <>
-                                              {username ? <>
-                                                  <input
-                                                      // onChange={handleEmail}
-                                                      value={sEmail}
-                                                      className={`form-control bg-secondary-opacity`}
-                                                      name="sEmail"
-                                                      readOnly
-                                                      type="email"
-                                                      placeholder="Email"
-                                                  /> <Button className={'btn-email-verified btn-success p-4'}><i
-                                                  className={'feather-check'}></i></Button>
-                                              </> : <>
-                                                  <input
-                                                      onChange={handleEmail}
-                                                      value={sEmail}
-                                                      className={`form-control bg-secondary-opacity`}
-                                                      name="sEmail"
-                                                      readOnly
-                                                      type="email"
-                                                      placeholder="Email"
-                                                      // disabled={true}
-                                                  />
-                                                  <Button onClick={VerifyEmail}
-                                                          className={'btn-email-verify'}>Verify</Button>
-                                              </>}
+                                          {username ? <>
+                                              <input
+                                                  // onChange={handleEmail}
+                                                  value={username.Username}
+                                                  className={`form-control bg-secondary-opacity`}
+                                                  name="sEmail"
+                                                  type="email"
+                                                  placeholder="Email"
+                                              /> <Button className={'btn-email-verified btn-success p-4'}><i
+                                              className={'feather-check'}></i></Button>
                                           </> : <>
-                                              {username ? <>
-                                                  <input
-                                                      // onChange={handleEmail}
-                                                      value={sEmail}
-                                                      className={`form-control bg-secondary-opacity`}
-                                                      name="sEmail"
-                                                      type="email"
-                                                      placeholder="Email"
-                                                  /> <Button className={'btn-email-verified btn-success p-4'}><i
-                                                  className={'feather-check'}></i></Button>
-                                              </> : <>
-                                                  <input
-                                                      onChange={handleEmail}
-                                                      value={sEmail}
-                                                      className={`form-control`}
-                                                      name="sEmail"
-                                                      type="email"
-                                                      placeholder="Email"
-                                                      // disabled={true}
-                                                  />
-                                                  <Button onClick={VerifyEmail}
-                                                          className={'btn-email-verify'}>Verify</Button>
-                                              </>}
+                                              <input
+                                                  onChange={handleEmail}
+                                                  value={sEmail}
+                                                  className={`form-control`}
+                                                  name="sEmail"
+                                                  type="email"
+                                                  placeholder="Email"
+                                                  // disabled={true}
+                                              />
+                                              <Button onClick={VerifyEmail}
+                                                      className={'btn-email-verify'}>Verify</Button>
                                           </>}
+
 
                                       </div>
                                       <span className="focus-border"></span>
@@ -850,27 +706,14 @@ const Basics = () => {
                                   </label>
                                   {/*<DatePicker label="Basic date picker" />*/}
                                   <div className="form-group">
-                                      {verifysts.sBasic_verify === 2 ? <>
-                                          <input
-                                              onChange={handleDOB}
-                                              value={dDOB}
-                                              className={`form-control bg-secondary-opacity ${errors.dDOB && touched.dDOB && 'is-invalid'}`}
-                                              name="dDOB"
-                                              readOnly
-                                              type="date"
-                                              placeholder="DOB"
-                                          />
-                                      </> : <>
-                                          <input
-                                              onChange={handleDOB}
-                                              value={dDOB}
-                                              className={`form-control ${errors.dDOB && touched.dDOB && 'is-invalid'}`}
-                                              name="dDOB"
-                                              type="date"
-                                              placeholder="DOB"
-                                          />
-                                      </>}
-
+                                      <input
+                                          onChange={handleDOB}
+                                          value={dDOB}
+                                          className={`form-control ${errors.dDOB && touched.dDOB && 'is-invalid'}`}
+                                          name="dDOB"
+                                          type="date"
+                                          placeholder="DOB"
+                                      />
                                       <ErrorMessage name='dDOB' component='div' className='field-error text-danger'/>
                                       {ageErrorMessage && <div className="text-danger">{ageErrorMessage}</div>}
                                       <span className="focus-border"></span>
@@ -883,97 +726,28 @@ const Basics = () => {
                                   </label>
                                   <div className="form-group d-flex">
                                       <div>
-                                          {verifysts.sBasic_verify === 2 ? <>
-                                              {sGender === 1 ? <>
-                                                  <input
-                                                      onChange={handleGender}
-                                                      value={sGender}
-                                                      id="sMale"
-                                                      type="radio"
-                                                      name="sGender"
-                                                      checked
-                                                      disabled={true}
-                                                  />
-                                              </> : <>
-                                                  <input
-                                                      onChange={handleGender}
-                                                      value={sGender}
-                                                      id="sMale"
-                                                      type="radio"
-                                                      name="sGender"
-                                                      disabled={true}
-                                                  />
-                                              </>}
-                                          </> : <>
-                                              {sGender === 1 ? <>
-                                                  <input
-                                                      onChange={handleGender}
-                                                      value={sGender}
-                                                      id="sMale"
-                                                      type="radio"
-                                                      name="sGender"
-                                                      checked
-                                                  />
-                                              </> : <>
-                                                  <input
-                                                      onChange={handleGender}
-                                                      value={sGender}
-                                                      id="sMale"
-                                                      type="radio"
-                                                      name="sGender"
-                                                  />
-                                              </>}
-                                          </>}
 
+                                          <input
+                                              onChange={handleGender}
+                                              value={sGender}
+                                              id="sMale"
+                                              type="radio"
+                                              name="sGender"
+                                              checked={sGender === 1}
+                                          />
                                           <label htmlFor="sMale">
                                               Male
                                           </label>
                                       </div>
                                       <div className={"ms-3"}>
-
-                                          {verifysts.sBasic_verify === 2 ? <>
-                                              {sGender === 0 ? <>
-                                                  <input
-                                                      onChange={handleGender}
-                                                      value={sGender}
-                                                      id="sFemale"
-                                                      type="radio"
-                                                      name="sGender"
-                                                      checked
-                                                      disabled={true}
-                                                  />
-                                              </> : <>
-                                                  <input
-                                                      onChange={handleGender}
-                                                      value={sGender}
-                                                      id="sFemale"
-                                                      type="radio"
-                                                      name="sGender"
-                                                      disabled={true}
-                                                  />
-                                              </>}
-                                          </> : <>
-                                              {sGender === 0 ? <>
-                                                  <input
-                                                      onChange={handleGender}
-                                                      value={sGender}
-                                                      id="sFemale"
-                                                      type="radio"
-                                                      name="sGender"
-                                                      checked
-                                                  />
-                                              </> : <>
-                                                  <input
-                                                      onChange={handleGender}
-                                                      value={sGender}
-                                                      id="sFemale"
-                                                      type="radio"
-                                                      name="sGender"
-                                                  />
-                                              </>}
-                                          </>}
-
-
+                                          <input
+                                              onChange={handleGender}
+                                              value={sGender}
+                                              id="sFemale"
+                                              type="radio"
+                                              name="sGender"
+                                              checked={sGender === 2}
+                                          />
                                           <label htmlFor="sFemale">
                                               Female
                                           </label>
@@ -990,36 +764,19 @@ const Basics = () => {
                                       Select Country
                                   </label>
                                   {/*<div className="rbt-modern-select bg-transparent height-45">*/}
-                                  {verifysts.sBasic_verify === 2 ? <>
-                                      <select disabled={true} value={countryId} style={{fontSize: '15px', color: '#6b7385'}}
-                                              name={"nCountryId"}
-                                              className={`form-control bg-secondary-opacity ${errors.nCountryId && touched.nCountryId && 'is-invalid'}`}
-                                              onChange={handleChangeCountry}>
-                                          {country.map((item, index) => {
-                                              return (
-                                                  <>
-                                                      <option key={index}
-                                                              value={item.nCountryId}>{item.sCountryname}</option>
-                                                  </>
-                                              )
-                                          })}
-                                      </select>
-                                  </> : <>
-                                      <select value={countryId} style={{fontSize: '15px', color: '#6b7385'}}
-                                              name={"nCountryId"}
-                                              className={`form-control ${errors.nCountryId && touched.nCountryId && 'is-invalid'}`}
-                                              onChange={handleChangeCountry}>
-                                          {country.map((item, index) => {
-                                              return (
-                                                  <>
-                                                      <option key={index}
-                                                              value={item.nCountryId}>{item.sCountryname}</option>
-                                                  </>
-                                              )
-                                          })}
-                                      </select>
-                                  </>}
-
+                                  <select value={countryId} style={{fontSize: '15px', color: '#6b7385'}}
+                                          name={"nCountryId"}
+                                          className={`form-control ${errors.nCountryId && touched.nCountryId && 'is-invalid'}`}
+                                          onChange={handleChangeCountry}>
+                                      {country.map((item, index) => {
+                                          return (
+                                              <>
+                                                  <option key={index}
+                                                          value={item.nCountryId}>{item.sCountryname}</option>
+                                              </>
+                                          )
+                                      })}
+                                  </select>
                                   <ErrorMessage name='nCountryId' component='div'
                                                 className='field-error text-danger'/>
                               </div>
@@ -1028,36 +785,18 @@ const Basics = () => {
                                       Select State
                                   </label>
                                   {/*<div className="rbt-modern-select bg-transparent height-45">*/}
-                                  {verifysts.sBasic_verify ? <>
-                                      <select disabled={true} value={stateId} style={{fontSize: '15px', color: '#6b7385'}}
-                                              name={"nStateId"}
-                                              className={`form-control bg-secondary-opacity ${errors.nStateId && touched.nStateId && 'is-invalid'}`}
-                                              onChange={handleChangeState}>
-                                          {state.map((item, index) => {
-                                              return (
-                                                  <>
-                                                      <option key={item.nStateId}
-                                                              value={item.nStateId}>{item.sStateName}</option>
-                                                  </>
-                                              )
-                                          })}
-                                      </select>
-                                  </> : <>
-                                      <select value={stateId} style={{fontSize: '15px', color: '#6b7385'}}
-                                              name={"nStateId"}
-                                              className={`form-control ${errors.nStateId && touched.nStateId && 'is-invalid'}`}
-                                              onChange={handleChangeState}>
-                                          {state.map((item, index) => {
-                                              return (
-                                                  <>
-                                                      <option key={item.nStateId}
-                                                              value={item.nStateId}>{item.sStateName}</option>
-                                                  </>
-                                              )
-                                          })}
-                                      </select>
-                                  </>}
-
+                                  <select value={stateId} style={{fontSize: '15px', color: '#6b7385'}} name={"nStateId"}
+                                          className={`form-control ${errors.nStateId && touched.nStateId && 'is-invalid'}`}
+                                          onChange={handleChangeState}>
+                                      {state.map((item, index) => {
+                                          return (
+                                              <>
+                                                  <option key={item.nStateId}
+                                                          value={item.nStateId}>{item.sStateName}</option>
+                                              </>
+                                          )
+                                      })}
+                                  </select>
                                   <ErrorMessage name='nStateId' component='div'
                                                 className='field-error text-danger'/>
                                   {/*</div>*/}
@@ -1067,36 +806,18 @@ const Basics = () => {
                                       Select City
                                   </label>
                                   {/*<div className="rbt-modern-select bg-transparent height-45">*/}
-                                  {verifysts.sBasic_verify ? <>
-                                      <select disabled={true} value={cityId} style={{fontSize: '15px', color: '#6b7385'}}
-                                              name={"nCityId"}
-                                              className={`form-control bg-secondary-opacity ${errors.nCityId && touched.nCityId && 'is-invalid'}`}
-                                              onChange={handleChangeCity}>
-                                          {city.map((item, index) => {
-                                              return (
-                                                  <>
-                                                      <option key={item.nCityId}
-                                                              value={item.nCityId}>{item.sCityName}</option>
-                                                  </>
-                                              )
-                                          })}
-                                      </select>
-                                  </> : <>
-                                      <select value={cityId} style={{fontSize: '15px', color: '#6b7385'}}
-                                              name={"nCityId"}
-                                              className={`form-control ${errors.nCityId && touched.nCityId && 'is-invalid'}`}
-                                              onChange={handleChangeCity}>
-                                          {city.map((item, index) => {
-                                              return (
-                                                  <>
-                                                      <option key={item.nCityId}
-                                                              value={item.nCityId}>{item.sCityName}</option>
-                                                  </>
-                                              )
-                                          })}
-                                      </select>
-                                  </>}
-
+                                  <select value={cityId} style={{fontSize: '15px', color: '#6b7385'}} name={"nCityId"}
+                                          className={`form-control ${errors.nCityId && touched.nCityId && 'is-invalid'}`}
+                                          onChange={handleChangeCity}>
+                                      {city.map((item, index) => {
+                                          return (
+                                              <>
+                                                  <option key={item.nCityId}
+                                                          value={item.nCityId}>{item.sCityName}</option>
+                                              </>
+                                          )
+                                      })}
+                                  </select>
                                   <ErrorMessage name='nCityId' component='div'
                                                 className='field-error text-danger'/>
                                   {/*</div>*/}

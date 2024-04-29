@@ -7,7 +7,7 @@ import {Formik, ErrorMessage, Form} from 'formik'
 import Axios from 'axios'
 import {ErrorDefaultAlert} from "@/components/services/SweetAlert";
 import {useRouter} from "next/router";
-import {Alert, FormGroup} from "reactstrap";
+import {FormGroup} from "reactstrap";
 import API_URL from "@/pages/constant";
 
 
@@ -67,41 +67,10 @@ const IntroVideo = () => {
     }
   };
   const [regId, setregId] = useState('')
-  const [verifySts, setverifySts] = useState()
-
   useEffect(() => {
     if (localStorage.getItem('userData')) {
       setregId(JSON.parse(localStorage.getItem('userData')).regid)
     }
-
-    Axios.get(`${REACT_APP.API_URL}/api/TutorVerify/GetTutorVerify/${JSON.parse(localStorage.getItem('userData')).regid}`, {
-      headers: {
-        ApiKey: `${REACT_APP.API_KEY}`
-      }
-    })
-        .then(res => {
-          // console.log("GetTutorVerify",res.data)
-          if (res.data.length !== 0) {
-            setverifySts(res.data[0].sIntroVideo_verify)
-          }
-        })
-        .catch(err => {
-          { ErrorDefaultAlert(err) }
-        })
-
-    Axios.get(`${REACT_APP.API_URL}/api/TutorBasics/GetTutorDetails/${JSON.parse(localStorage.getItem('userData')).regid}`, {
-      headers: {
-        ApiKey: `${REACT_APP.API_KEY}`
-      }
-    })
-        .then(res => {
-          console.log(res.data)
-          setVideo(res.data[0]['sIntroVideoPath'])
-          setvideoUrl(res.data[0]['sIntroVideoUrl'])
-        })
-        .catch(err => {
-          { ErrorDefaultAlert(err) }
-        })
   }, []);
 
   const handleChangeURL = (e) => {
@@ -113,28 +82,6 @@ const IntroVideo = () => {
         <div className="content">
           <div className="section-title">
             <h4 className="rbt-title-style-3">Introduction video</h4>
-            {verifySts === 2 ? <>
-              <Alert color='success'>
-                <h6 className='alert-heading m-0 text-center'>
-                  Introduction video verification has been approved by admin
-                </h6>
-              </Alert>
-
-            </> : <>
-              {verifySts === 1 ? <>
-                <Alert color='warning'>
-                  <h6 className='alert-heading m-0 text-center'>
-                    Introduction video verification is in pending state
-                  </h6>
-                </Alert>
-              </> : <>
-                <Alert color='danger'>
-                  <h6 className='alert-heading m-0 text-center'>
-                    Introduction video verification has been disapproved by admin
-                  </h6>
-                </Alert>
-              </>}
-            </>}
             {/*<h3>Your profile photo is your first impression</h3>*/}
             <p>Add a landscape video of maximum 2 minutes</p>
           </div>
@@ -149,29 +96,24 @@ const IntroVideo = () => {
               enableReinitialize={true}
               onSubmit={async (values, {resetForm}) => {
                 // console.log(values)
-                if(verifySts === 2) {
-                  router.push('/become-a-tutor/interest')
-                } else {
-                  await Axios.put(`${REACT_APP.API_URL}/api/TutorBasics/UpdateTutorProfile`, values, {
-                    headers: {
-                      ApiKey: `${REACT_APP.API_KEY}`
-                    }
-                  }).then(res => {
-                    // console.log(values)
-                    const retData = JSON.parse(res.data)
-                    // console.log(retData)
-                    resetForm({})
-                    if(retData.success === '1') {
-                      router.push('/become-a-tutor/interest')
-                    }
-                  })
-                      .catch(err => {
-                        {
-                          ErrorDefaultAlert(JSON.stringify(err.response))
-                        }
-                      })
-                }
-
+                await Axios.put(`${REACT_APP.API_URL}/api/TutorBasics/UpdateTutorProfile`, values, {
+                  headers: {
+                    ApiKey: `${REACT_APP.API_KEY}`
+                  }
+                }).then(res => {
+                  // console.log(values)
+                  const retData = JSON.parse(res.data)
+                  console.log(retData)
+                  resetForm({})
+                  if(retData.success === '1') {
+                    router.push('/become-a-tutor/interest')
+                  }
+                })
+                    .catch(err => {
+                      {
+                        ErrorDefaultAlert(JSON.stringify(err.response))
+                      }
+                    })
               }}
           >
             {({errors, touched}) => {
@@ -182,16 +124,16 @@ const IntroVideo = () => {
                         <div className={'col-lg-6'}>
                           <input type="file" id="videofile" name="sIntroVideoPath" onChange={handleChange}
                                  accept="video/*"/>
-                          {video ? <ReactPlayer
+                          {IntroVideo ? <ReactPlayer
                               // playing={this.state.videoplay}
                               controls
                               width="100%"
                               height="200px"
-                              url={video}></ReactPlayer> : ''}
+                              url={IntroVideo}></ReactPlayer> : ''}
                           <p className={'mt-5 m-0'}>Or</p>
                           <p className={'m-0 mb-3'}>Paste a link of video</p>
                           <div className="form-group">
-                            <input required={verifySts === 2} onChange={handleChangeURL} name="" type="text" placeholder="Video Url"/>
+                            <input onChange={handleChangeURL} name="" type="text" placeholder="Video Url"/>
                             <span className="focus-border"></span>
                           </div>
                         </div>

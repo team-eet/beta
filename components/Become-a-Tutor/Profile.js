@@ -7,7 +7,7 @@ import {Formik, ErrorMessage, Form} from 'formik'
 import Axios from 'axios'
 import {ErrorDefaultAlert} from "@/components/services/SweetAlert";
 import {useRouter} from "next/router";
-import {Alert, FormGroup} from "reactstrap";
+import {FormGroup} from "reactstrap";
 import API_URL from "@/pages/constant";
 
 const UserValidationSchema = Yup.object().shape({
@@ -64,41 +64,10 @@ const Profile = () => {
     };
 
     const [regId, setregId] = useState('')
-    const [verifysts, setverifySts] = useState([])
-
     useEffect(() => {
-
-        Axios.get(`${REACT_APP.API_URL}/api/TutorVerify/GetTutorVerify/${JSON.parse(localStorage.getItem('userData')).regid}`, {
-            headers: {
-                ApiKey: `${REACT_APP.API_KEY}`
-            }
-        })
-            .then(res => {
-                // console.log(res.data)
-                setverifySts(res.data[0])
-            })
-            .catch(err => {
-                { ErrorDefaultAlert(err) }
-            })
-
         if (localStorage.getItem('userData')) {
             setregId(JSON.parse(localStorage.getItem('userData')).regid)
         }
-
-        Axios.get(`${REACT_APP.API_URL}/api/TutorBasics/GetTutorDetails/${JSON.parse(localStorage.getItem('userData')).regid}`, {
-            headers: {
-                ApiKey: `${REACT_APP.API_KEY}`
-            }
-        })
-            .then(res => {
-                // console.log(res.data)
-                setSImagePath(res.data[0]['sProfilePhotoPath'])
-                // setTutorDetail(res.data[0])
-
-            })
-            .catch(err => {
-                { ErrorDefaultAlert(err) }
-            })
     }, []);
 
     return (
@@ -107,29 +76,6 @@ const Profile = () => {
             <div className="content">
                 <div className="section-title">
                     <h4 className="rbt-title-style-3">Profile Photo</h4>
-                    {verifysts.sProfilePhoto_verify === 2 ? <>
-                        <Alert color='success'>
-                            <h6 className='alert-heading m-0 text-center'>
-                                Profile photo verification has been approved by admin
-                            </h6>
-                        </Alert>
-
-                    </> : <>
-                        {verifysts.sProfilePhoto_verify === 1 ? <>
-                            <Alert color='warning'>
-                                <h6 className='alert-heading m-0 text-center'>
-                                    Profile photo verification is in pending state
-                                </h6>
-                            </Alert>
-
-                        </> : <>
-                            <Alert color='warning'>
-                                <h6 className='alert-heading m-0 text-center'>
-                                    Profile photo verification has been disapproved by admin
-                                </h6>
-                            </Alert>
-                        </>}
-                    </>}
                     <h3>Your profile photo is your first impression</h3>
                     <p>Having a friendly and professional photo enriches your profile</p>
                 </div>
@@ -142,29 +88,24 @@ const Profile = () => {
                     }}
                     enableReinitialize={true}
                     onSubmit={async (values, {resetForm}) => {
-
-                        if(verifysts.sProfilePhoto_verify === 2) {
-                            router.push('/become-a-tutor/cover-photo')
-                        } else {
-                            await Axios.put(`${REACT_APP.API_URL}/api/TutorBasics/UpdateTutorProfile`, values, {
-                                headers: {
-                                    ApiKey: `${REACT_APP.API_KEY}`
-                                }
-                            }).then(res => {
-                                // console.log(values)
-                                console.log(res.data)
-                                const retData = JSON.parse(res.data)
-                                resetForm({})
-                                if(retData.success === '1') {
-                                    router.push('/become-a-tutor/cover-photo')
+                        await Axios.put(`${REACT_APP.API_URL}/api/TutorBasics/UpdateTutorProfile`, values, {
+                            headers: {
+                                ApiKey: `${REACT_APP.API_KEY}`
+                            }
+                        }).then(res => {
+                            // console.log(values)
+                            console.log(res.data)
+                            const retData = JSON.parse(res.data)
+                            resetForm({})
+                            if(retData.success === '1') {
+                                router.push('/become-a-tutor/cover-photo')
+                            }
+                        })
+                            .catch(err => {
+                                {
+                                    ErrorDefaultAlert(JSON.stringify(err.response))
                                 }
                             })
-                                .catch(err => {
-                                    {
-                                        ErrorDefaultAlert(JSON.stringify(err.response))
-                                    }
-                                })
-                        }
                     }}
                 >
                 {({errors, touched}) => {
@@ -181,7 +122,7 @@ const Profile = () => {
 
                                             {/*{(this.state.batchimagefile) ? <img className='w-100 h-200' src={this.state.batchimagefile} /> : <img*/}
                                             {/*    className='w-100 h-180 bg-light-primary p-1' src={noimg} alt='no-img' />}*/}
-                                            {sImagePath ? <img src={sImagePath} height={200} width={200}/> : ''}
+                                            {Profileimg ? <img src={Profileimg} height={200} width={200}/> : ''}
                                         </FormGroup>
                                         <ErrorMessage name='sProfilePhotoPath' component='div'
                                                       className='field-error text-danger'/>

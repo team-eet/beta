@@ -2,6 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js",
-  "/become-a-teacher": "pages/become-a-teacher.js"
+  "/become-a-tutor/interest": "pages/become-a-tutor/interest.js",
+  "/become-a-tutor/time-availability": "pages/become-a-tutor/time-availability.js"
 }

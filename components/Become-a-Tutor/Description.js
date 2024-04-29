@@ -3,7 +3,7 @@ import Select, { components } from "react-select";
 import withReactContent from "sweetalert2-react-content"
 import Swal from "sweetalert2"
 import { Formik, Field, Form, ErrorMessage } from 'formik'
-import {Alert, Card, FormGroup} from "reactstrap";
+import {Card, FormGroup} from "reactstrap";
 import Link from "next/link";
 import API_URL from '@/pages/constant'
 import * as Yup from 'yup'
@@ -47,51 +47,15 @@ const Description = () => {
 
   };
 
-  const countWords = (desc) => {
-    if (desc){
-      const words = desc.trim().split(/\s+/);
-      return words.filter(word => word !== '').length;
-
-    }
-
+  const countWords = () => {
+    const words = text.trim().split(/\s+/);
+    return words.filter(word => word !== '').length;
   };
   const [regId, setregId] = useState('')
-  const [verifySts, setverifySts] = useState()
   useEffect(() => {
-
     if (localStorage.getItem('userData')) {
       setregId(JSON.parse(localStorage.getItem('userData')).regid)
     }
-
-    Axios.get(`${REACT_APP.API_URL}/api/TutorVerify/GetTutorVerify/${JSON.parse(localStorage.getItem('userData')).regid}`, {
-      headers: {
-        ApiKey: `${REACT_APP.API_KEY}`
-      }
-    })
-        .then(res => {
-          // console.log("GetTutorVerify",res.data)
-          if (res.data.length !== 0) {
-            setverifySts(res.data[0].sDesc_verify)
-          }
-        })
-        .catch(err => {
-          { ErrorDefaultAlert(err) }
-        })
-
-    Axios.get(`${REACT_APP.API_URL}/api/TutorBasics/GetTutorDetails/${JSON.parse(localStorage.getItem('userData')).regid}`, {
-      headers: {
-        ApiKey: `${REACT_APP.API_KEY}`
-      }
-    })
-        .then(res => {
-          console.log(res.data)
-          setText(res.data[0]['sDesc'])
-          // setTutorDetail(res.data[0])
-
-        })
-        .catch(err => {
-          { ErrorDefaultAlert(err) }
-        })
   }, []);
 
   return (
@@ -101,29 +65,7 @@ const Description = () => {
           <div className="section-title">
             <h4 className="rbt-title-style-3">Description</h4>
           </div>
-          {verifySts === 2 ? <>
-            <Alert color='success'>
-              <h6 className='alert-heading m-0 text-center'>
-                Description verification has been approved by admin
-              </h6>
-            </Alert>
 
-          </> : <>
-            {verifySts === 1 ? <>
-              <Alert color='warning'>
-                <h6 className='alert-heading m-0 text-center'>
-                  Description verification is in pending state
-                </h6>
-              </Alert>
-
-            </> : <>
-              <Alert color='danger'>
-                <h6 className='alert-heading m-0 text-center'>
-                  Description verification has been disapproved by admin
-                </h6>
-              </Alert>
-            </>}
-          </>}
           <div>
             <p>
               Write minimum 100 words and maximum 200 words to describe yourself. This description will
@@ -140,28 +82,23 @@ const Description = () => {
                 enableReinitialize={true}
                 onSubmit={async (values, {resetForm}) => {
                   console.log(values)
-                  if(verifySts === 2){
-                    router.push('/become-a-tutor/intro-video')
-                  } else {
-                    await Axios.put(`${REACT_APP.API_URL}/api/TutorBasics/UpdateTutorProfile`, values, {
-                      headers: {
-                        ApiKey: `${REACT_APP.API_KEY}`
-                      }
-                    }).then(res => {
-                      // console.log(values)
-                      // console.log(res.data)
-                      const retData = JSON.parse(res.data)
-                      resetForm({})
-                      if(retData.success === '1') {
-                        router.push('/become-a-tutor/intro-video')
-                      }
-                    })
-                        .catch(err => {
-                          // console.log(err)
+                  await Axios.put(`${REACT_APP.API_URL}/api/TutorBasics/UpdateTutorProfile`, values, {
+                    headers: {
+                      ApiKey: `${REACT_APP.API_KEY}`
+                    }
+                  }).then(res => {
+                    // console.log(values)
+                    // console.log(res.data)
+                    const retData = JSON.parse(res.data)
+                    resetForm({})
+                    if(retData.success === '1') {
+                      router.push('/become-a-tutor/intro-video')
+                    }
+                  })
+                      .catch(err => {
+                        // console.log(err)
                           ErrorDefaultAlert(JSON.stringify(err.response))
-                        })
-                  }
-
+                      })
                 }}
             >
               {({errors, touched}) => {
@@ -171,10 +108,10 @@ const Description = () => {
                         <div className={'row'}>
                           <div className={'col-lg-6'}>
                             <label htmlFor="aboutCourse">Description</label>
-                            <textarea readOnly={verifySts === 2} name={"sDesc"} value={text}
+                            <textarea name={"sDesc"} value={text}
                                       onChange={handleTextChange} id="aboutCourse" rows="10"></textarea>
                             <div className={'text-end'}>
-                              <small>Word Count: {countWords(text)}</small>
+                              <small>Word Count: {countWords()}</small>
                             </div>
                             <ErrorMessage name='sDesc' component='div'
                                           className='field-error text-danger'/>

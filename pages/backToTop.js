@@ -19,8 +19,8 @@ const BackToTop = () => {
       const height =
         document.documentElement.scrollHeight -
         document.documentElement.clientHeight;
-        const progress = pathLength - (scroll * pathLength) / height;
-        progressPath.style.strokeDashoffset = progress;
+      const progress = pathLength - (scroll * pathLength) / height;
+      progressPath.style.strokeDashoffset = progress;
 
       const rbtProgressParent = progressRef.current;
       if (rbtProgressParent) {

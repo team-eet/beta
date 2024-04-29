@@ -8,28 +8,25 @@ import Axios from "axios";
 import {ErrorDefaultAlert} from "@/components/services/SweetAlert";
 import img from "@/public/images/others/thumbnail-placeholder.svg";
 import { useRouter } from "next/router";
-import {EncryptData} from "@/components/services/encrypt-decrypt";
-import {Alert} from "reactstrap";
 
 const Certification = () => {
-  const REACT_APP = API_URL
   const [country, setCountry] = useState([]);
   const [countryId, setcountryId] = useState('')
   const [hideFields, sethideFields] = useState(true)
   const defaultValue = new Date().getFullYear();
   const [regId, setregId] = useState('')
-  const [Certi_Image, setCerti_Image] = useState('')
   // const [selectedYear, SetselectedYear] = useState(new Date().getFullYear());
   // const [thisYear, setthisYear] = useState(defaultValue);
   const minOffset = 0;
   const maxOffset = 53;
-
+  const [Certi_Image, setCerti_Image] = useState('')
 
   // const [file, setFile] = useState();
 
   const CertificationList = []
   const [certificationFields, setcertificationFields] = useState([
     {
+      id:1,
       sCerti_title:'',
       sIssued_by:'',
       sCerti_imagePath:'',
@@ -119,7 +116,7 @@ const Certification = () => {
   const handleAddCertification = () => {
     const newId = certificationFields.length + 1;
     const newCertification = {
-      nTCId: 0,
+      id: newId,
       sCerti_title:'',
       sIssued_by:'',
       sCerti_imagePath:'',
@@ -130,40 +127,11 @@ const Certification = () => {
   };
 
   const handleRemoveCertification = (id) => {
-    const updatedFields = certificationFields.filter((field) => field.nTCId !== id);
+    const updatedFields = certificationFields.filter((field) => field.id !== id);
     setcertificationFields(updatedFields);
-
-    const deletedFields = certificationFields.filter((field) => field.nTCId === id);
-    console.log('deletedFields', deletedFields)
-
-    const deletedarray = deletedFields.map((item) => {
-      return item.nTCId
-    })
-    console.log('deletedArray', deletedarray)
-    setdeletedArray(deletedarray)
-
-    const originalArray = updateArray;
-
-    const elementsToRemove = deletedarray;
-
-// Use filter() to create a new array excluding elements to remove
-    const filteredArray = originalArray.filter((element) => !elementsToRemove.includes(element));
-
-    setUpdatearray(filteredArray)
-
-    Axios.delete(`${REACT_APP.API_URL}/api/TutorCertification/DeleteTutorCerti/${EncryptData(deletedarray[0])}`, {
-      headers: {
-        ApiKey: `${REACT_APP.API_KEY}`
-      }
-    })
-        .then(res => {
-          // console.log(res.data)
-          window.location.reload()
-        })
-        .catch(err => {
-          { ErrorDefaultAlert(err) }
-        })
   };
+
+  const REACT_APP = API_URL
 
 
   const options = [];
@@ -189,73 +157,10 @@ const Certification = () => {
   }
 
   const router = useRouter()
-  const [tutorcnt, setTutorcnt] = useState('')
-  const [updateArray, setUpdatearray] = useState([])
-  const [deletedArray, setdeletedArray] = useState([])
-  const [verifySts, setverifySts] = useState()
-
   useEffect(() => {
     if(localStorage.getItem('userData')) {
       setregId(JSON.parse(localStorage.getItem('userData')).regid)
     }
-
-    Axios.get(`${REACT_APP.API_URL}/api/TutorVerify/GetTutorVerify/${JSON.parse(localStorage.getItem('userData')).regid}`, {
-      headers: {
-        ApiKey: `${REACT_APP.API_KEY}`
-      }
-    })
-        .then(res => {
-          // console.log("GetTutorEducationVerify",res.data)
-          if (res.data.length !== 0) {
-            setverifySts(res.data[0].sCertification_verify)
-          }
-        })
-        .catch(err => {
-          { ErrorDefaultAlert(err) }
-        })
-
-
-    Axios.get(`${REACT_APP.API_URL}/api/TutorBasics/GetTutorProfile/${JSON.parse(localStorage.getItem('userData')).regid}`, {
-      headers: {
-        ApiKey: `${REACT_APP.API_KEY}`
-      }
-    })
-        .then(res => {
-          // console.log(res.data)
-          if(res.data[0].cnt !== 0) {
-            setTutorcnt(res.data[0].cnt)
-          }
-        })
-        .catch(err => {
-          { ErrorDefaultAlert(err) }
-        })
-
-    Axios.get(`${REACT_APP.API_URL}/api/TutorCertification/GetTutorCertiData/${JSON.parse(localStorage.getItem('userData')).regid}`, {
-      headers: {
-        ApiKey: `${REACT_APP.API_KEY}`
-      }
-    })
-        .then(res => {
-          // console.log(res.data)
-          const array = res.data.map((item, index) => {
-            return item.nTCId
-          })
-
-          // console.log(array)
-          setUpdatearray(array)
-
-          // ---------------------
-          if(res.data.length !== 0) {
-            setcertificationFields(res.data)
-          } else {
-            setcertificationFields(...educationFields)
-          }
-          // ---------------------
-
-        })
-        .catch(err => {
-          { ErrorDefaultAlert(err) }
-        })
   }, []);
 
   return (
@@ -269,123 +174,57 @@ const Certification = () => {
                 }}
                 enableReinitialize={true}
                 onSubmit={async (values, {resetForm}) => {
-                  // console.log([values])
-                  // console.log([values])s
-                  if(verifySts === 2) {
-                    router.push('/become-a-tutor/teaching-experience')
-                  } else {
-                    if (tutorcnt !== 0) {
-                      if (hideFields === false) {
-                        //no education
-                        const noEducation = {
-                          nRegId : regId,
-                          sIsCertification : "true"
-                        }
-                        // console.log(noEducation)
-                        await Axios.post(`${REACT_APP.API_URL}/api/TutorEducation/InsertTutorBasicEducation`, noEducation, {
-                          headers: {
-                            ApiKey: `${REACT_APP.API_KEY}`
-                            // 'Content-Type' : 'application/json'
-                          }
-                        }).then(res => {
-                          // console.log(res.data)
-                          const retData = JSON.parse(res.data)
-                          resetForm({})
-                          if(retData.success === '1') {
-                            router.push('/become-a-tutor/certification')
-                          }
-                        })
-                            .catch(err => {
-                              {
-                                ErrorDefaultAlert(JSON.stringify(err.response))
-                              }
-                            })
-                      } else {
-                        // alert('yes education')
-
-                        const updateValues = [{
-                          nRegId : regId,
-                          updateId: updateArray,
-                          deleteId: deletedArray,
-                          sCertification : CertificationList[0]
-                        }]
-                        console.log(updateValues)
-                        await Axios.put(`${REACT_APP.API_URL}/api/TutorCertification/UpdateTutorCertification  `, updateValues, {
-                          headers: {
-                            ApiKey: `${REACT_APP.API_KEY}`
-                          }
-                        }).then(res => {
-                          console.log(res.data)
-                          const retData = JSON.parse(res.data)
-                          // localStorage.removeItem('verify_uname')
-                          // console.log(retData)
-                          resetForm({})
-                          if(retData.success === '1') {
-                            router.push('/become-a-tutor/teaching-experience')
-                          }
-                        })
-                            .catch(err => {
-                              // console.log(err)
-                              {
-                                ErrorDefaultAlert(JSON.stringify(err.response))
-                              }
-                            })
-                      }
-                    } else {
-                      if (hideFields === false) {
-                        //no education
-                        const noCertification = {
-                          nRegId : regId,
-                          sIsCertification : "true"
-                        }
-                        // console.log(noEducation)
-                        await Axios.post(`${REACT_APP.API_URL}/api/TutorCertification/InsertTutorBasicCertificate`, noCertification, {
-                          headers: {
-                            ApiKey: `${REACT_APP.API_KEY}`
-                            // 'Content-Type' : 'application/json'
-                          }
-                        }).then(res => {
-                          console.log(res.data)
-                          const retData = JSON.parse(res.data)
-                          // localStorage.removeItem('verify_uname')
-                          // console.log(retData)
-                          resetForm({})
-                          if(retData.success === '1') {
-                            router.push('/become-a-tutor/teaching-experience')
-                          }
-                        })
-                            .catch(err => {
-                              {
-                                ErrorDefaultAlert(JSON.stringify(err.response))
-                              }
-                            })
-                      } else {
-                        // alert('yes education')
-                        await Axios.post(`${REACT_APP.API_URL}/api/TutorCertification/InsertTutorCertificate  `, [values], {
-                          headers: {
-                            ApiKey: `${REACT_APP.API_KEY}`
-                          }
-                        }).then(res => {
-                          console.log(res.data)
-                          const retData = JSON.parse(res.data)
-                          // localStorage.removeItem('verify_uname')
-                          // console.log(retData)
-                          resetForm({})
-                          if(retData.success === '1') {
-                            router.push('/become-a-tutor/teaching-experience')
-                          }
-                        })
-                            .catch(err => {
-                              // console.log(err)
-                              {
-                                ErrorDefaultAlert(JSON.stringify(err.response))
-                              }
-                            })
-                      }
+                  console.log([values])
+                  if (hideFields === false) {
+                    //no education
+                    const noCertification = {
+                      nRegid : regId,
+                      sIsCertification : "true"
                     }
+                    // console.log(noEducation)
+                    await Axios.post(`${REACT_APP.API_URL}/api/TutorCertification/InsertTutorBasicCertificate`, noCertification, {
+                      headers: {
+                        ApiKey: `${REACT_APP.API_KEY}`
+                        // 'Content-Type' : 'application/json'
+                      }
+                    }).then(res => {
+                      // console.log(res.data)
+                      const retData = JSON.parse(res.data)
+                      // localStorage.removeItem('verify_uname')
+                      // console.log(retData)
+                      resetForm({})
+                      if(retData.success === '1') {
+                        router.push('/become-a-tutor/teaching-experience')
+                      }
+                    })
+                        .catch(err => {
+                          {
+                            ErrorDefaultAlert(JSON.stringify(err.response))
+                          }
+                        })
+                  } else {
+                    // alert('yes education')
+                    await Axios.post(`${REACT_APP.API_URL}/api/TutorCertification/InsertTutorCertificate  `, [values], {
+                      headers: {
+                        ApiKey: `${REACT_APP.API_KEY}`
+                      }
+                    }).then(res => {
+                      console.log(res.data)
+                      const retData = JSON.parse(res.data)
+                      // localStorage.removeItem('verify_uname')
+                      // console.log(retData)
+                      resetForm({})
+                      if(retData.success === '1') {
+                        router.push('/become-a-tutor/teaching-experience')
+                      }
+                    })
+                        .catch(err => {
+                          console.log(err)
+                          {
+                            ErrorDefaultAlert(JSON.stringify(err.response))
+                          }
+                        })
                   }
-
-
 
                 }}
             >
@@ -395,29 +234,6 @@ const Certification = () => {
                       <Form>
                         <div className="section-title mb-3">
                           <h4 className="rbt-title-style-3">Certification</h4>
-                          {verifySts === 2 ? <>
-                            <Alert color='success'>
-                              <h6 className='alert-heading m-0 text-center'>
-                               Certification verification has been approved by admin
-                              </h6>
-                            </Alert>
-
-                          </> : <>
-                            {verifySts === 1 ? <>
-                              <Alert color='warning'>
-                                <h6 className='alert-heading m-0 text-center'>
-                                  Certification verification is pending state
-                                </h6>
-                              </Alert>
-
-                            </> : <>
-                              <Alert color='danger'>
-                                <h6 className='alert-heading m-0 text-center'>
-                                  Certification verification has been disapproved by admin
-                                </h6>
-                              </Alert>
-                            </>}
-                          </>}
                           <p>Let us know about teaching certification</p>
                           <input id="Certifcation" type="checkbox" value={isCertified} name="isCertification" onChange={handleIsCertification}/>
                           <label htmlFor="Certifcation">
@@ -429,10 +245,9 @@ const Certification = () => {
                           {/*<form action="#" className="row row--15 mt-5">*/}
                             {hideFields ? <>
                               {certificationFields.map((certification, index) => {
-                                // console.log(certification)
                                 return (
                                     <>
-                                      <div key={certification.nTCId}>
+                                      <div key={certification.id}>
                                         <div className={'row'}>
                                           <div className="col-lg-6">
                                             <label>
@@ -440,7 +255,6 @@ const Certification = () => {
                                             </label>
                                             <div className="form-group">
                                               <input
-                                                  readOnly={verifySts === 2}
                                                   onChange={(e) => handleChangeTitle(e, index)}
                                                   value={certification.sCerti_title}
                                                   type="text"
@@ -454,7 +268,6 @@ const Certification = () => {
                                             </label>
                                             <div className="form-group">
                                               <input
-                                                  readOnly={verifySts === 2}
                                                   onChange={(e) => handleChangeIssuedBy(e, index)}
                                                   value={certification.sIssued_by}
                                                   type="text"
@@ -466,7 +279,7 @@ const Certification = () => {
                                             <label>
                                               Year of study from
                                             </label>
-                                            <select disabled={verifySts === 2} value={certification.sFrom_year}
+                                            <select value={certification.sFrom_year}
                                                     onChange={(e) => handleYearFromChange(e, index)}>
                                               {options}
                                             </select>
@@ -476,7 +289,7 @@ const Certification = () => {
                                             <label>
                                               Year of study to
                                             </label>
-                                            <select disabled={verifySts === 2} value={certification.sTo_year}
+                                            <select value={certification.sTo_year}
                                                     onChange={(e) => handleYearToChange(e, index)}>
                                               <option value="Present">Present</option>
                                               {options}
@@ -494,47 +307,43 @@ const Certification = () => {
                                               <input type="file" className={'p-0 mt-3'}
                                                      onChange={(e) => handleChangeImage(e, index)}/>
 
-                                              {certification.sCerti_imagePath && (
-                                                  <img src={certification.sCerti_imagePath} alt="Uploaded"
+                                              {Certi_Image && (
+                                                  <img src={Certi_Image} alt="Uploaded"
                                                        style={{width: 100}}/>
                                               )}                                            </div>
                                           </div>
-                                          {verifySts === 2 ? <></> : <>
-                                            <div className="col-lg-12 text-end mt-2">
-                                              <button type={'button'} className="btn btn-danger"
-                                                      onClick={() => handleRemoveCertification(certification.nTCId)}>Remove
-                                              </button>
-                                            </div>
-                                          </>}
-
+                                          <div className="col-lg-12 text-end mt-2">
+                                            <button type={'button'} className="btn btn-danger"
+                                                    onClick={() => handleRemoveCertification(certification.id)}>Remove
+                                            </button>
+                                          </div>
                                         </div>
                                       </div>
+
 
                                     </>
                                 )
                               })
                               }
 
-                              {verifySts === 2 ? <></> : <>
                               <div className={'col-lg-5 mt-5 mb-5'}>
-                                 <button
-                                     type={'button'}
-                                     className="rbt-btn-link left-icon border-0 bg-white"
-                                     onClick={handleAddCertification}
-                                 >
-                                   <i className="feather-plus"></i>Add Certification
-                                 </button>
-                               </div>
-                             </>}
+                                <button
+                                    type={'button'}
+                                    className="rbt-btn-link left-icon border-0 bg-white"
+                                    onClick={handleAddCertification}
+                                >
+                                  <i className="feather-plus"></i>Add Certification
+                                </button>
+                              </div>
                             </> : ''}
 
-                          <div className="col-lg-12 mt-5">
-                            <div className="form-submit-group">
-                              <button
-                                  type="submit"
-                                  className="rbt-btn btn-md btn-gradient hover-icon-reverse w-100"
-                              >
-                                {/*<Link href={"/become-a-tutor/teaching-experience"} className={'text-white'}>*/}
+                            <div className="col-lg-12 mt-5">
+                              <div className="form-submit-group">
+                                <button
+                                    type="submit"
+                                    className="rbt-btn btn-md btn-gradient hover-icon-reverse w-100"
+                                >
+                                  {/*<Link href={"/become-a-tutor/teaching-experience"} className={'text-white'}>*/}
                                      <span className="icon-reverse-wrapper">
                                       <span className="btn-text">Continue</span>
                                       <span className="btn-icon">
