@@ -5,7 +5,6 @@ import React, {useState, useCallback, useEffect} from "react";
 import { ReactTags } from 'react-tag-autocomplete'
 import API_URL from '@/pages/constant'
 import Axios from "axios";
-<<<<<<< HEAD
 import {ErrorDefaultAlert} from "@/components/services/SweetAlert";
 import { useRouter } from "next/router";
 import {DecryptData} from "@/components/services/encrypt-decrypt";
@@ -13,36 +12,36 @@ import * as Yup from 'yup'
 import { Formik, ErrorMessage, Form } from 'formik'
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import {Button, CardText} from "reactstrap";
+import {Alert, Button, CardText} from "reactstrap";
 import interest from "@/pages/become-a-tutor/interest";
 
 
 const UserValidationSchema = Yup.object().shape({
-    sFName: Yup.string()
+    sFieldOfInterest: Yup.array()
         .required('This field is required'),
-    sLName: Yup.string()
+    sContentCourse: Yup.string()
         .required('This field is required'),
-    sMobile: Yup.string()
+    sOwnCourse: Yup.string()
         .required('This field is required')
 })
-=======
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-
-
->>>>>>> main
 const Interest = () => {
     const REACT_APP = API_URL
+    const router = useRouter()
     const [category, setCategory] = useState([])
 
-<<<<<<< HEAD
     const [Interest, setInterest] = useState([])
     const [selfCourse, setselfCourse] = useState('')
     const [content, setContent] = useState('')
+    const [regId, setregId] = useState('')
+
 
     const handleChangeInterest = (e, values) => {
-        // console.log(values)
-        setInterest(values)
+        console.log(values)
+        const category = values.map((obj) => {
+            return obj.sCategory
+        })
+        // console.log(a)
+        setInterest(category)
     }
 
     const handleChangeSelfCourse = (e) => {
@@ -52,46 +51,6 @@ const Interest = () => {
     const handleChangeContent = (e) => {
         setContent(e.target.value)
     }
-=======
-
-    const data = [
-        { label: "Java language" },
-        { label: "Python language" },
-        { label: "C++ language" },
-        { label: "C language" },
-        { label: "Go language" },
-        { label: "JavaScript language" },
-        { label: "SQL" },
-        { label: "MySQL" },
-        { label: "HTML" },
-        { label: "CSS" },
-        { label: "Nextjs " },
-        { label: "ReactJS " },
-        { label: "VueJS " },
-        { label: "Angular " },
-        { label: "Angular JS " },
-        { label: "PHP language" },
-        { label: "R language" },
-        { label: "Objective C language" },
-        { label: "Cobol language" },
-        { label: "Perl language" },
-        { label: "Pascal language" },
-        { label: "LISP language" },
-        { label: "Fortran language" },
-        { label: "Swift language" },
-        { label: "Ruby language" },
-        { label: "Algol language" },
-        { label: "Scala language" },
-        { label: "Rust language" },
-        { label: "TypeScript language" },
-        { label: "Dart language" },
-        { label: "Matlab language" },
-        { label: "Ada language" },
-        { label: ".NET language" },
-        { label: "Bash language" },
-    ];
->>>>>>> main
-
 
     const getCategory = () => {
         Axios.get(`${REACT_APP.API_URL}/api/coursecategory/GetCourseCategory`, {
@@ -100,11 +59,7 @@ const Interest = () => {
             }
         })
             .then(res => {
-<<<<<<< HEAD
-                // console.log(res.data)
-=======
                 console.log(res.data)
->>>>>>> main
                 if (res.data.length !== 0) {
                     setCategory(res.data)
                 }
@@ -114,8 +69,65 @@ const Interest = () => {
 
             })
     }
+    const [tutorcnt, setTutorcnt] = useState('')
+    const [verifySts, setverifySts] = useState()
     useEffect(() => {
+        if(localStorage.getItem('userData')) {
+            setregId(JSON.parse(localStorage.getItem('userData')).regid)
+        }
         getCategory()
+
+        Axios.get(`${REACT_APP.API_URL}/api/TutorVerify/GetTutorVerify/${JSON.parse(localStorage.getItem('userData')).regid}`, {
+            headers: {
+                ApiKey: `${REACT_APP.API_KEY}`
+            }
+        })
+            .then(res => {
+                // console.log("GetTutorVerify",res.data)
+                if (res.data.length !== 0) {
+                    setverifySts(res.data[0].sInterests_verify)
+                }
+            })
+            .catch(err => {
+                { ErrorDefaultAlert(err) }
+            })
+
+        Axios.get(`${REACT_APP.API_URL}/api/TutorBasics/GetTutorProfile/${JSON.parse(localStorage.getItem('userData')).regid}`, {
+            headers: {
+                ApiKey: `${REACT_APP.API_KEY}`
+            }
+        })
+            .then(res => {
+                // console.log(res.data)
+                if(res.data[0].cnt !== 0) {
+                    setTutorcnt(res.data[0].cnt)
+                }
+            })
+            .catch(err => {
+                { ErrorDefaultAlert(err) }
+            })
+
+
+        Axios.get(`${REACT_APP.API_URL}/api/TutorInterestQue/CheckTutorInterestQue/${JSON.parse(localStorage.getItem('userData')).regid}`, {
+            headers: {
+                ApiKey: `${REACT_APP.API_KEY}`
+            }
+        })
+            .then(res => {
+                console.log(res.data)
+                const daysString = res.data[0]['sFieldOfInterest'];
+
+                const daysArray = daysString.split(",");
+                // console.log(daysArray)
+                setInterest(daysArray)
+                setselfCourse(res.data[0]['sOwnCourse'])
+                setContent(res.data[0]['sContentCourse'])
+
+            })
+            .catch(err => {
+                { ErrorDefaultAlert(err) }
+
+            })
     }, []);
   return (
     <>
@@ -123,45 +135,90 @@ const Interest = () => {
         <div className="content">
           <div className="section-title">
             <h4 className="rbt-title-style-3">Interests</h4>
+              {verifySts === 2 ? <>
+                  <Alert color='success'>
+                      <h6 className='alert-heading m-0 text-center'>
+                          Interests verification has been approved by admin
+                      </h6>
+                  </Alert>
+
+              </> : <>
+                  {verifySts === 1 ? <>
+                      <Alert color='warning'>
+                          <h6 className='alert-heading m-0 text-center'>
+                              Interests verification is in pending state
+                          </h6>
+                      </Alert>
+
+                  </> : <>
+                      <Alert color='danger'>
+                          <h6 className='alert-heading m-0 text-center'>
+                              Interests verification has been disapproved by admin
+                          </h6>
+                      </Alert>
+                  </>}
+              </>}
           </div>
-<<<<<<< HEAD
                 <Formik
                     validationSchema={UserValidationSchema}
                     initialValues={{
-                        // nRegId : regId,
-                        // sFName: sFname ? sFname : tutorDetail.sFName,
-                        // sLName: sLname ? sLname : tutorDetail.sLName,
-                        // sEmail: sEmail ? sEmail : tutorDetail.sEmail,
-                        // sMobile: sMobile ? sMobile : tutorDetail.sMobile,
-                        // dDOB : dDOB ? dDOB : '',
-                        // sGender: sGender ? sGender : tutorDetail.sGender,
-                        // nCountryId: countryId ? countryId : tutorDetail.nCountryId,
-                        // nStateId: stateId ? stateId : tutorDetail.nStateId,
-                        // nCityId: cityId ? cityId : tutorDetail.nCityId,
-                        // IsAdded: isAdded
+                        nRegId : regId,
+                        sFieldOfInterest: Interest ? Interest : '',
+                        sOwnCourse: selfCourse ? selfCourse : '',
+                        sContentCourse: content ? content : ''
                     }}
                     enableReinitialize={true}
                     onSubmit={async (values, {resetForm}) => {
                         // console.log(values)
-                        await Axios.post(`${REACT_APP.API_URL}/api/TutorBasics/AddTutor`, values, {
-                            headers: {
-                                ApiKey: `${REACT_APP.API_KEY}`
+                        if(verifySts === 2) {
+                            router.push('/become-a-tutor/time-availability')
+                        } else {
+                            if(tutorcnt !== 0) {
+
+                                await Axios.put(`${REACT_APP.API_URL}/api/TutorInterestQue/UpdateTutorInterestQue`, values, {
+                                    headers: {
+                                        ApiKey: `${REACT_APP.API_KEY}`
+                                    }
+                                }).then(res => {
+                                    console.log(res.data)
+                                    const retData = JSON.parse(res.data)
+                                    // localStorage.removeItem('verify_uname')
+                                    // console.log(retData)
+                                    resetForm({})
+                                    // if(retData.success === '1') {
+                                    //     router.push('/become-a-tutor/time-availability')
+                                    // }
+                                })
+                                    .catch(err => {
+                                        {
+                                            ErrorDefaultAlert(JSON.stringify(err.response))
+                                        }
+                                    })
+                            } else {
+
+                                await Axios.post(`${REACT_APP.API_URL}/api/TutorInterestQue/InsertTutorInterestQue`, values, {
+                                    headers: {
+                                        ApiKey: `${REACT_APP.API_KEY}`
+                                    }
+                                }).then(res => {
+                                    console.log(res.data)
+                                    const retData = JSON.parse(res.data)
+                                    // localStorage.removeItem('verify_uname')
+                                    // console.log(retData)
+                                    resetForm({})
+                                    if(retData.success === '1') {
+                                        router.push('/become-a-tutor/time-availability')
+                                    }
+                                })
+                                    .catch(err => {
+                                        {
+                                            ErrorDefaultAlert(JSON.stringify(err.response))
+                                        }
+                                    })
                             }
-                        }).then(res => {
-                            console.log(res.data)
-                            const retData = JSON.parse(res.data)
-                            localStorage.removeItem('verify_uname')
-                            // console.log(retData)
-                            resetForm({})
-                            if(retData.success === '1') {
-                                router.push('/become-a-tutor/profile-photo')
-                            }
-                        })
-                            .catch(err => {
-                                {
-                                    ErrorDefaultAlert(JSON.stringify(err.response))
-                                }
-                            })
+                        }
+
+
                     }}
                 >
                     {({errors, touched}) => {
@@ -182,6 +239,7 @@ const Interest = () => {
                                                  }}>
                                                 <Autocomplete
                                                     multiple
+                                                    name={'sFieldOfInterest'}
                                                     limitTags={3} // displays only 3 max tags of autocomplete when not in focus
                                                     options={category}
                                                     onChange={handleChangeInterest}
@@ -193,6 +251,8 @@ const Interest = () => {
                                                         />
                                                     )}
                                                 />
+                                                <ErrorMessage name='sFieldOfInterest' component='div'
+                                                              className='field-error text-danger'/>
                                             </div>
                                         </div>
 
@@ -202,18 +262,35 @@ const Interest = () => {
                                             </label>
                                             <div className="form-group d-flex">
                                                 <div>
-                                                    <input onChange={handleChangeSelfCourse} value={'yes'} id="yes" type="radio" name="course"/>
-                                                    <label htmlFor="no">
+                                                    {selfCourse === 1 ? <>
+                                                        <input disabled={verifySts === 2} onChange={handleChangeSelfCourse} checked value={'yes'} id="yes"
+                                                               type="radio" name="sOwnCourse"/>
+
+                                                    </> : <>
+                                                        <input disabled={verifySts === 2} onChange={handleChangeSelfCourse} value={'yes'} id="yes"
+                                                               type="radio" name="sOwnCourse"/>
+
+                                                    </>}
+                                                    <label htmlFor="yes">
                                                         Yes
                                                     </label>
                                                 </div>
                                                 <div className={"ms-3"}>
-                                                    <input onChange={handleChangeSelfCourse} value={'no'} id="no" type="radio" name="course"/>
+                                                    {selfCourse === 0 ? <>
+                                                        <input disabled={verifySts === 2} checked onChange={handleChangeSelfCourse} value={'no'} id="no"
+                                                               type="radio" name="sOwnCourse"/>
+
+                                                    </> : <>
+                                                        <input disabled={verifySts === 2} onChange={handleChangeSelfCourse} value={'no'} id="no"
+                                                               type="radio" name="sOwnCourse"/>
+
+                                                    </>}
                                                     <label htmlFor="no">
                                                         No
                                                     </label>
                                                 </div>
-
+                                                <ErrorMessage name='sOwnCourse' component='div'
+                                                              className='field-error text-danger'/>
                                                 <span className="focus-border"></span>
                                             </div>
                                         </div>
@@ -223,18 +300,33 @@ const Interest = () => {
                                             </label>
                                             <div className="form-group d-flex">
                                                 <div>
-                                                    <input id="yes" type="radio" onChange={handleChangeContent} value={'yes'} name="rbt-radio"/>
+                                                    {content === 1 ? <>
+                                                        <input disabled={verifySts === 2} id="yes" checked type="radio" onChange={handleChangeContent}
+                                                               value={'yes'} name="sContentCourse"/>
+
+                                                    </> : <>
+                                                        <input disabled={verifySts === 2} id="yes" type="radio" onChange={handleChangeContent}
+                                                               value={'yes'} name="sContentCourse"/>
+
+                                                    </>}
                                                     <label htmlFor="yes">
                                                         Yes
                                                     </label>
                                                 </div>
                                                 <div className={"ms-3"}>
-                                                    <input onChange={handleChangeContent} value={'no'} id="no" type="radio" name="rbt-radio"/>
+                                                    {content === 0 ? <>
+                                                        <input disabled={verifySts === 2} checked onChange={handleChangeContent} value={'no'} id="no"
+                                                               type="radio" name="sContentCourse"/>
+                                                    </> : <>
+                                                        <input disabled={verifySts === 2} onChange={handleChangeContent} value={'no'} id="no"
+                                                               type="radio" name="sContentCourse"/>
+                                                    </>}
                                                     <label htmlFor="no">
                                                         No
                                                     </label>
                                                 </div>
-
+                                                <ErrorMessage name='sContentCourse' component='div'
+                                                              className='field-error text-danger'/>
                                                 <span className="focus-border"></span>
                                             </div>
                                         </div>
@@ -245,104 +337,19 @@ const Interest = () => {
                                                     type="submit"
                                                     className="rbt-btn btn-md btn-gradient hover-icon-reverse w-100"
                                                 >
-                                                    <Link href={"/become-a-tutor/time-availability"}
-                                                          className={'text-white'}>
-=======
-            <div className={'row'}>
+                                                    {/*<Link href={"/become-a-tutor/time-availability"}*/}
+                                                    {/*      className={'text-white'}>*/}
 
-                <div className={'col-lg-6'}>
-                    <label>
-                        Select the field of interest for teaching
-                    </label>
-
-                    <div className={'mt-3'}
-                         style={{
-                             // display: "flex",
-                             // marginTop: 30,
-                             flexDirection: "column",
-                             alignItems: "center",
-                             justifyContent: "center"
-                         }}>
-                        <Autocomplete
-                            multiple
-                            limitTags={3} // displays only 3 max tags of autocomplete when not in focus
-                            options={category}
-                            getOptionLabel={(option) => option.sCategory}
-                            renderInput={(params) => (
-                                <TextField
-                                    classes={'border-transparent'}
-                                    {...params}
-                                    // label="Select language"
-                                    // placeholder="Programming languages"
-                                />
-                            )}
-                        />
-                    </div>
-                </div>
-
-                <div className="col-lg-6">
-                    <label>
-                        Are you interested in creating your own course?
-                    </label>
-                    <div className="form-group d-flex">
-                        <div>
-                            <input id="cat-radio-1" type="radio" name="rbt-radio"/>
-                            <label htmlFor="cat-radio-1">
-                                Yes
-                            </label>
-                        </div>
-                        <div className={"ms-3"}>
-                            <input id="cat-radio-2" type="radio" name="rbt-radio"/>
-                            <label htmlFor="cat-radio-2">
-                                No
-                            </label>
-                        </div>
-
-                        <span className="focus-border"></span>
-                    </div>
-                </div>
-                <div className="col-lg-6 mt-3">
-                    <label>
-                        Do you have content to create a course?
-                    </label>
-                    <div className="form-group d-flex">
-                        <div>
-                            <input id="cat-radio-2" type="radio" name="rbt-radio"/>
-                            <label htmlFor="cat-radio-2">
-                                Yes
-                            </label>
-                        </div>
-                        <div className={"ms-3"}>
-                            <input id="cat-radio-3" type="radio" name="rbt-radio"/>
-                            <label htmlFor="cat-radio-3">
-                                No
-                            </label>
-                        </div>
-
-                        <span className="focus-border"></span>
-                    </div>
-                </div>
-
-                <div className="col-lg-12 mt-5">
-                    <div className="form-submit-group">
-                        <button
-                            type="submit"
-                            className="rbt-btn btn-md btn-gradient hover-icon-reverse w-100"
-                        >
-                            <Link href={"/become-a-tutor/time-availability"} className={'text-white'}>
->>>>>>> main
-
-                     <span className="icon-reverse-wrapper">
-                      <span className="btn-text">Continue</span>
-                      <span className="btn-icon">
-                        <i className="feather-arrow-right"></i>
-                      </span>
-                      <span className="btn-icon">
-                        <i className="feather-arrow-right"></i>
-                      </span>
-                    </span>
-<<<<<<< HEAD
-                                                    </Link>
+                                                         <span className="icon-reverse-wrapper">
+                                                          <span className="btn-text">Continue</span>
+                                                          <span className="btn-icon">
+                                                            <i className="feather-arrow-right"></i>
+                                                          </span>
+                                                          <span className="btn-icon">
+                                                            <i className="feather-arrow-right"></i>
+                                                          </span>
+                                                        </span>
+                                                    {/*</Link>*/}
 
                                                 </button>
                                             </div>
@@ -356,15 +363,6 @@ const Interest = () => {
 
 
                 </Formik>
-=======
-                            </Link>
-
-                        </button>
-                    </div>
-                </div>
-
-            </div>
->>>>>>> main
 
         </div>
       </div>

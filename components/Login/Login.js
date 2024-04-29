@@ -86,10 +86,7 @@ const Login = () => {
         <div className="col-lg-6">
           <div className="rbt-contact-form contact-form-style-1 max-width-auto">
             <h3 className="title">Login</h3>
-<<<<<<< HEAD
             {/*{console.log(DecryptData("479HEqY5Qi-3FbZJ0waDDik8lF4YEbNC0ttoVdK-Vwrivn36dEpAlBevRuIkCsAlWBDkoaDZZf-jQ6Vx9uYCag=="))}*/}
-=======
->>>>>>> main
             <Formik
                 validationSchema={UserValidationSchema}
                 initialValues={{
@@ -101,7 +98,6 @@ const Login = () => {
                 enableReinitialize={true}
                 onSubmit={(input, { resetForm }) => {
                   setIsLoading(true)
-<<<<<<< HEAD
                   // console.log(input.username)
                   const mob = /^(\+\d{1,4})?[1-9]\d{9}$/
                   // const mob = /^[1-9]{1}[0-9]{9}$/
@@ -121,14 +117,6 @@ const Login = () => {
                     Password: input.password,
                     EM: emailOrmobile
                   }
-=======
-                  const checkdata = {
-                    Email: input.username,
-                    Password: input.password,
-                    EM: emailOrmobile
-                  }
-
->>>>>>> main
                   Axios.get(`${REACT_APP.API_URL}/api/token/getUserRegData/${EncryptData(checkdata)}`, {
                     headers: {
                       ApiKey: `${REACT_APP.API_KEY}`
@@ -138,11 +126,7 @@ const Login = () => {
                     if (res.data) {
                       const retData = DecryptData(res.data)
                       const srt = DecryptData(res.data)
-<<<<<<< HEAD
                       console.log(retData)
-=======
-                      // console.log(retData)
->>>>>>> main
                       //check user login is true or false by company setting
                       if (retData.ulogin) {
                         if (retData.success === "1") {
@@ -199,11 +183,7 @@ const Login = () => {
                         }
                         toast.error(<ErrorMessageToast pdata={retData} />, { hideProgressBar: true })
                         setTimeout(() => {
-<<<<<<< HEAD
                           setIsLoading(false)
-=======
-                         setIsLoading(false)
->>>>>>> main
                           resetForm({})
                         }, 2000)
                       }
@@ -286,15 +266,12 @@ const Login = () => {
                           </>}
                         </button>
                       </FormGroup>
-<<<<<<< HEAD
                       <p className={'text-center'}>
                         Create an account !
                         <Link href={'/register'} className={'ms-1'}>
                           Sign up
                         </Link>
                       </p>
-=======
->>>>>>> main
                     </Form>
 
 

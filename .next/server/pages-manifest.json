@@ -2,13 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-<<<<<<< HEAD
-  "/become-a-tutor/interest": "pages/become-a-tutor/interest.js",
-  "/become-a-tutor/time-availability": "pages/become-a-tutor/time-availability.js"
-=======
-  "/become-a-tutor/profile-photo": "pages/become-a-tutor/profile-photo.js",
   "/": "pages/index.js",
-  "/become-a-teacher": "pages/become-a-teacher.js",
-  "/become-a-tutor/basics": "pages/become-a-tutor/basics.js"
->>>>>>> main
+  "/become-a-teacher": "pages/become-a-teacher.js"
 }

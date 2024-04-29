@@ -1,7 +1,6 @@
 import Courses from "../../data/dashboard/instructor/instructor.json";
 import CourseWidgets from "./Dashboard-Section/widgets/CourseWidget";
 import Link from "next/link";
-<<<<<<< HEAD
 import React, {useEffect, useState} from "react";
 import API_URL from "@/pages/constant";
 import {Form, Formik} from "formik";
@@ -9,30 +8,28 @@ import Axios from "axios";
 import {ErrorDefaultAlert} from "@/components/services/SweetAlert";
 import img from "@/public/images/others/thumbnail-placeholder.svg";
 import { useRouter } from "next/router";
-=======
-import React, {useState} from "react";
-import API_URL from "@/pages/constant";
->>>>>>> main
+import {EncryptData} from "@/components/services/encrypt-decrypt";
+import {Alert} from "reactstrap";
 
 const Certification = () => {
+  const REACT_APP = API_URL
   const [country, setCountry] = useState([]);
   const [countryId, setcountryId] = useState('')
   const [hideFields, sethideFields] = useState(true)
-<<<<<<< HEAD
   const defaultValue = new Date().getFullYear();
   const [regId, setregId] = useState('')
+  const [Certi_Image, setCerti_Image] = useState('')
   // const [selectedYear, SetselectedYear] = useState(new Date().getFullYear());
   // const [thisYear, setthisYear] = useState(defaultValue);
   const minOffset = 0;
   const maxOffset = 53;
-  const [Certi_Image, setCerti_Image] = useState('')
+
 
   // const [file, setFile] = useState();
 
   const CertificationList = []
   const [certificationFields, setcertificationFields] = useState([
     {
-      id:1,
       sCerti_title:'',
       sIssued_by:'',
       sCerti_imagePath:'',
@@ -115,28 +112,14 @@ const Certification = () => {
     updatedFields[index].sTo_year = value;
     setcertificationFields(updatedFields);
   };
-=======
-  const [RepeatFields, setRepeatFields] = useState(false)
-  const defaultValue = new Date().getFullYear();
-  const [selectedYear, SetselectedYear] = useState(new Date().getFullYear());
-  const [thisYear, setthisYear] = useState(defaultValue);
-  const minOffset = 0;
-  const maxOffset = 53;
-  const [file, setFile] = useState();
-  function handleChange(e) {
-    // console.log(e.target.files);
-    setFile(URL.createObjectURL(e.target.files[0]));
-  }
->>>>>>> main
 
   const [educationFields, setEducationFields] = useState([{ id: 1 }]);
   const [cancelButton, setCancelButton] = useState(false);
 
-<<<<<<< HEAD
   const handleAddCertification = () => {
     const newId = certificationFields.length + 1;
     const newCertification = {
-      id: newId,
+      nTCId: 0,
       sCerti_title:'',
       sIssued_by:'',
       sCerti_imagePath:'',
@@ -147,40 +130,41 @@ const Certification = () => {
   };
 
   const handleRemoveCertification = (id) => {
-    const updatedFields = certificationFields.filter((field) => field.id !== id);
+    const updatedFields = certificationFields.filter((field) => field.nTCId !== id);
     setcertificationFields(updatedFields);
+
+    const deletedFields = certificationFields.filter((field) => field.nTCId === id);
+    console.log('deletedFields', deletedFields)
+
+    const deletedarray = deletedFields.map((item) => {
+      return item.nTCId
+    })
+    console.log('deletedArray', deletedarray)
+    setdeletedArray(deletedarray)
+
+    const originalArray = updateArray;
+
+    const elementsToRemove = deletedarray;
+
+// Use filter() to create a new array excluding elements to remove
+    const filteredArray = originalArray.filter((element) => !elementsToRemove.includes(element));
+
+    setUpdatearray(filteredArray)
+
+    Axios.delete(`${REACT_APP.API_URL}/api/TutorCertification/DeleteTutorCerti/${EncryptData(deletedarray[0])}`, {
+      headers: {
+        ApiKey: `${REACT_APP.API_KEY}`
+      }
+    })
+        .then(res => {
+          // console.log(res.data)
+          window.location.reload()
+        })
+        .catch(err => {
+          { ErrorDefaultAlert(err) }
+        })
   };
 
-  const REACT_APP = API_URL
-
-=======
-  const handleAddEducation = () => {
-    const newId = educationFields.length + 1;
-    setEducationFields([...educationFields, { id: newId }]);
-    setCancelButton(true)
-  };
-
-  const handleCancelEducation = (id) => {
-    setEducationFields(educationFields.filter(field => field.id !== id));
-  };
-
-  const REACT_APP = API_URL
-  const handlechange= (e) => {
-    // console.log(e.target.checked)
-    if(e.target.checked){
-      sethideFields(false)
-    } else {
-      sethideFields(true)
-    }
-  }
-  const onHandleChange = (e) => {
-    // alert(e.target.value),
-    // console.clear(),
-    localStorage.setItem("currentYear", e.target.value);
-    SetselectedYear(e.target.value);
-    console.log(e.target.value);
-  };
->>>>>>> main
 
   const options = [];
 
@@ -192,7 +176,6 @@ const Certification = () => {
         </option>
     );
   }
-<<<<<<< HEAD
   const [isCertified, setisCertified] = useState('')
   const handleIsCertification= (e) => {
     // console.log(e.target.checked)
@@ -206,23 +189,79 @@ const Certification = () => {
   }
 
   const router = useRouter()
+  const [tutorcnt, setTutorcnt] = useState('')
+  const [updateArray, setUpdatearray] = useState([])
+  const [deletedArray, setdeletedArray] = useState([])
+  const [verifySts, setverifySts] = useState()
+
   useEffect(() => {
     if(localStorage.getItem('userData')) {
       setregId(JSON.parse(localStorage.getItem('userData')).regid)
     }
+
+    Axios.get(`${REACT_APP.API_URL}/api/TutorVerify/GetTutorVerify/${JSON.parse(localStorage.getItem('userData')).regid}`, {
+      headers: {
+        ApiKey: `${REACT_APP.API_KEY}`
+      }
+    })
+        .then(res => {
+          // console.log("GetTutorEducationVerify",res.data)
+          if (res.data.length !== 0) {
+            setverifySts(res.data[0].sCertification_verify)
+          }
+        })
+        .catch(err => {
+          { ErrorDefaultAlert(err) }
+        })
+
+
+    Axios.get(`${REACT_APP.API_URL}/api/TutorBasics/GetTutorProfile/${JSON.parse(localStorage.getItem('userData')).regid}`, {
+      headers: {
+        ApiKey: `${REACT_APP.API_KEY}`
+      }
+    })
+        .then(res => {
+          // console.log(res.data)
+          if(res.data[0].cnt !== 0) {
+            setTutorcnt(res.data[0].cnt)
+          }
+        })
+        .catch(err => {
+          { ErrorDefaultAlert(err) }
+        })
+
+    Axios.get(`${REACT_APP.API_URL}/api/TutorCertification/GetTutorCertiData/${JSON.parse(localStorage.getItem('userData')).regid}`, {
+      headers: {
+        ApiKey: `${REACT_APP.API_KEY}`
+      }
+    })
+        .then(res => {
+          // console.log(res.data)
+          const array = res.data.map((item, index) => {
+            return item.nTCId
+          })
+
+          // console.log(array)
+          setUpdatearray(array)
+
+          // ---------------------
+          if(res.data.length !== 0) {
+            setcertificationFields(res.data)
+          } else {
+            setcertificationFields(...educationFields)
+          }
+          // ---------------------
+
+        })
+        .catch(err => {
+          { ErrorDefaultAlert(err) }
+        })
   }, []);
 
-=======
-  {
-    console.log();
-  }
-
->>>>>>> main
   return (
       <>
         <div className="rbt-dashboard-content bg-color-white rbt-shadow-box">
           <div className="content">
-<<<<<<< HEAD
             <Formik
                 initialValues={{
                   nRegId : regId,
@@ -230,57 +269,123 @@ const Certification = () => {
                 }}
                 enableReinitialize={true}
                 onSubmit={async (values, {resetForm}) => {
-                  console.log([values])
-                  if (hideFields === false) {
-                    //no education
-                    const noCertification = {
-                      nRegid : regId,
-                      sIsCertification : "true"
-                    }
-                    // console.log(noEducation)
-                    await Axios.post(`${REACT_APP.API_URL}/api/TutorCertification/InsertTutorBasicCertificate`, noCertification, {
-                      headers: {
-                        ApiKey: `${REACT_APP.API_KEY}`
-                        // 'Content-Type' : 'application/json'
-                      }
-                    }).then(res => {
-                      // console.log(res.data)
-                      const retData = JSON.parse(res.data)
-                      // localStorage.removeItem('verify_uname')
-                      // console.log(retData)
-                      resetForm({})
-                      if(retData.success === '1') {
-                        router.push('/become-a-tutor/teaching-experience')
-                      }
-                    })
-                        .catch(err => {
-                          {
-                            ErrorDefaultAlert(JSON.stringify(err.response))
-                          }
-                        })
+                  // console.log([values])
+                  // console.log([values])s
+                  if(verifySts === 2) {
+                    router.push('/become-a-tutor/teaching-experience')
                   } else {
-                    // alert('yes education')
-                    await Axios.post(`${REACT_APP.API_URL}/api/TutorCertification/InsertTutorCertificate  `, [values], {
-                      headers: {
-                        ApiKey: `${REACT_APP.API_KEY}`
-                      }
-                    }).then(res => {
-                      console.log(res.data)
-                      const retData = JSON.parse(res.data)
-                      // localStorage.removeItem('verify_uname')
-                      // console.log(retData)
-                      resetForm({})
-                      if(retData.success === '1') {
-                        router.push('/become-a-tutor/teaching-experience')
-                      }
-                    })
-                        .catch(err => {
-                          console.log(err)
-                          {
-                            ErrorDefaultAlert(JSON.stringify(err.response))
+                    if (tutorcnt !== 0) {
+                      if (hideFields === false) {
+                        //no education
+                        const noEducation = {
+                          nRegId : regId,
+                          sIsCertification : "true"
+                        }
+                        // console.log(noEducation)
+                        await Axios.post(`${REACT_APP.API_URL}/api/TutorEducation/InsertTutorBasicEducation`, noEducation, {
+                          headers: {
+                            ApiKey: `${REACT_APP.API_KEY}`
+                            // 'Content-Type' : 'application/json'
+                          }
+                        }).then(res => {
+                          // console.log(res.data)
+                          const retData = JSON.parse(res.data)
+                          resetForm({})
+                          if(retData.success === '1') {
+                            router.push('/become-a-tutor/certification')
                           }
                         })
+                            .catch(err => {
+                              {
+                                ErrorDefaultAlert(JSON.stringify(err.response))
+                              }
+                            })
+                      } else {
+                        // alert('yes education')
+
+                        const updateValues = [{
+                          nRegId : regId,
+                          updateId: updateArray,
+                          deleteId: deletedArray,
+                          sCertification : CertificationList[0]
+                        }]
+                        console.log(updateValues)
+                        await Axios.put(`${REACT_APP.API_URL}/api/TutorCertification/UpdateTutorCertification  `, updateValues, {
+                          headers: {
+                            ApiKey: `${REACT_APP.API_KEY}`
+                          }
+                        }).then(res => {
+                          console.log(res.data)
+                          const retData = JSON.parse(res.data)
+                          // localStorage.removeItem('verify_uname')
+                          // console.log(retData)
+                          resetForm({})
+                          if(retData.success === '1') {
+                            router.push('/become-a-tutor/teaching-experience')
+                          }
+                        })
+                            .catch(err => {
+                              // console.log(err)
+                              {
+                                ErrorDefaultAlert(JSON.stringify(err.response))
+                              }
+                            })
+                      }
+                    } else {
+                      if (hideFields === false) {
+                        //no education
+                        const noCertification = {
+                          nRegId : regId,
+                          sIsCertification : "true"
+                        }
+                        // console.log(noEducation)
+                        await Axios.post(`${REACT_APP.API_URL}/api/TutorCertification/InsertTutorBasicCertificate`, noCertification, {
+                          headers: {
+                            ApiKey: `${REACT_APP.API_KEY}`
+                            // 'Content-Type' : 'application/json'
+                          }
+                        }).then(res => {
+                          console.log(res.data)
+                          const retData = JSON.parse(res.data)
+                          // localStorage.removeItem('verify_uname')
+                          // console.log(retData)
+                          resetForm({})
+                          if(retData.success === '1') {
+                            router.push('/become-a-tutor/teaching-experience')
+                          }
+                        })
+                            .catch(err => {
+                              {
+                                ErrorDefaultAlert(JSON.stringify(err.response))
+                              }
+                            })
+                      } else {
+                        // alert('yes education')
+                        await Axios.post(`${REACT_APP.API_URL}/api/TutorCertification/InsertTutorCertificate  `, [values], {
+                          headers: {
+                            ApiKey: `${REACT_APP.API_KEY}`
+                          }
+                        }).then(res => {
+                          console.log(res.data)
+                          const retData = JSON.parse(res.data)
+                          // localStorage.removeItem('verify_uname')
+                          // console.log(retData)
+                          resetForm({})
+                          if(retData.success === '1') {
+                            router.push('/become-a-tutor/teaching-experience')
+                          }
+                        })
+                            .catch(err => {
+                              // console.log(err)
+                              {
+                                ErrorDefaultAlert(JSON.stringify(err.response))
+                              }
+                            })
+                      }
+                    }
                   }
+
+
 
                 }}
             >
@@ -290,6 +395,29 @@ const Certification = () => {
                       <Form>
                         <div className="section-title mb-3">
                           <h4 className="rbt-title-style-3">Certification</h4>
+                          {verifySts === 2 ? <>
+                            <Alert color='success'>
+                              <h6 className='alert-heading m-0 text-center'>
+                               Certification verification has been approved by admin
+                              </h6>
+                            </Alert>
+
+                          </> : <>
+                            {verifySts === 1 ? <>
+                              <Alert color='warning'>
+                                <h6 className='alert-heading m-0 text-center'>
+                                  Certification verification is pending state
+                                </h6>
+                              </Alert>
+
+                            </> : <>
+                              <Alert color='danger'>
+                                <h6 className='alert-heading m-0 text-center'>
+                                  Certification verification has been disapproved by admin
+                                </h6>
+                              </Alert>
+                            </>}
+                          </>}
                           <p>Let us know about teaching certification</p>
                           <input id="Certifcation" type="checkbox" value={isCertified} name="isCertification" onChange={handleIsCertification}/>
                           <label htmlFor="Certifcation">
@@ -301,9 +429,10 @@ const Certification = () => {
                           {/*<form action="#" className="row row--15 mt-5">*/}
                             {hideFields ? <>
                               {certificationFields.map((certification, index) => {
+                                // console.log(certification)
                                 return (
                                     <>
-                                      <div key={certification.id}>
+                                      <div key={certification.nTCId}>
                                         <div className={'row'}>
                                           <div className="col-lg-6">
                                             <label>
@@ -311,6 +440,7 @@ const Certification = () => {
                                             </label>
                                             <div className="form-group">
                                               <input
+                                                  readOnly={verifySts === 2}
                                                   onChange={(e) => handleChangeTitle(e, index)}
                                                   value={certification.sCerti_title}
                                                   type="text"
@@ -324,6 +454,7 @@ const Certification = () => {
                                             </label>
                                             <div className="form-group">
                                               <input
+                                                  readOnly={verifySts === 2}
                                                   onChange={(e) => handleChangeIssuedBy(e, index)}
                                                   value={certification.sIssued_by}
                                                   type="text"
@@ -335,7 +466,7 @@ const Certification = () => {
                                             <label>
                                               Year of study from
                                             </label>
-                                            <select value={certification.sFrom_year}
+                                            <select disabled={verifySts === 2} value={certification.sFrom_year}
                                                     onChange={(e) => handleYearFromChange(e, index)}>
                                               {options}
                                             </select>
@@ -345,7 +476,7 @@ const Certification = () => {
                                             <label>
                                               Year of study to
                                             </label>
-                                            <select value={certification.sTo_year}
+                                            <select disabled={verifySts === 2} value={certification.sTo_year}
                                                     onChange={(e) => handleYearToChange(e, index)}>
                                               <option value="Present">Present</option>
                                               {options}
@@ -363,229 +494,47 @@ const Certification = () => {
                                               <input type="file" className={'p-0 mt-3'}
                                                      onChange={(e) => handleChangeImage(e, index)}/>
 
-                                              {Certi_Image && (
-                                                  <img src={Certi_Image} alt="Uploaded"
+                                              {certification.sCerti_imagePath && (
+                                                  <img src={certification.sCerti_imagePath} alt="Uploaded"
                                                        style={{width: 100}}/>
                                               )}                                            </div>
                                           </div>
-                                          <div className="col-lg-12 text-end mt-2">
-                                            <button type={'button'} className="btn btn-danger"
-                                                    onClick={() => handleRemoveCertification(certification.id)}>Remove
-                                            </button>
-                                          </div>
+                                          {verifySts === 2 ? <></> : <>
+                                            <div className="col-lg-12 text-end mt-2">
+                                              <button type={'button'} className="btn btn-danger"
+                                                      onClick={() => handleRemoveCertification(certification.nTCId)}>Remove
+                                              </button>
+                                            </div>
+                                          </>}
+
                                         </div>
                                       </div>
-
 
                                     </>
                                 )
                               })
                               }
 
+                              {verifySts === 2 ? <></> : <>
                               <div className={'col-lg-5 mt-5 mb-5'}>
-                                <button
-                                    type={'button'}
-                                    className="rbt-btn-link left-icon border-0 bg-white"
-                                    onClick={handleAddCertification}
-                                >
-                                  <i className="feather-plus"></i>Add Certification
-                                </button>
-                              </div>
+                                 <button
+                                     type={'button'}
+                                     className="rbt-btn-link left-icon border-0 bg-white"
+                                     onClick={handleAddCertification}
+                                 >
+                                   <i className="feather-plus"></i>Add Certification
+                                 </button>
+                               </div>
+                             </>}
                             </> : ''}
 
-                            <div className="col-lg-12 mt-5">
-                              <div className="form-submit-group">
-                                <button
-                                    type="submit"
-                                    className="rbt-btn btn-md btn-gradient hover-icon-reverse w-100"
-                                >
-                                  {/*<Link href={"/become-a-tutor/teaching-experience"} className={'text-white'}>*/}
-=======
-            <div className="section-title">
-              <h4 className="rbt-title-style-3">Certification</h4>
-              <p>Let us know about teaching certification</p>
-              <input id="cat-list-1" type="checkbox" name="cat-list-1" onChange={handlechange}/>
-              <label htmlFor="cat-list-1">
-                I have not pursued any professional teaching certification
-              </label>
-            </div>
-
-            <form action="#" className="row row--15 mt-5">
-              {hideFields ? <>
-                {educationFields.map((education, index) => {
-                  return (
-                      <>
-                        <div className="col-lg-6">
-                          <label>
-                            Certification Title
-                          </label>
-                          <div className="form-group">
-                            <input name="con_name" type="text" placeholder="Certification Title"/>
-                            <span className="focus-border"></span>
-                          </div>
-                        </div>
-                        <div className="col-lg-6">
-                          <label>
-                            Issued By
-                          </label>
-                          <div className="form-group">
-                          <input name="con_name" type="text" placeholder="Issued By"/>
-                            <span className="focus-border"></span>
-                          </div>
-                        </div>
-                        <div className={'col-lg-6 mt-3'}>
-                          <label>
-                            Year of study from
-                          </label>
-                          <select value={selectedYear} onChange={onHandleChange}>
-                            {options}
-                          </select>
-                        </div>
-                        <div className={'col-lg-6 mt-3'}>
-                          <label>
-                            Year of study to
-                          </label>
-                          <select value={selectedYear} onChange={onHandleChange}>
-                            <option>Present</option>
-                            {options}
-                          </select>
-                        </div>
-                        <div className={'col-lg-12 mt-5 mb-3'}>
-                          <div className={'rounded-2 p-3'} style={{background: "#f4f4f8"}}>
-                            <h5>Get a certification verified badge</h5>
-                            <small>Upload your diploma to boost your credibility! Our team will review
-                              it and add
-                              the badge to your profile.
-                              Once reviewed, your files will be deleted.
-                              JPG or PNG format; maximum size of 7MB</small>
-
-                            <input type="file" className={'p-0 mt-3'} onChange={handleChange}/>
-                          </div>
-                        </div>
-                        {cancelButton ? <div className="col-lg-12 text-end mt-2">
-                          <button type={'button'} className="btn btn-danger"
-                                  onClick={() => handleCancelEducation(education.id)}>Cancel
-                          </button>
-                        </div> : ''}
-                      </>
-                  )
-                })
-                }
-
-                <div className={'col-lg-5 mt-5 mb-5'}>
-                  <button
-                      type={'button'}
-                      className="rbt-btn-link left-icon border-0 bg-white"
-                      onClick={handleAddEducation}
-                  >
-                    <i className="feather-plus"></i>Add Certification
-                  </button>
-                </div>
-              </> : ''}
-
-              <div className={'col-lg-12'}></div>
-              {/*    {RepeatFields ? <>*/}
-              {/*        {hideFields ? <>*/}
-              {/*            <div className="col-lg-6 mb-5 mt-5">*/}
-              {/*                <label>*/}
-              {/*                    Country of Education*/}
-              {/*                </label>*/}
-              {/*                /!*<div className="rbt-modern-select bg-transparent height-45">*!/*/}
-              {/*                <select className="w-100" onChange={handleChangeCountry}>*/}
-              {/*                    {country.map((item, index) => {*/}
-              {/*                        return (*/}
-              {/*                            <>*/}
-              {/*                                <option key={index}*/}
-              {/*                                        value={item.nCountryId}>{item.sCountryname}</option>*/}
-              {/*                            </>*/}
-              {/*                        )*/}
-              {/*                    })}*/}
-              {/*                </select>*/}
-              {/*            </div>*/}
-              {/*            <div className="col-lg-6 mt-5">*/}
-              {/*                <label>*/}
-              {/*                    University*/}
-              {/*                </label>*/}
-              {/*                <div className="form-group">*/}
-              {/*                    <input name="con_name" type="text" placeholder="University"/>*/}
-              {/*                    <span className="focus-border"></span>*/}
-              {/*                </div>*/}
-              {/*            </div>*/}
-              {/*            <div className="col-lg-6">*/}
-              {/*                <label>*/}
-              {/*                    Degree*/}
-              {/*                </label>*/}
-              {/*                <div className="form-group">*/}
-              {/*                    <input*/}
-              {/*                        name="con_lastname"*/}
-              {/*                        type="text"*/}
-              {/*                        placeholder="Degree"*/}
-              {/*                    />*/}
-
-              {/*                    <span className="focus-border"></span>*/}
-              {/*                </div>*/}
-              {/*            </div>*/}
-              {/*            <div className="col-lg-6">*/}
-              {/*                <label>*/}
-              {/*                    Specialization*/}
-              {/*                </label>*/}
-              {/*                <div className="form-group">*/}
-              {/*                    <input*/}
-              {/*                        name="con_lastname"*/}
-              {/*                        type="text"*/}
-              {/*                        placeholder="Specialization"*/}
-              {/*                    />*/}
-
-              {/*                    <span className="focus-border"></span>*/}
-              {/*                </div>*/}
-              {/*            </div>*/}
-              {/*            <div className={'col-lg-6'}>*/}
-              {/*                <label>*/}
-              {/*                    Year of study from*/}
-              {/*                </label>*/}
-              {/*                <select value={selectedYear} onChange={onHandleChange}>*/}
-              {/*                    {options}*/}
-              {/*                </select>*/}
-              {/*            </div>*/}
-              {/*            <div className={'col-lg-6'}>*/}
-              {/*                <label>*/}
-              {/*                    Year of study to*/}
-              {/*                </label>*/}
-              {/*            <select value={selectedYear} onChange={onHandleChange}>*/}
-              {/*                <option>Present</option>*/}
-              {/*                {options}*/}
-              {/*            </select>*/}
-              {/*        </div>*/}
-              {/*        <div className={'col-lg-12 mt-5'}>*/}
-              {/*            <div className={'rounded-2 p-3'} style={{background: "#f4f4f8"}}>*/}
-              {/*                <h5>Get a qualification veified badge</h5>*/}
-              {/*                <small>Upload your diploma to boost your credibility! Our team will review it and*/}
-              {/*                    add*/}
-              {/*                    the badge to your profile.*/}
-              {/*                    Once reviewed, your files will be deleted.*/}
-              {/*                    JPG or PNG format; maximum size of 7MB</small>*/}
-
-              {/*                <input type="file" className={'p-0 mt-3'} onChange={handleChange}/>*/}
-              {/*            </div>*/}
-              {/*        </div>*/}
-              {/*        <div className={'col-lg-5 mt-5'}>*/}
-              {/*            <button*/}
-              {/*                className="rbt-btn-link left-icon border-0 bg-white"*/}
-              {/*                onClick={() => setRepeatFields(true)}*/}
-              {/*            >*/}
-              {/*                <i className="feather-plus"></i>Add Education*/}
-              {/*            </button>*/}
-              {/*        </div>*/}
-              {/*    </> : <></>}*/}
-              {/*</> : <></>}*/}
-              <div className="col-lg-12 mt-5">
-                <div className="form-submit-group">
-                  <button
-                      type="submit"
-                      className="rbt-btn btn-md btn-gradient hover-icon-reverse w-100"
-                  >
-                    <Link href={"/become-a-tutor/teaching-experience"} className={'text-white'}>
->>>>>>> main
+                          <div className="col-lg-12 mt-5">
+                            <div className="form-submit-group">
+                              <button
+                                  type="submit"
+                                  className="rbt-btn btn-md btn-gradient hover-icon-reverse w-100"
+                              >
+                                {/*<Link href={"/become-a-tutor/teaching-experience"} className={'text-white'}>*/}
                                      <span className="icon-reverse-wrapper">
                                       <span className="btn-text">Continue</span>
                                       <span className="btn-icon">
@@ -595,7 +544,6 @@ const Certification = () => {
                                         <i className="feather-arrow-right"></i>
                                       </span>
                                     </span>
-<<<<<<< HEAD
                                   {/*</Link>*/}
 
                                 </button>
@@ -611,15 +559,6 @@ const Certification = () => {
 
 
             </Formik>
-=======
-                    </Link>
-
-                  </button>
-                </div>
-              </div>
-            </form>
-
->>>>>>> main
 
           </div>
         </div>
@@ -629,7 +568,6 @@ const Certification = () => {
         {/*    <div className="section-title">*/}
         {/*      <h4 className="rbt-title-style-3">Certification</h4>*/}
         {/*    </div>*/}
-<<<<<<< HEAD
         {/*<div className="row g-5">*/}
         {/*  {Courses.slice(0, 6)?.map((slide, index) => (*/}
         {/*    <div*/}
@@ -648,26 +586,6 @@ const Certification = () => {
         {/*    </div>*/}
         {/*  ))}*/}
         {/*</div>*/}
-=======
-            {/*<div className="row g-5">*/}
-            {/*  {Courses.slice(0, 6)?.map((slide, index) => (*/}
-            {/*    <div*/}
-            {/*      className="col-lg-4 col-md-6 col-12"*/}
-            {/*      key={`course-wishlist-${index}`}*/}
-            {/*    >*/}
-            {/*      <CourseWidgets*/}
-            {/*        data={slide}*/}
-            {/*        courseStyle="two"*/}
-            {/*        isCompleted={false}*/}
-            {/*        isProgress={false}*/}
-            {/*        showDescription={false}*/}
-            {/*        showAuthor={false}*/}
-            {/*        isEdit={false}*/}
-            {/*      />*/}
-            {/*    </div>*/}
-            {/*  ))}*/}
-            {/*</div>*/}
->>>>>>> main
         {/*  </div>*/}
         {/*</div>*/}
       </>

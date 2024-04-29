@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-<<<<<<< HEAD
 import {useEffect, useState} from "react";
 import Axios from 'axios'
 import API_URL from '@/pages/constant'
@@ -42,10 +41,6 @@ const StudentDashboardHeader = () => {
     }
     getPurchasedCourse()
   }, [])
-=======
-
-const StudentDashboardHeader = () => {
->>>>>>> main
   return (
     <>
       <div className="rbt-dashboard-content-wrapper">
@@ -53,7 +48,6 @@ const StudentDashboardHeader = () => {
         <div className="rbt-tutor-information">
           <div className="rbt-tutor-information-left">
             <div className="thumbnail rbt-avatars size-lg">
-<<<<<<< HEAD
               {profilephoto === "" ?
                   <img
                       width={300}
@@ -73,20 +67,6 @@ const StudentDashboardHeader = () => {
               <ul className="rbt-meta rbt-meta-white mt--5">
                 <li>
                   <i className="feather-book"></i>5 Courses Enrolled
-=======
-              <Image
-                width={300}
-                height={300}
-                src="/images/team/avatar-2.jpg"
-                alt="Instructor"
-              />
-            </div>
-            <div className="tutor-content">
-              <h5 className="title">Emily Hannah</h5>
-              <ul className="rbt-meta rbt-meta-white mt--5">
-                <li>
-                  <i className="feather-book"></i>5 Courses Enroled
->>>>>>> main
                 </li>
                 <li>
                   <i className="feather-award"></i>4 Certificate
@@ -96,15 +76,9 @@ const StudentDashboardHeader = () => {
           </div>
           <div className="rbt-tutor-information-right">
             <div className="tutor-btn">
-<<<<<<< HEAD
               <Link className="rbt-btn btn-md hover-icon-reverse" href="/student/student-settings">
                 <span className="icon-reverse-wrapper">
                   <span className="btn-text">Update Profile</span>
-=======
-              <Link className="rbt-btn btn-md hover-icon-reverse" href="#">
-                <span className="icon-reverse-wrapper">
-                  <span className="btn-text">Create Link New Course</span>
->>>>>>> main
                   <span className="btn-icon">
                     <i className="feather-arrow-right" />
                   </span>

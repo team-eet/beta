@@ -168,13 +168,11 @@ const AllCourses = () => {
                                         </div>
                                         <div className="rbt-short-item">
                                             <span className="course-index">Showing {indexOfFirstRecord + 1}-{indexOfLastRecord} of {getcourseData.length} results</span>
-
                                         </div>
                                     </div>
                                 </div>
                                 <div className="col-lg-7 col-md-12">
-                                <div
-                                        className="rbt-sorting-list d-flex flex-wrap align-items-center justify-content-start justify-content-lg-end">
+                                <div className="rbt-sorting-list d-flex flex-wrap align-items-center justify-content-start justify-content-lg-end">
                                         <div className="rbt-short-item">
                                             <div className="filter-select">
                                                 <span className="select-label d-block">Short By</span>
@@ -195,7 +193,6 @@ const AllCourses = () => {
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -204,32 +201,19 @@ const AllCourses = () => {
                     <div className="row row--30 gy-5">
                         <div className="col-lg-3 order-2 order-lg-1">
                             <aside className="rbt-sidebar-widget-wrapper">
-
                                 <div className="rbt-single-widget rbt-widget-search">
                                     <div className="inner">
                                         <form action="#" className="rbt-search-style-1">
                                             <input type="text" placeholder="Search Courses"/>
-                                            <button className="search-btn"><i className="feather-search"></i></button>
+                                            <button className="search-btn">
+                                                <i className="feather-search"></i>
+                                            </button>
                                         </form>
                                     </div>
                                 </div>
-
                                 <div className="rbt-single-widget rbt-widget-categories has-show-more">
                                     <div className="inner">
                                         <h4 className="rbt-widget-title">Categories</h4>
-                                        {/*<ul className="rbt-sidebar-list-wrapper categories-list-check has-show-more-inner-content">*/}
-                                        {/*    {getcategoryData && getcategoryData.map((data, index) => {*/}
-                                        {/*        return (*/}
-                                        {/*            <>*/}
-                                        {/*                <li className="rbt-check-group" key={index}>*/}
-                                        {/*                    <input id="cat-list-1" type="checkbox" name="cat-list-1"/>*/}
-                                        {/*                    <label htmlFor="cat-list-1">{data.sCategory}<span*/}
-                                        {/*                        className="rbt-lable count">{data.courrsecnt}</span></label>*/}
-                                        {/*                </li>*/}
-                                        {/*            </>*/}
-                                        {/*        )*/}
-                                        {/*    })}*/}
-                                        {/*</ul>*/}
                                         <ul className="rbt-sidebar-list-wrapper categories-list-check has-show-more-inner-content">
                                             {getcategoryData && getcategoryData.slice(0, showAllCategories ? getcategoryData.length : maxVisibleCategories).map((data, index) => {
                                                 return (
@@ -244,9 +228,6 @@ const AllCourses = () => {
                                             {getcategoryData && getcategoryData.length > maxVisibleCategories &&
                                                 <li onClick={() => setShowAllCategories(!showAllCategories)}
                                                     className="show-more text-primary">
-                                                    {/*{showAllCategories ?*/}
-                                                    {/*    <div className="rbt-show-more-btn">Show Less</div> :*/}
-                                                    {/*    <div className="rbt-show-more-btn">Show More</div>}*/}
                                                     {showAllCategories ?
                                                         'Show Less' :
                                                         'Show More'
@@ -255,7 +236,6 @@ const AllCourses = () => {
                                             }
                                         </ul>
                                     </div>
-                                    {/*<div className="rbt-show-more-btn">Show More</div>*/}
                                 </div>
 
                                 <div className="rbt-single-widget rbt-widget-rating">
@@ -265,52 +245,52 @@ const AllCourses = () => {
                                             <li className="rbt-check-group">
                                                 <input id="cat-radio-1" type="radio" name="rbt-radio"/>
                                                 <label htmlFor="cat-radio-1">
-                                            <span className="rating">
-                            <i className="fas fa-star"></i>
-                            <i className="fas fa-star"></i>
-                            <i className="fas fa-star"></i>
-                            <i className="fas fa-star"></i>
-                            <i className="fas fa-star"></i>
-                        </span>
+                                                    <span className="rating">
+                                                        <i className="fas fa-star"></i>
+                                                        <i className="fas fa-star"></i>
+                                                        <i className="fas fa-star"></i>
+                                                        <i className="fas fa-star"></i>
+                                                        <i className="fas fa-star"></i>
+                                                    </span>
                                                     <span className="rbt-lable count">5</span>
                                                 </label>
                                             </li>
                                             <li className="rbt-check-group">
                                                 <input id="cat-radio-2" type="radio" name="rbt-radio"/>
                                                 <label htmlFor="cat-radio-2">
-                                            <span className="rating">
-                            <i className="fas fa-star"></i>
-                            <i className="fas fa-star"></i>
-                            <i className="fas fa-star"></i>
-                            <i className="fas fa-star"></i>
-                            <i className="off fas fa-star"></i>
-                        </span>
+                                                    <span className="rating">
+                                                        <i className="fas fa-star"></i>
+                                                        <i className="fas fa-star"></i>
+                                                        <i className="fas fa-star"></i>
+                                                        <i className="fas fa-star"></i>
+                                                        <i className="off fas fa-star"></i>
+                                                    </span>
                                                     <span className="rbt-lable count">4</span>
                                                 </label>
                                             </li>
                                             <li className="rbt-check-group">
                                                 <input id="cat-radio-3" type="radio" name="rbt-radio"/>
                                                 <label htmlFor="cat-radio-3">
-                                            <span className="rating">
-                            <i className="fas fa-star"></i>
-                            <i className="fas fa-star"></i>
-                            <i className="fas fa-star"></i>
-                            <i className="off fas fa-star"></i>
-                            <i className="off fas fa-star"></i>
-                        </span>
+                                                    <span className="rating">
+                                                        <i className="fas fa-star"></i>
+                                                        <i className="fas fa-star"></i>
+                                                        <i className="fas fa-star"></i>
+                                                        <i className="off fas fa-star"></i>
+                                                        <i className="off fas fa-star"></i>
+                                                    </span>
                                                     <span className="rbt-lable count">3</span>
                                                 </label>
                                             </li>
                                             <li className="rbt-check-group">
                                                 <input id="cat-radio-4" type="radio" name="rbt-radio"/>
                                                 <label htmlFor="cat-radio-4">
-                                            <span className="rating">
-                            <i className="fas fa-star"></i>
-                            <i className="fas fa-star"></i>
-                            <i className="off fas fa-star"></i>
-                            <i className="off fas fa-star"></i>
-                            <i className="off fas fa-star"></i>
-                        </span>
+                                                    <span className="rating">
+                                                        <i className="fas fa-star"></i>
+                                                        <i className="fas fa-star"></i>
+                                                        <i className="off fas fa-star"></i>
+                                                        <i className="off fas fa-star"></i>
+                                                        <i className="off fas fa-star"></i>
+                                                    </span>
                                                     <span className="rbt-lable count">2</span>
                                                 </label>
                                             </li>
@@ -318,47 +298,19 @@ const AllCourses = () => {
                                             <li className="rbt-check-group">
                                                 <input id="cat-radio-5" type="radio" name="rbt-radio"/>
                                                 <label htmlFor="cat-radio-5">
-                                            <span className="rating">
-                            <i className="fas fa-star"></i>
-                            <i className="off fas fa-star"></i>
-                            <i className="off fas fa-star"></i>
-                            <i className="off fas fa-star"></i>
-                            <i className="off fas fa-star"></i>
-                        </span>
+                                                    <span className="rating">
+                                                        <i className="fas fa-star"></i>
+                                                        <i className="off fas fa-star"></i>
+                                                        <i className="off fas fa-star"></i>
+                                                        <i className="off fas fa-star"></i>
+                                                        <i className="off fas fa-star"></i>
+                                                    </span>
                                                     <span className="rbt-lable count">1</span>
                                                 </label>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
-
-                                {/*<div className="rbt-single-widget rbt-widget-instructor">*/}
-                                {/*    <div className="inner">*/}
-                                {/*        <h4 className="rbt-widget-title">Instructors</h4>*/}
-                                {/*        <ul className="rbt-sidebar-list-wrapper instructor-list-check">*/}
-                                {/*            <li className="rbt-check-group">*/}
-                                {/*                <input id="ins-list-1" type="checkbox" name="ins-list-1"/>*/}
-                                {/*                <label htmlFor="ins-list-1">Slaughter <span*/}
-                                {/*                    className="rbt-lable count">15</span></label>*/}
-                                {/*            </li>*/}
-                                {/*            <li className="rbt-check-group">*/}
-                                {/*                <input id="ins-list-2" type="checkbox" name="ins-list-2"/>*/}
-                                {/*                <label htmlFor="ins-list-2">Patrick <span*/}
-                                {/*                    className="rbt-lable count">20</span></label>*/}
-                                {/*            </li>*/}
-                                {/*            <li className="rbt-check-group">*/}
-                                {/*                <input id="ins-list-3" type="checkbox" name="ins-list-3"/>*/}
-                                {/*                <label htmlFor="ins-list-3">Angela <span*/}
-                                {/*                    className="rbt-lable count">10</span></label>*/}
-                                {/*            </li>*/}
-                                {/*            <li className="rbt-check-group">*/}
-                                {/*                <input id="ins-list-4" type="checkbox" name="ins-list-4"/>*/}
-                                {/*                <label htmlFor="ins-list-4">Fatima Asrafy <span*/}
-                                {/*                    className="rbt-lable count">15</span></label>*/}
-                                {/*            </li>*/}
-                                {/*        </ul>*/}
-                                {/*    </div>*/}
-                                {/*</div>*/}
 
                                 <div className="rbt-single-widget rbt-widget-prices">
                                     <div className="inner">
@@ -376,8 +328,9 @@ const AllCourses = () => {
                                             </li>
                                             <li className="rbt-check-group">
                                                 <input id="prices-list-3" type="checkbox" name="prices-list-3"/>
-                                                <label htmlFor="prices-list-3">Paid <span
-                                                    className="rbt-lable count">10</span></label>
+                                                <label htmlFor="prices-list-3">Paid<span
+                                                    className="rbt-lable count">10</span>
+                                                </label>
                                             </li>
                                         </ul>
                                     </div>
@@ -399,12 +352,9 @@ const AllCourses = () => {
                                                     </>
                                                 )
                                             })}
-
                                         </ul>
                                     </div>
                                 </div>
-
-
                             </aside>
                         </div>
                         <div className="col-lg-9 order-1 order-lg-2">
@@ -664,12 +614,7 @@ const AllCourses = () => {
                                                                 <p className="rbt-card-text">{data.sShortDesc}</p>
                                                             }
                                                             <div className="rbt-author-meta mb--10">
-                                                                {/*<div className="rbt-avater">*/}
-                                                                {/*    <a href="#">*/}
-                                                                {/*        <img src="assets/images/client/avatar-02.png"*/}
-                                                                {/*             alt="Sophia Jaymes"/>*/}
-                                                                {/*    </a>*/}
-                                                                {/*</div>*/}
+
                                                                 <div className="rbt-author-info">
                                                                     By <a
                                                                     href="profile.html">{data.sFName} {data.sLName}</a> In <a
@@ -711,14 +656,15 @@ const AllCourses = () => {
 
                             <div className="row">
                                 <div className="col-lg-12 mt--60">
-                                    <Pagination
-                                        nPages={nPages}
-                                        currentPage={currentPage}
-                                        setCurrentPage={setCurrentPage}
-                                    />
+                                    {currentRecords.length > 6 ? <>
+                                        <Pagination
+                                            nPages={nPages}
+                                            currentPage={currentPage}
+                                            setCurrentPage={setCurrentPage}
+                                        />
+                                    </> : <></>}
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>

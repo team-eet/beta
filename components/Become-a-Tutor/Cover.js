@@ -1,21 +1,16 @@
 import Image from "next/image";
-<<<<<<< HEAD
 import React, {useEffect, useState} from "react";
-=======
-import React, {useState} from "react";
->>>>>>> main
 import img from "@/public/images/others/thumbnail-placeholder.svg";
 import img1 from '../../public/images/client/pexels-daniel-xavier-1239288.jpg'
 import img2 from '../../public/images/client/pexels-justin-shaifer-1222271.jpg'
 import img3 from '../../public/images/client/blank-profile-picture-973460_1280.png'
 import Link from "next/link";
-<<<<<<< HEAD
 import * as Yup from 'yup'
 import {Formik, ErrorMessage, Form} from 'formik'
 import Axios from 'axios'
 import {ErrorDefaultAlert} from "@/components/services/SweetAlert";
 import {useRouter} from "next/router";
-import {FormGroup} from "reactstrap";
+import {Alert, FormGroup} from "reactstrap";
 import API_URL from "@/pages/constant";
 
 
@@ -134,36 +129,71 @@ const Cover = () => {
         }
     };
     const [regId, setregId] = useState('')
+    const [verifysts, setverifySts] = useState([])
     useEffect(() => {
         if (localStorage.getItem('userData')) {
             setregId(JSON.parse(localStorage.getItem('userData')).regid)
         }
-    }, []);
-=======
 
-const Cover = () => {
-    const [file, setFile] = useState();
-    const [file2, setFile2] = useState();
-    const [file3, setFile3] = useState();
-    function handleChange(e) {
-        // console.log(e.target.files);
-        setFile(URL.createObjectURL(e.target.files[0]));
-    }
-    function handleChange2(e) {
-        // console.log(e.target.files);
-        setFile2(URL.createObjectURL(e.target.files[0]));
-    }
-    function handleChange3(e) {
-        // console.log(e.target.files);
-        setFile3(URL.createObjectURL(e.target.files[0]));
-    }
->>>>>>> main
+        Axios.get(`${REACT_APP.API_URL}/api/TutorVerify/GetTutorVerify/${JSON.parse(localStorage.getItem('userData')).regid}`, {
+            headers: {
+                ApiKey: `${REACT_APP.API_KEY}`
+            }
+        })
+            .then(res => {
+                console.log(res.data)
+                setverifySts(res.data[0])
+            })
+            .catch(err => {
+                { ErrorDefaultAlert(err) }
+            })
+
+        Axios.get(`${REACT_APP.API_URL}/api/TutorBasics/GetTutorDetails/${JSON.parse(localStorage.getItem('userData')).regid}`, {
+            headers: {
+                ApiKey: `${REACT_APP.API_KEY}`
+            }
+        })
+            .then(res => {
+                // console.log(res.data)
+                setSImagePathRight(res.data[0]['sCoverPhotoRightPath'])
+                setSImagePathLeft(res.data[0]['sCoverPhotoLeftPath'])
+                setSImagePathCenter(res.data[0]['sCoverPhotoCenterPath'])
+                // setTutorDetail(res.data[0])
+
+            })
+            .catch(err => {
+                { ErrorDefaultAlert(err) }
+            })
+    }, []);
     return (
         <>
             <div className="rbt-dashboard-content bg-color-white rbt-shadow-box">
                 <div className="content">
                     <div className="section-title">
                         <h4 className="rbt-title-style-3">Cover Photo</h4>
+                        {verifysts.sCoverPhotoLeft_verify === 2 && verifysts.sCoverPhotoCenter_verify === 2
+                            && verifysts.sCoverPhotoRight_verify === 2 ? <>
+                            <Alert color='success'>
+                                <h6 className='alert-heading m-0 text-center'>
+                                    Cover photo verification has been approved by admin
+                                </h6>
+                            </Alert>
+                        </> : <>
+                            {verifysts.sCoverPhotoLeft_verify === 1 || verifysts.sCoverPhotoCenter_verify === 1
+                            || verifysts.sCoverPhotoRight_verify === 1 ? <>
+                                <Alert color='warning'>
+                                    <h6 className='alert-heading m-0 text-center'>
+                                        Cover photo verification is in pending state
+                                    </h6>
+                                </Alert>
+                            </> : <>
+                                <Alert color='danger'>
+                                    <h6 className='alert-heading m-0 text-center'>
+                                        Cover photo verification has been disapproved
+                                    </h6>
+                                </Alert>
+                            </>}
+                        </>}
                         {/*<h3>Your profile photo is your first impression</h3>*/}
                         <p>This image will be used on the cover page of courses and batches to display on our main
                             website and you will have to upload 3
@@ -211,7 +241,6 @@ const Cover = () => {
                     </div>
 
 
-<<<<<<< HEAD
                     <Formik
                         validationSchema={UserValidationSchema}
                         initialValues={{
@@ -222,25 +251,33 @@ const Cover = () => {
                         }}
                         enableReinitialize={true}
                         onSubmit={async (values, {resetForm}) => {
-                            console.log(values)
-                            await Axios.put(`${REACT_APP.API_URL}/api/TutorBasics/UpdateTutorProfile`, values, {
-                                headers: {
-                                    ApiKey: `${REACT_APP.API_KEY}`
-                                }
-                            }).then(res => {
-                                // console.log(values)
-                                // console.log(res.data)
-                                const retData = JSON.parse(res.data)
-                                resetForm({})
-                                if(retData.success === '1') {
-                                    router.push('/become-a-tutor/education')
-                                }
-                            })
-                                .catch(err => {
-                                    {
-                                        ErrorDefaultAlert(JSON.stringify(err.response))
+                            // console.log(values)
+                            if(verifysts.sCoverPhotoLeft_verify === 2 && verifysts.sCoverPhotoCenter_verify === 2
+                                && verifysts.sCoverPhotoRight_verify === 2)
+                            {
+                                router.push('/become-a-tutor/education')
+                            } else {
+
+                                await Axios.put(`${REACT_APP.API_URL}/api/TutorBasics/UpdateTutorProfile`, values, {
+                                    headers: {
+                                        ApiKey: `${REACT_APP.API_KEY}`
+                                    }
+                                }).then(res => {
+                                    // console.log(values)
+                                    // console.log(res.data)
+                                    const retData = JSON.parse(res.data)
+                                    resetForm({})
+                                    if(retData.success === '1') {
+                                        router.push('/become-a-tutor/education')
                                     }
                                 })
+                                    .catch(err => {
+                                        {
+                                            ErrorDefaultAlert(JSON.stringify(err.response))
+                                        }
+                                    })
+                            }
+
                         }}
                     >
                         {({errors, touched}) => {
@@ -258,8 +295,8 @@ const Cover = () => {
                                                     <input type="file" name="sCoverPhotoLeftPath" className={'p-0'}
                                                            onChange={onChangeLeftImage}/>
                                                     <small>JPG or PNG format, maximum 2 MB</small>
-                                                    {coverLeftimg ?
-                                                        <img src={coverLeftimg} height={200} width={200}/> : ''}
+                                                    {sImagePathLeft ?
+                                                        <img src={sImagePathLeft} height={200} width={200}/> : ''}
                                                 </FormGroup>
                                                 <ErrorMessage name='sCoverPhotoLeftPath' component='div'
                                                               className='field-error text-danger'/>
@@ -275,8 +312,8 @@ const Cover = () => {
                                                     <input type="file" name={"sCoverPhotoCenterPath"} className={'p-0'}
                                                            onChange={onChangeCenterImage}/>
                                                     <small>JPG or PNG format, maximum 2 MB</small>
-                                                    {coverCenterimg ?
-                                                        <img src={coverCenterimg} height={200} width={200}/> : ''}
+                                                    {sImagePathCenter ?
+                                                        <img src={sImagePathCenter} height={200} width={200}/> : ''}
                                                 </FormGroup>
                                                 <ErrorMessage name='sCoverPhotoCenterPath' component='div'
                                                               className='field-error text-danger'/>
@@ -292,8 +329,8 @@ const Cover = () => {
                                                     <input type="file" name={"sCoverPhotoRightPath"} className={'p-0'}
                                                            onChange={onChangeRightImage}/>
                                                     <small>JPG or PNG format, maximum 2 MB</small>
-                                                    {coverRightimg ?
-                                                        <img src={coverRightimg} height={200} width={200}/> : ''}
+                                                    {sImagePathRight ?
+                                                        <img src={sImagePathRight} height={200} width={200}/> : ''}
                                                 </FormGroup>
                                                 <ErrorMessage name='sCoverPhotoRightPath' component='div'
                                                               className='field-error text-danger'/>
@@ -331,64 +368,6 @@ const Cover = () => {
 
                     </Formik>
 
-=======
-                    <div className={'row mt-5 p-0'}>
-                        <div className={'col-lg-6 '}>
-                            <div className={'cover-sample-photo border'}>
-                                <img src={'/images/client/ML1.png'}></img>
-                            </div>
-                        </div>
-                        <div className={'col-lg-6'}>
-                            <input type="file" className={'p-0'} onChange={handleChange}/>
-                            <small>JPG or PNG format, maximum 2 MB</small>
-                            {file ? <img src={file} height={200} width={200}/> : ''}
-                        </div>
-                        <div className={'col-lg-6 mt-5'}>
-                            <div className={'cover-sample-photo border'}>
-                                <img src={'/images/client/MC1.png'}></img>
-                            </div>
-                        </div>
-                        <div className={'col-lg-6 mt-5'}>
-                            <input type="file" className={'p-0'} onChange={handleChange2}/>
-                            <small>JPG or PNG format, maximum 2 MB</small>
-                            {file2 ? <img src={file2} height={200} width={200}/> : ''}
-                        </div>
-                        <div className={'col-lg-6 mt-5 mt-5'}>
-                            <div className={'cover-sample-photo border'}>
-                                <img src={'/images/client/MR1.png'}></img>
-                            </div>
-                        </div>
-                        <div className={'col-lg-6 mt-5'}>
-                            <input type="file" className={'p-0'} onChange={handleChange3}/>
-                            <small>JPG or PNG format, maximum 2 MB</small>
-                            {file3 ? <img src={file3} height={200} width={200}/> : ''}
-                        </div>
-
-
-                        <div className="col-lg-12 mt-5">
-                            <div className="form-submit-group">
-                                <button
-                                    type="submit"
-                                    className="rbt-btn btn-md btn-gradient hover-icon-reverse w-100"
-                                >
-                                    <Link href={"/become-a-tutor/education"} className={'text-white'}>
-
-                     <span className="icon-reverse-wrapper">
-                      <span className="btn-text">Continue</span>
-                      <span className="btn-icon">
-                        <i className="feather-arrow-right"></i>
-                      </span>
-                      <span className="btn-icon">
-                        <i className="feather-arrow-right"></i>
-                      </span>
-                    </span>
-                                    </Link>
-
-                                </button>
-                            </div>
-                        </div>
-                    </div>
->>>>>>> main
 
                     {/*<div>*/}
                     {/*  <div className="rbt-profile-row row row--15">*/}

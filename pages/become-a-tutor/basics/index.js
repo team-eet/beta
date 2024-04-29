@@ -9,16 +9,11 @@ import Context from "@/context/Context";
 import PageHead from "@/pages/Head";
 import BackToTop from "@/pages/backToTop";
 import Store from "@/redux/store";
-<<<<<<< HEAD
 import React, {useEffect, useState} from "react";
-=======
-import React from "react";
->>>>>>> main
 import { Provider } from "react-redux";
 import Basics from "@/components/Become-a-Tutor/Basics";
 
 const BasicsDashboard = () => {
-<<<<<<< HEAD
   const [url, setUrl] = useState('')
   useEffect(() => {
     const url = window.location.href
@@ -30,8 +25,6 @@ const BasicsDashboard = () => {
     //   alert('basics')
     // }
   }, []);
-=======
->>>>>>> main
   return (
     <>
       <PageHead title="Become a tutor - Basics" />
@@ -49,16 +42,9 @@ const BasicsDashboard = () => {
               <div className="row">
                 <div className="col-lg-12">
                   <InstructorDashboardHeader />
-<<<<<<< HEAD
                   <div className="row g-5">
                     <div className="col-lg-3">
                       <InstructorDashboardSidebar url={url}/>
-=======
-
-                  <div className="row g-5">
-                    <div className="col-lg-3">
-                      <InstructorDashboardSidebar />
->>>>>>> main
                     </div>
 
                     <div className="col-lg-9">

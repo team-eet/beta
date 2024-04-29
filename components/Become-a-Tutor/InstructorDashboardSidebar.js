@@ -4,10 +4,11 @@ import Link from "next/link";
 import React, {useEffect, useState} from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-<<<<<<< HEAD
 import Axios from "axios";
 import {ErrorDefaultAlert} from "@/components/services/SweetAlert";
 import API_URL from "@/pages/constant";
+import {normalizeVercelUrl} from "next/dist/server/server-utils";
+import recycle from '../../public/images/icons/connection_sync.svg'
 
 const InstructorDashboardSidebar = ({ url }) => {
   const router = useRouter();
@@ -18,6 +19,8 @@ const InstructorDashboardSidebar = ({ url }) => {
   const [tutorcnt, settutorcnt] = useState('')
 
   const [postId, setpostID] = useState('')
+
+  const [verifysts, setverifySts] = useState([])
   useEffect(() => {
     const url = window.location.href
     const parts = url.split("/");
@@ -54,19 +57,20 @@ const InstructorDashboardSidebar = ({ url }) => {
           .catch(err => {
             { ErrorDefaultAlert(err) }
           })
-=======
-
-const InstructorDashboardSidebar = () => {
-  const router = useRouter();
-  const path = router.pathname;
-  const [fname, setfname] = useState('')
-  useEffect(() => {
-    if(localStorage.getItem('userData')) {
-      const fname = JSON.parse(localStorage.getItem('userData')).fname
-      setfname(fname)
->>>>>>> main
     }
 
+    Axios.get(`${REACT_APP.API_URL}/api/TutorVerify/GetTutorVerify/${JSON.parse(localStorage.getItem('userData')).regid}`, {
+      headers: {
+        ApiKey: `${REACT_APP.API_KEY}`
+      }
+    })
+        .then(res => {
+          // console.log(res.data)
+          setverifySts(res.data[0])
+        })
+        .catch(err => {
+          { ErrorDefaultAlert(err) }
+        })
       const interval = setInterval(() => {
         setPercentages((prevPercentages) => {
           const updatedPercentages = { ...prevPercentages };
@@ -81,15 +85,58 @@ const InstructorDashboardSidebar = () => {
 
       return () => clearInterval(interval);
 
-<<<<<<< HEAD
 
-=======
->>>>>>> main
   }, [])
 
-  const [percentage, setPercentages] = useState({
-    percentage1: 0
-  });
+  const options = [{
+      "sectionName": "Basics",
+      "status": verifysts.sBasic_verify
+    },
+    {
+      "sectionName": "Profile Photo",
+      "status": verifysts.sProfilePhoto_verify
+    },
+    {
+      "sectionName": "Cover Photo",
+      "status": verifysts.sCoverPhotoLeft_verify
+    },
+    {
+      "sectionName": "Education",
+      "status": verifysts.sEducation_verify
+    },
+    {
+      "sectionName": "Certification",
+      "status": verifysts.sCertification_verify
+    },
+    {
+      "sectionName": "Teaching Experience",
+      "status": verifysts.sTeachExper_verify
+    },
+    {
+      "sectionName": "Description",
+      "status": verifysts.sDesc_verify
+    },
+    {
+      "sectionName": "Intro Video",
+      "status": verifysts.sIntroVideo_verify
+    },
+    {
+      "sectionName": "Interests",
+      "status": verifysts.sInterests_verify
+    },
+    {
+      "sectionName": "Time Availability",
+      "status": verifysts.sTimeAvail_verify
+    }
+    ]
+  const [percentage, setPercentages] = useState(0);
+
+  const countStatus2 = options.filter(option => option.status === 2).length;
+
+// Calculate the percentage
+  const totalOptions = options.length;
+  const percentagecount = (countStatus2 / totalOptions) * 100;
+
   return (
     <>
       <div className="rbt-default-sidebar sticky-top rbt-shadow-box rbt-gradient-border">
@@ -103,14 +150,12 @@ const InstructorDashboardSidebar = () => {
                   </div>
                   <div className={'col-lg-5'}>
                     <div className="">
-                      <div
-                          className=""
-                      >
+                      <div className="">
                         <CircularProgressbar
                             className="circle-text count"
                             strokeWidth={5}
-                            value={percentage.percentage1}
-                            text={`${percentage.percentage1}%`}
+                            value={percentagecount}
+                            text={`${percentagecount}%`}
                             styles={buildStyles({
                               textColor: "#6b7385",
                               pathColor: "#059DFF",
@@ -123,17 +168,18 @@ const InstructorDashboardSidebar = () => {
                   </div>
                 </div>
 
-<<<<<<< HEAD
-=======
-                {/*<div className="col-lg-3 col-md-6 col-sm-6 mt--30 col-12">*/}
-                {/*</div>*/}
->>>>>>> main
               </div>
               <nav className="mainmenu-nav">
                 <ul className="dashboard-mainmenu rbt-default-sidebar-list nav-tabs">
                   {SidebarData &&
-<<<<<<< HEAD
                       SidebarData.siderbar.map((data, index) => {
+                        const verificationStatus = options.find(
+                            (item) => item.sectionName === data.text
+                        )
+                        // console.log(verificationStatus)
+                        if (!verificationStatus) return null; // Handle if no status found
+
+                        const { status } = verificationStatus;
                           return (
                               <>
                                 {tutorcnt === 0 ? <>
@@ -168,7 +214,47 @@ const InstructorDashboardSidebar = () => {
                                       <i className={data.icon}/>
                                       <span>{data.text}</span>
                                     </Link>
-                                    {/*<i className={data.icon2}/>*/}
+
+                                    {status === 0 && (
+                                        ''
+                                        // <i className={data.pending} style={{ color: "#d1d122" }} />
+                                    )}
+                                    {status === 1 && (
+                                        <i className={data.pending} style={{ color: "#d1d122" }} />
+                                    )}
+                                    {status === 2 && (
+                                        <i className={data.approved} style={{ color: "green" }} />
+                                    )}
+                                    {status === 3 && (
+                                        <i className={data.disapproved} style={{ color: "red" }} />
+                                    )}
+                                    {/*{verifysts.map((item, index) => {*/}
+                                    {/*  return (*/}
+                                    {/*      <>*/}
+                                    {/*        {item.sBasic_verify === 0 ? <>*/}
+                                    {/*          <i className={data.pending} style={{color: '#d1d122'}}/>*/}
+                                    {/*        </> : <>*/}
+                                    {/*          {item.sBasic_verify=== 1  ? <>*/}
+                                    {/*            <i className={data.approved} style={{color: 'green'}}/>*/}
+                                    {/*          </> : <>*/}
+                                    {/*            <i className={data.disapproved} style={{color: 'red'}}/>*/}
+                                    {/*          </>}*/}
+                                    {/*        </>}*/}
+                                    {/*        */}
+                                    {/*        {item.sProfilePhoto_verify === 0 ? <>*/}
+                                    {/*          <i className={data.pending} style={{color: '#d1d122'}}/>*/}
+                                    {/*        </> : <>*/}
+                                    {/*          {item.sProfilePhoto_verify === 1  ? <>*/}
+                                    {/*            <i className={data.approved} style={{color: 'green'}}/>*/}
+                                    {/*          </> : <>*/}
+                                    {/*            <i className={data.disapproved} style={{color: 'red'}}/>*/}
+                                    {/*          </>}*/}
+                                    {/*        </>}*/}
+
+                                    {/*      </>*/}
+                                    {/*  )*/}
+                                    {/*})}*/}
+
                                   </li>
                                 </>}
 
@@ -176,20 +262,6 @@ const InstructorDashboardSidebar = () => {
                           )
 
                       })}
-=======
-                      SidebarData.siderbar.map((data, index) => (
-                          <li className="nav-item" key={index} role="presentation">
-                            <Link
-                                className={`${path === data.link ? "active" : ""}`}
-                                href={data.link}
-                            >
-                              <i className={data.icon}/>
-                              <span>{data.text}</span>
-                            </Link>
-                            {/*<i className={data.icon2}/>*/}
-                          </li>
-                      ))}
->>>>>>> main
                 </ul>
               </nav>
             </div>

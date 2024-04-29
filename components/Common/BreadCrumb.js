@@ -1,5 +1,4 @@
 import Link from "next/link";
-<<<<<<< HEAD
 import {useEffect, useState} from "react";
 import Axios from "axios";
 import API_URL from "@/pages/constant";
@@ -33,10 +32,6 @@ const BreadCrumb = ({ title, text }) => {
           { ErrorDefaultAlert(err) }
         })
   }, [])
-=======
-
-const BreadCrumb = ({ title, text }) => {
->>>>>>> main
   return (
 
       // linear-gradient(270deg, var(--color-secondary) 0, var(--color-primary) 100%) !important
@@ -58,7 +53,6 @@ const BreadCrumb = ({ title, text }) => {
                 </li>
                 <li className="rbt-breadcrumb-item active">{text}</li>
               </ul>
-<<<<<<< HEAD
               {showContinue ? <>
                 <Link
                     className="rbt-btn btn-gradient hover-icon-reverse radius-round mt-3 ms-3"
@@ -76,8 +70,6 @@ const BreadCrumb = ({ title, text }) => {
                 </Link>
               </> : <></>}
 
-=======
->>>>>>> main
             </div>
           </div>
         </div>

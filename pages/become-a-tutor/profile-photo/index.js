@@ -11,7 +11,6 @@ import Context from "@/context/Context";
 import PageHead from "@/pages/Head";
 import BackToTop from "@/pages/backToTop";
 import Store from "@/redux/store";
-<<<<<<< HEAD
 import React, {useEffect, useState} from "react";
 import { Provider } from "react-redux";
 import API_URL from "@/pages/constant";
@@ -65,12 +64,6 @@ const TutorProfile = () => {
   // //         }
   // //       })
   // }, []);
-=======
-import React from "react";
-import { Provider } from "react-redux";
-
-const TutorProfile = () => {
->>>>>>> main
   return (
     <>
       <PageHead title="Become a tutor - Profile photo" />

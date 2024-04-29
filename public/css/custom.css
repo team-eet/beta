@@ -3303,7 +3303,6 @@ react-autosuggest__input {
     top: 50% !important;
     transform: translate(0, -50%);
 }
-<<<<<<< HEAD
 
 .tutor-img img {
     /*height: 50px;*/
@@ -3331,14 +3330,11 @@ react-autosuggest__input {
     background-image: green !important;
 }
 
-=======
->>>>>>> main
 /*.custom-radio {*/
 /*    !* Define your custom size *!*/
 /*    width: 50px !important;*/
 /*    height: 50px !important;*/
 /*    !* You can also add additional styling such as border, background color, etc. *!*/
-<<<<<<< HEAD
 /*}*/
 
 .blur-bg{
@@ -3347,6 +3343,3 @@ react-autosuggest__input {
     opacity: 50%;
     color: rgb(109 116 135);
 }
-=======
-/*}*/
->>>>>>> main

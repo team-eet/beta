@@ -11,17 +11,12 @@ import PageHead from "@/pages/Head";
 import BackToTop from "@/pages/backToTop";
 import Store from "@/redux/store";
 import { Provider } from "react-redux";
-<<<<<<< HEAD
 import {useEffect, useState} from "react";
 import Axios from "axios";
 import {ErrorDefaultAlert} from "@/components/services/SweetAlert";
 import API_URL from '@/pages/constant'
 const StudentProfile = () => {
 
-=======
-
-const StudentProfile = () => {
->>>>>>> main
   return (
     <>
       <PageHead title="Student Profile - Online Courses & Education NEXTJS14 Template" />

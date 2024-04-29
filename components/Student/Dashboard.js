@@ -1,15 +1,9 @@
 import CounterWidget from "../Instructor/Dashboard-Section/widgets/CounterWidget";
-<<<<<<< HEAD
 import CounterWidgetBatch from "@/components/Instructor/Dashboard-Section/widgets/CounterWidgetBatch";
 import {useEffect} from "react";
 
 const Dashboard = () => {
 
-=======
-
-
-const Dashboard = () => {
->>>>>>> main
   return (
     <>
       <div className="rbt-dashboard-content bg-color-white rbt-shadow-box mb--60">
@@ -20,7 +14,6 @@ const Dashboard = () => {
           <div className="row g-5">
             <div className="col-lg-4 col-md-4 col-sm-6 col-12">
               <CounterWidget
-<<<<<<< HEAD
                   counterStyle="two"
                   styleClass="bg-primary-opacity"
                   iconClass="bg-primary-opacity"
@@ -28,20 +21,10 @@ const Dashboard = () => {
                   icon="feather-book-open"
                   title="Enrolled Courses"
                   value={30}
-=======
-                counterStyle="two"
-                styleClass="bg-primary-opacity"
-                iconClass="bg-primary-opacity"
-                numberClass="color-primary"
-                icon="feather-book-open"
-                title="Enrolled Courses"
-                value={30}
->>>>>>> main
               />
             </div>
             <div className="col-lg-4 col-md-4 col-sm-6 col-12">
               <CounterWidget
-<<<<<<< HEAD
                   counterStyle="two"
                   styleClass="bg-coral-opacity"
                   iconClass="bg-coral-opacity"
@@ -49,20 +32,10 @@ const Dashboard = () => {
                   icon="feather-monitor"
                   title="ACTIVE COURSES"
                   value={10}
-=======
-                counterStyle="two"
-                styleClass="bg-secondary-opacity"
-                iconClass="bg-secondary-opacity"
-                numberClass="color-secondary"
-                icon="feather-monitor"
-                title="ACTIVE COURSES"
-                value={10}
->>>>>>> main
               />
             </div>
             <div className="col-lg-4 col-md-4 col-sm-6 col-12">
               <CounterWidget
-<<<<<<< HEAD
                   counterStyle="two"
                   styleClass="bg-violet-opacity"
                   iconClass="bg-violet-opacity"
@@ -105,15 +78,6 @@ const Dashboard = () => {
                   icon="feather-award"
                   title="Completed Batches"
                   value={7}
-=======
-                counterStyle="two"
-                styleClass="bg-violet-opacity"
-                iconClass="bg-violet-opacity"
-                numberClass="color-violet"
-                icon="feather-award"
-                title="Completed Courses"
-                value={7}
->>>>>>> main
               />
             </div>
           </div>
