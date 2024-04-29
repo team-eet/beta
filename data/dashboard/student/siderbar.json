@@ -26,11 +26,6 @@
       "icon": "feather-star"
     },
     {
-      "link": "/student/student-quiz-attempts",
-      "text": "My Quiz Attempts",
-      "icon": "feather-help-circle"
-    },
-    {
       "link": "/student/student-order-history",
       "text": "Order History",
       "icon": "feather-shopping-bag"

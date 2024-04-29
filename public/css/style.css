@@ -149,7 +149,7 @@
   --white-opacity: #ffffff21;
   --danger-opacity: #FF000310;
   --warning-opacity: #FF8F3C10;
-  --success-opacity: #3EB75E10;
+  --success-opacity: rgba(10, 234, 69, 0.06);
   --black-opacity: rgba(0, 0, 0, 0.04);
   --heading-opacity: #19233550;
   --color-card-1: #fffccf;
@@ -1599,6 +1599,8 @@ ul.rbt-dropdown-menu li a {
   background: var(--coral-opacity) !important;
   color: var(--color-coral) !important;
 }
+
+
 
 .bg-violet-opacity {
   background: var(--violet-opacity) !important;

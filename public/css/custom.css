@@ -3303,9 +3303,43 @@ react-autosuggest__input {
     top: 50% !important;
     transform: translate(0, -50%);
 }
+
+.tutor-img img {
+    /*height: 50px;*/
+    /*width: 50px !important;*/
+}
+.btn-mob-verify{
+    position: absolute;
+    height: 100%;
+    right: 0;
+    font-size: 14px;
+    background-image: linear-gradient(to right, var(--color-primary), var(--color-secondary)) !important;
+}
+.btn-email-verify{
+    position: absolute;
+    height: 100%;
+    right: 0;
+    font-size: 14px;
+    background-image: linear-gradient(to right, var(--color-primary), var(--color-secondary)) !important;
+}
+.btn-email-verified{
+    position: absolute;
+    height: 100%;
+    right: 0;
+    font-size: 14px;
+    background-image: green !important;
+}
+
 /*.custom-radio {*/
 /*    !* Define your custom size *!*/
 /*    width: 50px !important;*/
 /*    height: 50px !important;*/
 /*    !* You can also add additional styling such as border, background color, etc. *!*/
 /*}*/
+
+.blur-bg{
+    -webkit-filter: blur(2px);
+    backdrop-filter: blur(10px);
+    opacity: 50%;
+    color: rgb(109 116 135);
+}

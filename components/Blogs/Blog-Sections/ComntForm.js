@@ -15,25 +15,25 @@ const ComntForm = () => {
           <div className="row row--10">
             <div className="col-lg-4 col-md-4 col-12">
               <div className="form-group">
-                <label htmlFor="name">Your Name</label>
-                <input id="name" type="text" />
+                <label htmlFor="name" className={'ps-2'}>Your Name</label>
+                <input className={''} id="name" type="text" />
               </div>
             </div>
             <div className="col-lg-4 col-md-4 col-12">
               <div className="form-group">
-                <label htmlFor="bl-email">Your Email</label>
+                <label htmlFor="bl-email" className={'ps-2'}>Your Email</label>
                 <input id="bl-email" type="email" />
               </div>
             </div>
             <div className="col-lg-4 col-md-4 col-12">
               <div className="form-group">
-                <label htmlFor="website">Your Website</label>
+                <label htmlFor="website" className={'ps-2'}>Your Website</label>
                 <input id="website" type="text" />
               </div>
             </div>
-            <div className="col-12">
+            <div className="col-12 mt-3">
               <div className="form-group">
-                <label htmlFor="message">Leave a Reply</label>
+                <label htmlFor="message" className={'ps-2'}>Leave a Reply</label>
                 <textarea id="message" name="message"></textarea>
               </div>
             </div>

@@ -26,16 +26,6 @@
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
-    ],
-    "/become-a-teacher": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/become-a-teacher.js"
-    ],
-    "/become-a-tutor/basics": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/become-a-tutor/basics.js"
     ]
   },
   "ampFirstPages": []

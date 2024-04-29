@@ -227,44 +227,38 @@ const Registration = () => {
                         sendSignInLinkToEmail(auth, input.emailmobile, {
                             // this is the URL that we will redirect back to after clicking on the link in mailbox
                             // url: 'https://eet-frontend.azurewebsites.net/userreg',
-                            // url: 'http://localhost:3000/userreg',
+                            url: 'http://localhost:3000/register',
                             handleCodeInApp: true
                         }).then(() => {
+                            alert('hello')
+                            console.log(input.emailmobile, emailOrmobile)
                             // localStorage.setItem('email', email)
                             // setLoginLoading(false)
                             // setLoginError('')
-                            this.setState({ infoEmail : true })
+                            // this.setState({ infoEmail : true })
                             const userData = { em: (input.emailmobile), emname: (emailOrmobile) }
                             localStorage.setItem('userRegData', JSON.stringify(userData))
-                            // Axios.get(`${process.env.REACT_APP_API_URL}/api/registration/getRegData/${EncryptData(input.emailmobile)}/${EncryptData(emailOrmobile)}`, {
-                            //     headers: {
-                            //         ApiKey: `${process.env.REACT_APP_API_KEY}`
-                            //     }
-                            // }).then(res => {
-                            //     const retData = DecryptData(res.data)
-                            //     // console.log('api called', retData)
-                            //     // const retData = JSON.parse(res.data)
-                            //     toast.success(<SuccessProgressToast pdata={retData} />, { hideProgressBar: true })
-                            //     resetForm({})
-                            //     // this.props.history.push({
-                            //     //     pathname: '/regotp',
-                            //     //     usrdata: { em: EncryptData(input.emailmobile), emname: EncryptData(emailOrmobile), otp: EncryptData(retData.OTP) }
-                            //     // })
-                            // })
-                            // alert('We have sent you an email with a link to sign in')
+                            alert('We have sent you an email with a link to sign in')
+                            Axios.get(`${REACT_APP.API_URL}/api/registration/getRegData/${EncryptData(input.emailmobile)}/${EncryptData(emailOrmobile)}`, {
+                                headers: {
+                                    ApiKey: `${REACT_APP.API_KEY}`
+                                }
+                            }).then(res => {
+                                const retData = DecryptData(res.data)
+                                setRegister(true)
+                                // console.log('api called', retData)
+                                // const retData = JSON.parse(res.data)
+                                toast.success(<SuccessProgressToast pdata={retData} />)
+                                resetForm({})
+                                // this.props.history.push({
+                                //     pathname: '/regotp',
+                                //     usrdata: { em: EncryptData(input.emailmobile), emname: EncryptData(emailOrmobile), otp: EncryptData(retData.OTP) }
+                                // })
+                            })
+
                         }).catch(err => {
                             // console.error('Firebase Error:', err.code, err.message)
-                            // MySwal.fire({
-                            //     title: 'Info',
-                            //     text: 'You have sent too many requests in given amount of time. Please try again later!',
-                            //     icon: 'info',
-                            //     customClass: {
-                            //         confirmButton: 'btn btn-primary'
-                            //     },
-                            //     buttonsStyling: false
-                            // }).then(() => {
-                            //     window.location.reload()
-                            // })
+
                             // alert(err)
                         })
 
@@ -276,14 +270,12 @@ const Registration = () => {
 
                         const confirmation = signInWithPhoneNumber(auth, phone, verify).then((code) => {
                             window.code = code
-                            // console.log(code)
                             setresult(code)
                             sethowEmailMob(false)
                             setShowOtp(true)
                             setcodeSent(true)
                             const userData = { em: (input.emailmobile), emname: (emailOrmobile), otp: (code) }
-                            // alert("hello")
-                            // console.log(userData)
+
                             localStorage.setItem('userRegData', JSON.stringify(userData))
                             Axios.get(`${REACT_APP.API_URL}/api/registration/getRegData/${EncryptData(input.emailmobile)}/${EncryptData(emailOrmobile)}`, {
                                 headers: {
@@ -292,7 +284,6 @@ const Registration = () => {
                             }).then(res => {
                                 // console.log(res.data)
                                 const retData = DecryptData(res.data)
-                                // console.log(res.data)
                                 toast.success(<SuccessProgressToast pdata={retData} />, { hideProgressBar: true })
                                 resetForm({})
                             })
@@ -304,8 +295,6 @@ const Registration = () => {
                                 setShowOtp(false)
                                 sethowEmailMob(true)
                                 setcodeSent(false)
-                                // console.log(err)
-                                // alert(err.message)
                                 MySwal.fire({
                                     title: 'Info',
                                     text: 'You have sent too many requests in given amount of time. Please try again later!',
@@ -342,7 +331,6 @@ const Registration = () => {
                                 {/*<Field type="password" name="password" />*/}
                                 {/*<ErrorMessage name="password" component="div" />*/}
 
-
                                 <div className="form-group">
                                     <Field validate={validateMobile} name="emailmobile" type="text"
                                            size={'sm'} autoComplete="off"
@@ -366,7 +354,6 @@ const Registration = () => {
                             <Form className='auth-register-form mt-1' onSubmit={handleSubmit}>
                                 <CardText className='mb-2'>Enter OTP</CardText>
                                 <div className="otpContainer">
-
                                     <input
                                         name="otp1"
                                         type="text"
@@ -374,8 +361,6 @@ const Registration = () => {
                                         className="otpInput"
                                         value={otpValues.otp1}
                                         onChange={(e) => handleChange('otp1', e)}
-                                        // onKeyDown={inputFocus}
-                                        // onChange={e => this.handleChange("otp1", e)}
                                         tabIndex="1"
                                         maxLength="1"
                                         onKeyUp={inputFocus}
@@ -387,8 +372,6 @@ const Registration = () => {
                                         className="otpInput"
                                         value={otpValues.otp2}
                                         onChange={(e) => handleChange('otp2', e)}
-                                        // onKeyDown={inputFocus}
-                                        // onChange={e => this.handleChange("otp1", e)}
                                         onKeyUp={inputFocus}
                                         tabIndex="2"
                                         maxLength="1"
@@ -400,8 +383,6 @@ const Registration = () => {
                                         className="otpInput"
                                         value={otpValues.otp3}
                                         onChange={(e) => handleChange('otp3', e)}
-                                        // onKeyDown={inputFocus}
-                                        // onChange={e => this.handleChange("otp1", e)}
                                         onKeyUp={inputFocus}
                                         tabIndex="3" maxLength="1"
 
@@ -440,34 +421,14 @@ const Registration = () => {
                                     />
                                 </div>
 
-                                {/*{this.startTimer()}*/}
-                                {/*{startTimer}*/}
                                 <button className="rbt-btn btn-gradient mt-4" type="submit">
                                     Submit
                                 </button>
-                                {/*<div className="mb-1">*/}
-                                {/*    {((time.s === 0) && (time.m === 0)) ? <u><button type='button' onClick={resendTimer} style={resendstyle.btnresend} className='text-primary'>Resend OTP</button></u> : <small>*/}
-                                {/*        {time.m}:{time.s} time left*/}
-                                {/*    </small>}*/}
-                                {/*</div>*/}
                                 <div id="recaptcha-container" className={"m-t-5 mb-3"}></div>
-                                {/*<FormGroup>*/}
-                                {/*    /!*<Button.Ripple color='primary' type='submit' disabled={(gval !== '') ? ((gval === ((this.state.prevOtp) ? DecryptData(this.state.prevOtp) : '')) ? (!(this.state.time.s !== 0 && gval.length === 6)) : true) : true} onClick={this.handleSubmit}>*!/*/}
-                                {/*    /!*    Submit*!/*/}
-                                {/*    /!*</Button.Ripple>*!/*/}
-
-                                {/*    {((this.state.time.s === 0) && (this.state.time.m === 0)) ? <Button.Ripple color='primary' disabled type='submit'>*/}
-                                {/*        Submit*/}
-                                {/*    </Button.Ripple> :*/}
-                                {/*    <Button.Ripple color='primary' type='submit'>*/}
-                                {/*        Submit*/}
-                                {/*    </Button.Ripple>*/}
-                                {/*</FormGroup>*/}
                             </Form>
                         </> : <></>}
 
                         {getRegister ? <UserReg /> : ''}
-
                         <p className="description mt--20">
                             Already have an account?
                             <Link
@@ -477,7 +438,6 @@ const Registration = () => {
                                 <span>Sign in instead</span>
                             </Link>
                         </p>
-
                     </div>
                 )}
             </Formik>

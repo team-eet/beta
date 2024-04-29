@@ -25,6 +25,8 @@ const MainDemo = () => {
   const [getcoursecount, setcoursecount] = useState(0)
   const [getbatchData, setbatchData] = useState([])
   const [getbatchcount, setbatchcount] = useState(0)
+  const [BlogData, setBlogData] = useState([])
+
   useEffect(() => {
     sal({
       threshold: 0.01,
@@ -32,8 +34,24 @@ const MainDemo = () => {
     });
     getCourse();
     getBatch();
+    getBlog();
   }, []);
 
+  const getBlog = () => {
+    Axios.get(`${REACT_APP.API_URL}/api/blog/GetAllBlog/1`, {
+      headers: {
+        ApiKey: `${REACT_APP.API_KEY}`
+      }
+    })
+        .then(res => {
+          // console.log(res.data)
+          setBlogData(res.data)
+        })
+        .catch(err => {
+          { ErrorDefaultAlert(err) }
+
+        })
+  }
   const getCourse = () => {
     Axios.get(`${REACT_APP.API_URL}/api/coursemain/GetCoursesMem/1`, {
       headers: {
@@ -158,7 +176,7 @@ const MainDemo = () => {
                     Top Popular Course
                   </span>
                   <h2 className="title">
-                    Histudy Course student <br/> can join with us.
+                    EET Course student <br/> can join with us.
                   </h2>
                 </div>
               </div>
@@ -310,18 +328,21 @@ const MainDemo = () => {
 
         <div className="rbt-course-area bg-color-extra2 p-5">
           <div className="container">
-            <div className="row mb--60">
-              <div className="col-lg-12">
-                <div className="section-title text-center">
+            {getbatchcount !== 0 ? <>
+              <div className="row mb--60">
+                <div className="col-lg-12">
+                  <div className="section-title text-center">
                   <span className="subtitle bg-secondary-opacity">
                     Top Popular Batch
                   </span>
-                  <h2 className="title">
-                    Histudy Batch student <br/> can join with us.
-                  </h2>
+                    <h2 className="title">
+                      EET Batch student <br/> can join with us.
+                    </h2>
+                  </div>
                 </div>
               </div>
-            </div>
+            </> : <></>}
+
 
             <div className="row row--15 mt-5">
               <div className="">
@@ -538,6 +559,148 @@ const MainDemo = () => {
         <div className="rbt-about-area bg-color-white rbt-section-gapTop pb_md--80 pb_sm--80 about-style-1">
           <div className="container">
             <AboutTwo/>
+          </div>
+        </div>
+
+        <div className="rbt-rbt-blog-area bg-color-white rbt-section-gapBottom">
+          <div className="container">
+            <div className="row mb--30 g-5 align-items-end">
+              <div className="col-lg-6 col-md-6 col-12">
+                <div className="section-title text-start">
+                  <span className="subtitle bg-primary-opacity">Our Blog</span>
+                  <h2 className="title">EET Blog</h2>
+                </div>
+              </div>
+              <div className="col-lg-6 col-md-6 col-12">
+                <div className="read-more-btn text-start text-md-end">
+                  <Link
+                      className="rbt-btn btn-gradient hover-icon-reverse radius-round"
+                      href="/blog-list"
+                  >
+                    <div className="icon-reverse-wrapper">
+                      <span className="btn-text">VIEW ALL BLOGS</span>
+                      <span className="btn-icon">
+                      <i className="feather-arrow-right"></i>
+                    </span>
+                      <span className="btn-icon">
+                      <i className="feather-arrow-right"></i>
+                    </span>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            <div className="row g-5">
+              <div
+                  className="col-lg-6 col-md-12 col-sm-12 col-12"
+                  data-sal-delay="150"
+                  data-sal="slide-up"
+                  data-sal-duration="800"
+              >
+                {BlogData &&
+                    BlogData.slice(0, 1).map((data, index) => (
+                        <div
+                            className="rbt-card variation-02 height-330 rbt-hover mt-3"
+                            key={index}
+                        >
+                          <div className="rbt-card-img">
+                            <Link href={`/blog-details/${data.nBId}`}>
+                              <img
+                                  src={data.sImagePath}
+                                  width={580}
+                                  height={300}
+                                  // priority
+                                  alt="Card image"
+                              />{" "}
+                            </Link>
+                          </div>
+                          <div className="rbt-card-body">
+                            <h3 className="rbt-card-title">
+                              <Link href={`/blog-details/${data.nBId}`}>{data.sBlogTitle}</Link>
+                            </h3>
+                            {/*<p className="rbt-card-text">{data.sBlogTitle}</p>*/}
+                            <div className="rbt-card-bottom">
+                              <Link
+                                  className="transparent-button"
+                                  href={`/blog-details/${data.nBId}`}
+                              >
+                                Learn More
+                                <i>
+                                  <svg
+                                      width="17"
+                                      height="12"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <g stroke="#27374D" fill="none" fillRule="evenodd">
+                                      <path d="M10.614 0l5.629 5.629-5.63 5.629"/>
+                                      <path
+                                          strokeLinecap="square"
+                                          d="M.663 5.572h14.594"
+                                      />
+                                    </g>
+                                  </svg>
+                                </i>
+                              </Link>
+                            </div>
+                          </div>
+                        </div>
+                    ))}
+              </div>
+              <div
+                  className="col-lg-6 col-md-12 col-sm-12 col-12"
+                  data-sal-delay="150"
+                  data-sal="slide-up"
+                  data-sal-duration="800"
+              >
+                {BlogData &&
+                    BlogData.slice(1, 4).map((data, index) => (
+                        <div
+                            className={`rbt-card card-list variation-02 rbt-hover mt-3`}
+                            key={index}
+                        >
+                          <div className="rbt-card-img">
+                            <Link href={`/blog-details/${data.nBId}`}>
+                              <img
+                                  src={data.sImagePath}
+                                  width={580}
+                                  height={300}
+                                  alt="Card image"
+                              />{" "}
+                            </Link>
+                          </div>
+                          <div className="rbt-card-body">
+                            <h5 className="rbt-card-title">
+                              <Link href={`/blog-details/${data.nBId}`}>{data.sBlogTitle}</Link>
+                            </h5>
+                            <div className="rbt-card-bottom">
+                              <Link
+                                  className="transparent-button"
+                                  href={`/blog-details/${data.nBId}`}
+                              >
+                                Read Article
+                                <i>
+                                  <svg
+                                      width="17"
+                                      height="12"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <g stroke="#27374D" fill="none" fillRule="evenodd">
+                                      <path d="M10.614 0l5.629 5.629-5.63 5.629"/>
+                                      <path
+                                          strokeLinecap="square"
+                                          d="M.663 5.572h14.594"
+                                      />
+                                    </g>
+                                  </svg>
+                                </i>
+                              </Link>
+                            </div>
+                          </div>
+                        </div>
+                    ))}
+              </div>
+            </div>
           </div>
         </div>
         <div className="rbt-event-area rbt-section-gap bg-gradient-3">

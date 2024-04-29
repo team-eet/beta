@@ -21,20 +21,12 @@ const LoginPage = () => {
           <HeaderStyleTen headerSticky="rbt-sticky" headerType="" />
           <MobileMenu />
           <Cart />
-          {/*<BreadCrumb title="Login & Register" text="Login & Register" />*/}
 
           <div className="rbt-elements-area bg-color-white">
-
               <div className="row row--30 mt-5 mb-5 justify-content-center">
                 <Login />
               </div>
-
           </div>
-
-          {/*<div className="rbt-newsletter-area bg-gradient-6 ptb--50">*/}
-          {/*  <NewsletterThree />*/}
-          {/*</div>*/}
-
           <BackToTop />
           <FooterOne />
         </Context>

@@ -11,10 +11,59 @@ import Context from "@/context/Context";
 import PageHead from "@/pages/Head";
 import BackToTop from "@/pages/backToTop";
 import Store from "@/redux/store";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Provider } from "react-redux";
+import API_URL from "@/pages/constant";
+import Axios from "axios";
+import {ErrorDefaultAlert} from "@/components/services/SweetAlert";
 
 const TutorProfile = () => {
+  const REACT_APP = API_URL
+  // const [regId, setregId] = useState('')
+  // const [sFname, setsFname] = useState('')
+  // const [sLname, setsLname] = useState('')
+  // useEffect(() => {
+  //   const fetchUserProfile = async () => {
+  //     try {
+  //       const userData = JSON.parse(localStorage.getItem('userData'));
+  //       const regid = userData.regid;
+  //
+  //       const response = await Axios.get(`${REACT_APP.API_URL}/api/TutorBasics/GetTutorProfile/${regid}`, {
+  //         headers: {
+  //           ApiKey: REACT_APP.API_KEY
+  //         }
+  //       });
+  //
+  //       console.log(response.data);
+  //       // Assuming resetForm is defined somewhere in your component
+  //       // resetForm({}); // Reset form after successful fetch
+  //     } catch (error) {
+  //       console.error('API Error:', error);
+  //       // Handle error or show alert
+  //       ErrorDefaultAlert(JSON.stringify(error.response));
+  //     }
+  //   };
+  //   fetchUserProfile()
+  // //   const userData = JSON.parse(localStorage.getItem('userData'));
+  // //   const regid = userData.regid;
+  // //   // console.log(JSON.parse(localStorage.getItem('userData')).regid)
+  // //   Axios.get(`${REACT_APP.API_URL}/api/TutorBasics/GetTutorProfile/${regid}`, {
+  // //     headers: {
+  // //       ApiKey: `${REACT_APP.API_KEY}`
+  // //     }
+  // //   }).then(res => {
+  // //     console.log(res.data)
+  // //     const retData = JSON.parse(res.data)
+  // //     // console.log(retData)
+  // //     resetForm({})
+  // //   })
+  // //       .catch(err => {
+  // //         console.log(err)
+  // //         {
+  // //           ErrorDefaultAlert(JSON.stringify(err.response))
+  // //         }
+  // //       })
+  // }, []);
   return (
     <>
       <PageHead title="Become a tutor - Profile photo" />
