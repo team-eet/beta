@@ -35,8 +35,24 @@ const MainDemo = () => {
     getCourse();
     getBatch();
     getBlog();
+    // getVerifiedTutor();
   }, []);
 
+  // const getVerifiedTutor = () => {
+  //   Axios.get(`${REACT_APP.API_URL}/api/TutorBasics/GetAllTutors/3`, {
+  //     headers: {
+  //       ApiKey: `${REACT_APP.API_KEY}`
+  //     }
+  //   })
+  //       .then(res => {
+  //         console.log(res.data)
+  //         // setBlogData(res.data)
+  //       })
+  //       .catch(err => {
+  //         { ErrorDefaultAlert(err) }
+  //
+  //       })
+  // }
   const getBlog = () => {
     Axios.get(`${REACT_APP.API_URL}/api/blog/GetAllBlog/1`, {
       headers: {
@@ -49,7 +65,6 @@ const MainDemo = () => {
         })
         .catch(err => {
           { ErrorDefaultAlert(err) }
-
         })
   }
   const getCourse = () => {
@@ -81,10 +96,10 @@ const MainDemo = () => {
         .then(res => {
           if (res.data) {
             // console.log(res.data)
-            if (res.data.length !== 0) {
-              setbatchData(res.data)
-              setbatchcount(res.data[0]['remain_batch_count'])
-            }
+              if (res.data.length !== 0) {
+                setbatchData(res.data)
+                setbatchcount(res.data[0]['remain_batch_count'])
+              }
           }
         })
         .catch(err => {
