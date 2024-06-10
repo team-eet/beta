@@ -1,8 +1,0 @@
-{
-    "appService.zipIgnorePattern": [
-        "node_modules{,/**}",
-        ".vscode{,/**}"
-    ],
-    "appService.defaultWebAppToDeploy": "/subscriptions/9dd7e3fd-ff6f-4218-a3e5-c45e4ec3f996/resourceGroups/EET_Beta/providers/Microsoft.Web/sites/EET-Next",
-    "appService.deploySubpath": "."
-}
