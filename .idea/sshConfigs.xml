@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="SshConfigs">
-    <configs>
-      <sshConfig host="107.22.142.235" id="8479de40-2916-4a75-88a7-73b412c47aeb" keyPath="C:\Users\DhruvPatel\Downloads\eetapp.pem" port="22" nameFormat="DESCRIPTIVE" username="ubuntu" useOpenSSHConfig="true" />
-    </configs>
-  </component>
-</project>
