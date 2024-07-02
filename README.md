@@ -1,1 +1,0 @@
-# histudy-nextjs
